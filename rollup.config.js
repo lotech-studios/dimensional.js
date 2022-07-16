@@ -8,6 +8,10 @@ export default {
         {
             file: 'dist/dimensional.js',
             format: 'cjs'
+        },
+        {
+            file: '../copernicus-portfolio/src/js/libs/dimensional.js',
+            format: 'es'
         }
     ]
 }

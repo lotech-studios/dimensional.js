@@ -1,3 +1,4 @@
+export * as App from './app.js'
 export * as Array from './array.js'
 export * as Camera from './camera.js'
 export * as Math from './math.js'

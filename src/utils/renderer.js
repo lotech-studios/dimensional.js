@@ -28,11 +28,23 @@ export function build ( rClass, params, props, parentEl ) {
 
 }
 
+export function setSizeFromElement ( renderer, element, useOffsetDimensions = fals ) {
+
+    if ( useOffsetDimensions ) {
+
+        renderer.setSize( element.offsetWidth, element.offsetHeight )
+
+    } else {
+
+        renderer.setSize( element.clientWidth, element.clientHeight )
+
+    }
+
+}
+
 export function setSizeFromWindow ( renderer ) {
 
     renderer.setSize( window.innerWidth, window.innerHeight )
-
-    return
 
 }
 

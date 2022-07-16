@@ -11608,7 +11608,7 @@ ShaderMaterial.prototype.isShaderMaterial = true;
 
 class Camera extends Object3D {
 
-	constructor() {
+	constructor () {
 
 		super();
 
@@ -11619,9 +11619,11 @@ class Camera extends Object3D {
 		this.projectionMatrix = new Matrix4();
 		this.projectionMatrixInverse = new Matrix4();
 
+		this.domParent = null;
+
 	}
 
-	copy( source, recursive ) {
+	copy ( source, recursive ) {
 
 		super.copy( source, recursive );
 
@@ -11630,11 +11632,11 @@ class Camera extends Object3D {
 		this.projectionMatrix.copy( source.projectionMatrix );
 		this.projectionMatrixInverse.copy( source.projectionMatrixInverse );
 
-		return this;
+		return this
 
 	}
 
-	getWorldDirection( target ) {
+	getWorldDirection ( target ) {
 
 		if ( target === undefined ) {
 
@@ -11647,11 +11649,17 @@ class Camera extends Object3D {
 
 		const e = this.matrixWorld.elements;
 
-		return target.set( - e[ 8 ], - e[ 9 ], - e[ 10 ] ).normalize();
+		return target.set( - e[ 8 ], - e[ 9 ], - e[ 10 ] ).normalize()
 
 	}
 
-	updateMatrixWorld( force ) {
+	setDOMParent ( element ) {
+
+		this.domParent = element;
+
+	}
+
+	updateMatrixWorld ( force ) {
 
 		super.updateMatrixWorld( force );
 
@@ -11659,7 +11667,7 @@ class Camera extends Object3D {
 
 	}
 
-	updateWorldMatrix( updateParents, updateChildren ) {
+	updateWorldMatrix ( updateParents, updateChildren ) {
 
 		super.updateWorldMatrix( updateParents, updateChildren );
 
@@ -11667,9 +11675,9 @@ class Camera extends Object3D {
 
 	}
 
-	clone() {
+	clone () {
 
-		return new this.constructor().copy( this );
+		return new this.constructor().copy( this )
 
 	}
 
@@ -11679,7 +11687,7 @@ Camera.prototype.isCamera = true;
 
 class PerspectiveCamera extends Camera {
 
-	constructor( fov = 50, aspect = 1, near = 0.1, far = 2000 ) {
+	constructor ( fov = 50, aspect = 1, near = 0.1, far = 2000 ) {
 
 		super();
 
@@ -11702,7 +11710,7 @@ class PerspectiveCamera extends Camera {
 
 	}
 
-	copy( source, recursive ) {
+	copy ( source, recursive ) {
 
 		super.copy( source, recursive );
 
@@ -11719,7 +11727,7 @@ class PerspectiveCamera extends Camera {
 		this.filmGauge = source.filmGauge;
 		this.filmOffset = source.filmOffset;
 
-		return this;
+		return this
 
 	}
 
@@ -11731,7 +11739,7 @@ class PerspectiveCamera extends Camera {
 	 *
 	 * Values for focal length and film gauge must have the same unit.
 	 */
-	setFocalLength( focalLength ) {
+	setFocalLength ( focalLength ) {
 
 		/** see {@link http://www.bobatkins.com/photography/technical/field_of_view.html} */
 		const vExtentSlope = 0.5 * this.getFilmHeight() / focalLength;
@@ -11744,32 +11752,33 @@ class PerspectiveCamera extends Camera {
 	/**
 	 * Calculates the focal length from the current .fov and .filmGauge.
 	 */
-	getFocalLength() {
+	
+	getFocalLength () {
 
 		const vExtentSlope = Math.tan( DEG2RAD * 0.5 * this.fov );
 
-		return 0.5 * this.getFilmHeight() / vExtentSlope;
+		return 0.5 * this.getFilmHeight() / vExtentSlope
 
 	}
 
-	getEffectiveFOV() {
+	getEffectiveFOV () {
 
 		return RAD2DEG * 2 * Math.atan(
-			Math.tan( DEG2RAD * 0.5 * this.fov ) / this.zoom );
+			Math.tan( DEG2RAD * 0.5 * this.fov ) / this.zoom )
 
 	}
 
-	getFilmWidth() {
+	getFilmWidth () {
 
 		// film not completely covered in portrait format (aspect < 1)
-		return this.filmGauge * Math.min( this.aspect, 1 );
+		return this.filmGauge * Math.min( this.aspect, 1 )
 
 	}
 
-	getFilmHeight() {
+	getFilmHeight () {
 
 		// film not completely covered in landscape format (aspect > 1)
-		return this.filmGauge / Math.max( this.aspect, 1 );
+		return this.filmGauge / Math.max( this.aspect, 1 )
 
 	}
 
@@ -11808,7 +11817,7 @@ class PerspectiveCamera extends Camera {
 	 *
 	 *   Note there is no reason monitors have to be the same size or in a grid.
 	 */
-	setViewOffset( fullWidth, fullHeight, x, y, width, height ) {
+	setViewOffset ( fullWidth, fullHeight, x, y, width, height ) {
 
 		this.aspect = fullWidth / fullHeight;
 
@@ -11838,7 +11847,7 @@ class PerspectiveCamera extends Camera {
 
 	}
 
-	clearViewOffset() {
+	clearViewOffset () {
 
 		if ( this.view !== null ) {
 
@@ -11850,7 +11859,27 @@ class PerspectiveCamera extends Camera {
 
 	}
 
-	updateProjectionMatrix() {
+	setAspectFromElement ( element, useOffsetDimensions = false ) {
+
+		if ( element ) {
+
+			if ( useOffsetDimensions ) {
+
+				this.aspect = element.offsetWidth / element.offsetHeight;
+
+			} else {
+
+				this.aspect = element.clientWidth / element.clientHeight;
+
+			}
+
+			this.updateProjectionMatrix();
+
+		}
+		
+	} 
+
+	updateProjectionMatrix () {
 
 		const near = this.near;
 		let top = near * Math.tan( DEG2RAD * 0.5 * this.fov ) / this.zoom;
@@ -11880,7 +11909,7 @@ class PerspectiveCamera extends Camera {
 
 	}
 
-	toJSON( meta ) {
+	toJSON ( meta ) {
 
 		const data = super.toJSON( meta );
 
@@ -11898,7 +11927,7 @@ class PerspectiveCamera extends Camera {
 		data.object.filmGauge = this.filmGauge;
 		data.object.filmOffset = this.filmOffset;
 
-		return data;
+		return data
 
 	}
 
@@ -62851,6 +62880,20 @@ var pack$1 = /*#__PURE__*/Object.freeze({
 	PostProcessing: PostProcessingManager
 });
 
+function create ( appClass ) {
+
+    window.App = new appClass();
+    window.App.build();
+
+    return
+
+}
+
+var app = /*#__PURE__*/Object.freeze({
+	__proto__: null,
+	create: create
+});
+
 function getRandomValue ( array ) {
 
     return array[ Math.floor( Math.random() * array.length ) ]
@@ -63030,11 +63073,23 @@ function build ( rClass, params, props, parentEl ) {
 
 }
 
+function setSizeFromElement ( renderer, element, useOffsetDimensions = fals ) {
+
+    if ( useOffsetDimensions ) {
+
+        renderer.setSize( element.offsetWidth, element.offsetHeight );
+
+    } else {
+
+        renderer.setSize( element.clientWidth, element.clientHeight );
+
+    }
+
+}
+
 function setSizeFromWindow ( renderer ) {
 
     renderer.setSize( window.innerWidth, window.innerHeight );
-
-    return
 
 }
 
@@ -63047,6 +63102,7 @@ function render ( renderer ) {
 var renderer = /*#__PURE__*/Object.freeze({
 	__proto__: null,
 	build: build,
+	setSizeFromElement: setSizeFromElement,
 	setSizeFromWindow: setSizeFromWindow,
 	render: render
 });
@@ -63113,6 +63169,7 @@ var strings = /*#__PURE__*/Object.freeze({
 
 var pack = /*#__PURE__*/Object.freeze({
 	__proto__: null,
+	App: app,
 	Array: array,
 	Camera: camera,
 	Math: math,
