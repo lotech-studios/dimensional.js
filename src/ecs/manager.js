@@ -47,6 +47,14 @@ class ECSManager {
 
     }
 
+    async assembleAsync ( name, ...args ) {
+
+        const A = await this._Assemblies[ name ]( ...args )
+
+        return A
+
+    }
+
     assemblePromise ( name, ...args ) {
 
         return new Promise( ( resolve ) => {

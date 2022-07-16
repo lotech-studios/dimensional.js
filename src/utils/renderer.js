@@ -28,7 +28,7 @@ export function build ( rClass, params, props, parentEl ) {
 
 }
 
-export function setSizeFromElement ( renderer, element, useOffsetDimensions = fals ) {
+export function setSizeFromElement ( renderer, element, useOffsetDimensions = false ) {
 
     if ( useOffsetDimensions ) {
 

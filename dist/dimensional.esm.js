@@ -63073,7 +63073,7 @@ function build ( rClass, params, props, parentEl ) {
 
 }
 
-function setSizeFromElement ( renderer, element, useOffsetDimensions = fals ) {
+function setSizeFromElement ( renderer, element, useOffsetDimensions = false ) {
 
     if ( useOffsetDimensions ) {
 
