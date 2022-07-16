@@ -1,0 +1,11 @@
+{
+    "name": "dimensional.js",
+    "version": "1.0.0",
+    "description": "Module based JavaScript game engine based on Three.js",
+    "main": "index.js",
+    "scripts": {
+        "bundle": "rollup --config rollup.config.js"
+    },
+    "author": "Nikolas Karinja",
+    "license": "ISC"
+}
