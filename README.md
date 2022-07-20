@@ -1,5 +1,7 @@
 # dimensional.js
 
+![One of the logos](http://nikolaskarinja.com/res/images/logos/dimensional-full-mw-80.png)
+
 Developed by [Nikolas Karinja](http://nikolaskarinja.com)
 
 #### Module based Javascript 3D game engine
