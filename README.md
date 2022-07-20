@@ -1,6 +1,6 @@
 # dimensional.js
 
-[![Discord][discord]][discord-url]
+Developed by [Nikolas Karinja](http://nikolaskarinja.com)
 
 #### Module based Javascript 3D game engine
 
