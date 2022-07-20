@@ -1,6 +1,4 @@
-# dimensional.js
-
-![One of the logos](http://nikolaskarinja.com/res/images/logos/dimensional-full-mw-80.png)
+![One of the logos](https://github.com/lotech-studios/dimensional.js/blob/main/res/images/logos/dimensional-full-80.png?raw=true)
 
 Developed by [Nikolas Karinja](http://nikolaskarinja.com)
 
