@@ -52313,7 +52313,7 @@ if ( typeof window !== 'undefined' ) {
 
 }
 
-var pack$6 = /*#__PURE__*/Object.freeze({
+var pack$7 = /*#__PURE__*/Object.freeze({
 	__proto__: null,
 	WebGLMultisampleRenderTarget: WebGLMultisampleRenderTarget,
 	WebGLCubeRenderTarget: WebGLCubeRenderTarget,
@@ -52777,6 +52777,44 @@ class PointCaster {
     }
     
 }
+
+class BasicApp {
+
+    constructor () {
+
+        this.Clock = new Clock();
+        this.Time = { delta: 0, elapsed: 0 };
+
+    }
+
+    async build () {
+
+        this.render();
+
+    }
+
+    onRender () { /** add your render code here */ }
+
+    render () {
+
+        requestAnimationFrame( ( t ) => {
+
+            this.Time.delta = this.Clock.getDelta();
+            this.Time.elapsed = this.Clock.getElapsedTime();
+
+            this.render();
+            this.onRender( t );
+
+        } );
+
+    }
+
+}
+
+var pack$6 = /*#__PURE__*/Object.freeze({
+	__proto__: null,
+	Basic: BasicApp
+});
 
 class Bank {
 
@@ -61231,6 +61269,14 @@ class ECSManager {
 
     }
 
+    async assembleAsync ( name, ...args ) {
+
+        const A = await this._Assemblies[ name ]( ...args );
+
+        return A
+
+    }
+
     assemblePromise ( name, ...args ) {
 
         return new Promise( ( resolve ) => {
@@ -61598,16 +61644,15 @@ class ConstantSpinComponent extends ECSComponent {
         super( proxy );
 
         this._Factor = factor;
+        this._Mesh = this._Proxy.getComponent( 'Mesh' ).Mesh;
 
     }
 
     update ( deltaTime ) {
 
-        const Mesh = this._Proxy.getComponent( 'Mesh' ).Mesh;
-
-        Mesh.rotation.x += this._Factor.x * deltaTime;
-        Mesh.rotation.y += this._Factor.y * deltaTime;
-        Mesh.rotation.z += this._Factor.z * deltaTime;
+        this._Mesh.rotation.x += this._Factor.x * deltaTime;
+        this._Mesh.rotation.y += this._Factor.y * deltaTime;
+        this._Mesh.rotation.z += this._Factor.z * deltaTime;
         
     }
 
@@ -61635,15 +61680,11 @@ class MeshComponent extends ECSComponent {
 
         this.Mesh[ property ].set( x, y, z );
 
-        return
-
     }
 
     _eulerSetScalar ( property, value ) {
 
         this.Mesh[ property ].set( value, value, value );
-
-        return
 
     }
 
@@ -61651,19 +61692,21 @@ class MeshComponent extends ECSComponent {
 
         this.Mesh[ property ].set( x, y, z );
 
-        return
-
     }
 
     _vec3SetScalar ( property, value ) {
 
         this.Mesh[ property ].setScalar( value );
 
-        return
-
     }
 
     // public
+
+    addTo ( object3d ) {
+
+        object3d.add( this.Mesh );
+
+    }
 
     setGeometry ( geometry ) {
 
@@ -63179,4 +63222,20 @@ var pack = /*#__PURE__*/Object.freeze({
 	Strings: strings
 });
 
-export { pack$4 as Banks, pack$3 as ECS, pack$2 as Libs, pack$1 as Managers, PointCaster, pack$6 as Three, pack$5 as ThreeX, pack as Utils };
+/**
+ * These are the default constants, you can add as many as you like.
+ * They are super useful for storing data and accessing it anywhere
+ * in your program where you import the engine.
+ */
+
+const C = {
+    Actors: {},
+    Banks: {},
+    Cameras: {},
+    ECS: {},
+    Elements: {},
+    Scenes: {},
+    Renderers: {},
+};
+
+export { pack$6 as Apps, pack$4 as Banks, C, pack$3 as ECS, pack$2 as Libs, pack$1 as Managers, PointCaster, pack$7 as Three, pack$5 as ThreeX, pack as Utils };

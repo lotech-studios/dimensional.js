@@ -20,15 +20,11 @@ class MeshComponent extends ECSComponent {
 
         this.Mesh[ property ].set( x, y, z )
 
-        return
-
     }
 
     _eulerSetScalar ( property, value ) {
 
         this.Mesh[ property ].set( value, value, value )
-
-        return
 
     }
 
@@ -36,19 +32,21 @@ class MeshComponent extends ECSComponent {
 
         this.Mesh[ property ].set( x, y, z )
 
-        return
-
     }
 
     _vec3SetScalar ( property, value ) {
 
         this.Mesh[ property ].setScalar( value )
 
-        return
-
     }
 
     // public
+
+    addTo ( object3d ) {
+
+        object3d.add( this.Mesh )
+
+    }
 
     setGeometry ( geometry ) {
 

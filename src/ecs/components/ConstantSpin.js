@@ -8,16 +8,15 @@ class ConstantSpinComponent extends ECSComponent {
         super( proxy )
 
         this._Factor = factor
+        this._Mesh = this._Proxy.getComponent( 'Mesh' ).Mesh
 
     }
 
     update ( deltaTime ) {
 
-        const Mesh = this._Proxy.getComponent( 'Mesh' ).Mesh
-
-        Mesh.rotation.x += this._Factor.x * deltaTime
-        Mesh.rotation.y += this._Factor.y * deltaTime
-        Mesh.rotation.z += this._Factor.z * deltaTime
+        this._Mesh.rotation.x += this._Factor.x * deltaTime
+        this._Mesh.rotation.y += this._Factor.y * deltaTime
+        this._Mesh.rotation.z += this._Factor.z * deltaTime
         
     }
 
