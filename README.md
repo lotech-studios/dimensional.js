@@ -119,10 +119,10 @@ D.Utils.App.create( class App extends D.Apps.Basic { // use the basic app class
 ```
 
 ### Screenshots
-Below are some screenshots of what I have made with this engine _(as of 7/20/22)_
+Below are some screenshots of what I have made with this engine _(as of 7/20/22)_. This stuff just barely scratches the surface of what this engine is capable of. I mean it is based on [Three.js](https://github.com/mrdoob/three.js) afer all.
 
-> Victorum (WIP)
+#### Victorum (WIP)
 ![Victorum](https://github.com/lotech-studios/dimensional.js/blob/main/res/images/screenshots/victorum.png?raw=true)
-> Nik in a Nutshell (my personal website)
+#### Nik in a Nutshell (my personal website)
 ![Nik in a Nutshell](https://github.com/lotech-studios/dimensional.js/blob/main/res/images/screenshots/nik-in-a-nutshell.png?raw=true)
 
