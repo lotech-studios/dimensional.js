@@ -8,6 +8,7 @@ class Raycaster {
 		this.ray = new Ray( origin, direction );
 		// direction is assumed to be normalized (for accurate distance calculations)
 
+		this.intersects = {}
 		this.near = near;
 		this.far = far;
 		this.camera = null;
@@ -23,7 +24,13 @@ class Raycaster {
 
 	}
 
-	set( origin, direction ) {
+	getIntersects ( name ) {
+
+		return this.intersects[ name ]
+
+	}
+
+	set ( origin, direction ) {
 
 		// direction is assumed to be normalized (for accurate distance calculations)
 
@@ -50,6 +57,12 @@ class Raycaster {
 			console.error( 'THREE.Raycaster: Unsupported camera type: ' + camera.type );
 
 		}
+
+	}
+
+	setIntersects ( name, array ) {
+
+		this.intersects[ name ] = array
 
 	}
 

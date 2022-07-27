@@ -19,6 +19,8 @@ export const C = {
     Actors: {},
     Banks: {},
     Cameras: {},
+    Controls: {},
+    Data: {},
     ECS: {},
     Elements: {},
     Scenes: {},

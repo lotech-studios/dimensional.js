@@ -58,7 +58,7 @@ class MeshComponent extends ECSComponent {
 
         } else {
 
-            console.error( '<Altantis.ECS.Components.Mesh.setGeometry()>: This geometry class is not compatible with this version of the engine.' )
+            console.error( '<Dimensional.ECS.Components.Mesh.setGeometry()>: This geometry class is not compatible with this version of the engine.' )
 
         }
 
@@ -76,7 +76,7 @@ class MeshComponent extends ECSComponent {
 
         } else {
 
-            console.error( '<Altantis.ECS.Components.Mesh.setMaterial()>: This material class is not compatible with this version of the engine.' )
+            console.error( '<Dimensional.ECS.Components.Mesh.setMaterial()>: This material class is not compatible with this version of the engine.' )
 
         }
 

@@ -7,6 +7,7 @@ import {
 	Vector2,
 	Vector3
 } from '../../src/pack.js'
+import { Tween } from '../../../libs/pack.js'
 
 // This set of controls performs orbiting, dollying (zooming), and panning.
 // Unlike TrackballControls, it maintains the "up" direction object.up (+Y by default).
@@ -32,10 +33,6 @@ class OrbitControls extends EventDispatcher {
 
 		this.object = object
 		this.domElement = domElement
-		
-		this.objOffsetX = 7.5
-		this.objOffsetY = 7.5
-		this.objOffsetZ = 8.5
 
 		// Set to false to disable this control
 		this.enabled = true
@@ -69,6 +66,7 @@ class OrbitControls extends EventDispatcher {
 		// If damping is enabled, you must call controls.update() in your animation loop
 		this.enableDamping = false
 		this.dampingFactor = 0.05
+		this.scrollDampingFactor = 0.05
 
 		// This option actually enables dollying in and out; left as "zoom" for backwards compatibility.
 		// Set to false to disable zooming
@@ -110,6 +108,11 @@ class OrbitControls extends EventDispatcher {
 		//
 		// public methods
 		//
+
+		this.onPanEnd = function () {}
+		this.onPanStart = function () {}
+		this.onRotateEnd = function () {}
+		this.onRotateStart = function () {}
 
 		this.getPolarAngle = function () {
 
@@ -190,19 +193,20 @@ class OrbitControls extends EventDispatcher {
 					spherical.theta += sphericalDelta.theta * scope.dampingFactor
 					spherical.phi += sphericalDelta.phi * scope.dampingFactor
 
-					if ( scope.smoothZoom ) {
-						let factor = 1.0 + ( zoomEnd - scope.zoomStart ) * scope.zoomSpeed
-
-			    		scale *= factor
-
-			    		scope.zoomStart += ( zoomEnd - scope.zoomStart ) * scope.dampingFactor
-
-					}
-
 				} else {
 
 					spherical.theta += sphericalDelta.theta
 					spherical.phi += sphericalDelta.phi
+
+				}
+
+				if ( scope.smoothZoom ) {
+
+					let factor = 1.0 + ( zoomEnd - scope.zoomStart ) * scope.zoomSpeed
+
+					scale *= factor
+
+					scope.zoomStart += ( zoomEnd - scope.zoomStart ) * scope.scrollDampingFactor
 
 				}
 
@@ -295,6 +299,20 @@ class OrbitControls extends EventDispatcher {
 					zoomChanged = false
 
 					return true
+
+				}
+
+				// calculate light position
+
+				if ( scope.light ) {
+
+					scope.light.position.set( 
+						scope.target.x + scope.light.offset.x, 
+						scope.target.y + scope.light.offset.y, 
+						scope.target.z + scope.light.offset.z 
+					)
+	
+					scope.light.target.position.copy( scope.target )
 
 				}
 
@@ -1247,10 +1265,46 @@ class OrbitControls extends EventDispatcher {
 
 	}
 
-	setTarget ( x, y, z ) {
+	setLight ( lightObject, oX, oY, oZ ) {
 
-		this.target.set( x, y, z )
-		this.object.position.set( this.objOffsetX + x, this.objOffsetY + y, this.objOffsetZ + z )
+		this.light = lightObject
+		this.light.offset = new Vector3( oX, oY, oZ )
+
+	}
+
+	setTarget ( x, y, z, options = {} ) {
+
+		const oX = this.object.position.x - this.target.x
+		const oY = this.object.position.y - this.target.y
+		const oZ = this.object.position.z - this.target.z
+
+		if ( options.smooth ) {
+
+			new Tween.Action( this.target )
+				.to( { x, y, z }, options.duration ? options.duration : 1000 )
+				.easing( options.easing ? options.easing : Tween.Easing.Quadratic.Out )
+				.onComplete( ( obj, _this ) => {
+
+					_this.stop()
+
+				} )
+				.onUpdate( () => {
+
+					this.object.position.set( 
+						this.target.x + oX, 
+						this.target.y + oY, 
+						this.target.z + oZ 
+					)
+
+				} )
+				.start()
+
+		} else {
+
+			this.target.set( x, y, z )
+			this.object.position.set( this.target.x + oX, this.target.y + oY, this.target.z + oZ  )
+
+		}
 
 		return
 

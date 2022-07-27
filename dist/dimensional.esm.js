@@ -26812,7 +26812,7 @@ class ArrayCamera extends PerspectiveCamera {
 
 ArrayCamera.prototype.isArrayCamera = true;
 
-class Group extends Object3D {
+class Group$1 extends Object3D {
 
 	constructor() {
 
@@ -26824,7 +26824,7 @@ class Group extends Object3D {
 
 }
 
-Group.prototype.isGroup = true;
+Group$1.prototype.isGroup = true;
 
 const _moveEvent = { type: 'move' };
 
@@ -26842,7 +26842,7 @@ class WebXRController {
 
 		if ( this._hand === null ) {
 
-			this._hand = new Group();
+			this._hand = new Group$1();
 			this._hand.matrixAutoUpdate = false;
 			this._hand.visible = false;
 
@@ -26859,7 +26859,7 @@ class WebXRController {
 
 		if ( this._targetRay === null ) {
 
-			this._targetRay = new Group();
+			this._targetRay = new Group$1();
 			this._targetRay.matrixAutoUpdate = false;
 			this._targetRay.visible = false;
 			this._targetRay.hasLinearVelocity = false;
@@ -26877,7 +26877,7 @@ class WebXRController {
 
 		if ( this._grip === null ) {
 
-			this._grip = new Group();
+			this._grip = new Group$1();
 			this._grip.matrixAutoUpdate = false;
 			this._grip.visible = false;
 			this._grip.hasLinearVelocity = false;
@@ -27002,7 +27002,7 @@ class WebXRController {
 					if ( hand.joints[ inputjoint.jointName ] === undefined ) {
 
 						// The transform of this joint will be updated with the joint pose on each frame
-						const joint = new Group();
+						const joint = new Group$1();
 						joint.matrixAutoUpdate = false;
 						joint.visible = false;
 						hand.joints[ inputjoint.jointName ] = joint;
@@ -44866,7 +44866,7 @@ class ObjectLoader extends Loader {
 
 			case 'Group':
 
-				object = new Group();
+				object = new Group$1();
 
 				break;
 
@@ -45834,7 +45834,7 @@ class Clock {
 
 	start() {
 
-		this.startTime = now();
+		this.startTime = now$2();
 
 		this.oldTime = this.startTime;
 		this.elapsedTime = 0;
@@ -45870,7 +45870,7 @@ class Clock {
 
 		if ( this.running ) {
 
-			const newTime = now();
+			const newTime = now$2();
 
 			diff = ( newTime - this.oldTime ) / 1000;
 			this.oldTime = newTime;
@@ -45885,7 +45885,7 @@ class Clock {
 
 }
 
-function now() {
+function now$2() {
 
 	return ( typeof performance === 'undefined' ? Date : performance ).now(); // see #10732
 
@@ -49555,6 +49555,7 @@ class Raycaster {
 		this.ray = new Ray( origin, direction );
 		// direction is assumed to be normalized (for accurate distance calculations)
 
+		this.intersects = {};
 		this.near = near;
 		this.far = far;
 		this.camera = null;
@@ -49570,7 +49571,13 @@ class Raycaster {
 
 	}
 
-	set( origin, direction ) {
+	getIntersects ( name ) {
+
+		return this.intersects[ name ]
+
+	}
+
+	set ( origin, direction ) {
 
 		// direction is assumed to be normalized (for accurate distance calculations)
 
@@ -49597,6 +49604,12 @@ class Raycaster {
 			console.error( 'THREE.Raycaster: Unsupported camera type: ' + camera.type );
 
 		}
+
+	}
+
+	setIntersects ( name, array ) {
+
+		this.intersects[ name ] = array;
 
 	}
 
@@ -52338,7 +52351,7 @@ var pack$7 = /*#__PURE__*/Object.freeze({
 	LineLoop: LineLoop,
 	Line: Line,
 	Points: Points,
-	Group: Group,
+	Group: Group$1,
 	VideoTexture: VideoTexture,
 	DataTexture: DataTexture,
 	DataTexture2DArray: DataTexture2DArray,
@@ -57318,7 +57331,7 @@ class GLTFParser {
 
 			}
 
-			const group = new Group();
+			const group = new Group$1();
 
 			for ( let i = 0, il = meshes.length; i < il; i ++ ) {
 
@@ -57666,7 +57679,7 @@ class GLTFParser {
 
 			} else if ( objects.length > 1 ) {
 
-				node = new Group();
+				node = new Group$1();
 
 			} else if ( objects.length === 1 ) {
 
@@ -57749,7 +57762,7 @@ class GLTFParser {
 
 		// Loader returns Group, not Scene.
 		// See: https://github.com/mrdoob/three.js/issues/18342#issuecomment-578981172
-		const scene = new Group();
+		const scene = new Group$1();
 		if ( sceneDef.name ) scene.name = parser.createUniqueName( sceneDef.name );
 
 		assignExtrasToUserData( scene, sceneDef );
@@ -58141,6 +58154,1222 @@ function toTrianglesDrawMode ( geometry, drawMode ) {
 
 }
 
+var F2 = 0.5 * ( Math.sqrt( 3.0 ) - 1.0 ),
+    G2 = ( 3.0 - Math.sqrt( 3.0 ) ) / 6.0,
+    F3 = 1.0 / 3.0,
+    G3 = 1.0 / 6.0,
+    F4 = ( Math.sqrt( 5.0 ) - 1.0 ) / 4.0,
+    G4 = ( 5.0 - Math.sqrt( 5.0 ) ) / 20.0;
+
+
+class SimplexNoise {
+
+    constructor ( table ) {
+
+        if ( table ) {
+
+            this.p = table;
+
+        } else {
+
+            this.p = new Uint8Array( 256 );
+
+            for ( var i = 0; i < 256; i++ ) {
+
+                this.p[ i ] = Math.random() * 255;
+
+            }
+
+        }
+
+        this.perm = new Uint8Array( 512 );
+        this.permMod12 = new Uint8Array( 512 );
+
+        for ( i = 0; i < 512; i++ ) {
+
+            this.perm[ i ] = this.p[ i & 255 ];
+            this.permMod12[ i ] = this.perm[ i ] % 12;
+
+        }
+        
+        // Create gradients for permutations
+
+        this.grad3 = new Float32Array( [ 
+            1, 1, 0,
+            -1, 1, 0,
+            1, -1, 0,
+    
+            -1, -1, 0,
+            1, 0, 1,
+            -1, 0, 1,
+    
+            1, 0, -1,
+            -1, 0, -1,
+            0, 1, 1,
+    
+            0, -1, 1,
+            0, 1, -1,
+            0, -1, -1 
+        ] );
+
+        this.grad4 =  new Float32Array( [ 
+            0, 1, 1, 1, 0, 1, 1, -1, 0, 1, -1, 1, 0, 1, -1, -1,
+            0, -1, 1, 1, 0, -1, 1, -1, 0, -1, -1, 1, 0, -1, -1, -1,
+            1, 0, 1, 1, 1, 0, 1, -1, 1, 0, -1, 1, 1, 0, -1, -1,
+            -1, 0, 1, 1, -1, 0, 1, -1, -1, 0, -1, 1, -1, 0, -1, -1,
+            1, 1, 0, 1, 1, 1, 0, -1, 1, -1, 0, 1, 1, -1, 0, -1,
+            -1, 1, 0, 1, -1, 1, 0, -1, -1, -1, 0, 1, -1, -1, 0, -1,
+            1, 1, 1, 0, 1, 1, -1, 0, 1, -1, 1, 0, 1, -1, -1, 0,
+            -1, 1, 1, 0, -1, 1, -1, 0, -1, -1, 1, 0, -1, -1, -1, 0 
+        ] );
+
+    }
+
+    // Noise methods
+
+    noise2D ( xin, yin ) {
+
+        var permMod12 = this.permMod12,
+            perm = this.perm,
+            grad3 = this.grad3;
+        
+        var n0, n1, n2; // Noise contributions from the three corners
+
+        // Skew the input space to determine which simplex cell we're in
+        
+        var s = ( xin + yin ) * F2; // Hairy factor for 2D
+        var i = Math.floor( xin + s );
+        var j = Math.floor( yin + s );
+        var t = ( i + j ) * G2;
+        var X0 = i - t; // Unskew the cell origin back to (x,y) space
+        var Y0 = j - t;
+        var x0 = xin - X0; // The x,y distances from the cell origin
+        var y0 = yin - Y0;
+
+        // For the 2D case, the simplex shape is an equilateral triangle.
+        // Determine which simplex we are in.
+
+        var i1, j1; // Offsets for second (middle) corner of simplex in (i,j) coords
+        
+        if ( x0 > y0 ) { // lower triangle, XY order: (0,0)->(1,0)->(1,1)
+            
+            i1 = 1;
+            j1 = 0;
+
+        } else { // upper triangle, YX order: (0,0)->(0,1)->(1,1)
+
+            i1 = 0;
+
+            j1 = 1;
+
+        }
+        
+        // A step of (1,0) in (i,j) means a step of (1-c,-c) in (x,y), and
+        // a step of (0,1) in (i,j) means a step of (-c,1-c) in (x,y), where
+        // c = (3-sqrt(3))/6
+
+        var x1 = x0 - i1 + G2; // Offsets for middle corner in (x,y) unskewed coords
+        var y1 = y0 - j1 + G2;
+        var x2 = x0 - 1.0 + 2.0 * G2; // Offsets for last corner in (x,y) unskewed coords
+        var y2 = y0 - 1.0 + 2.0 * G2;
+        
+        // Work out the hashed gradient indices of the three simplex corners
+        var ii = i & 255;
+        var jj = j & 255;
+
+        // Calculate the contribution from the three corners
+        var t0 = 0.5 - x0 * x0 - y0 * y0;
+
+        if ( t0 < 0 ) {
+
+            n0 = 0.0;
+
+        } else {
+
+            var gi0 = permMod12[ ii + perm[ jj ] ] * 3;
+
+            t0 *= t0;
+
+            n0 = t0 * t0 * ( grad3[ gi0 ] * x0 + grad3[ gi0 + 1 ] * y0 );  // (x,y) of grad3 used for 2D gradient
+        
+        }
+        
+        var t1 = 0.5 - x1 * x1 - y1 * y1;
+
+        if ( t1 < 0 ) {
+
+            n1 = 0.0;
+
+        } else {
+
+            var gi1 = permMod12[ ii + i1 + perm[ jj + j1 ] ] * 3;
+
+            t1 *= t1;
+
+            n1 = t1 * t1 * ( grad3[ gi1 ] * x1 + grad3[ gi1 + 1 ] * y1 );
+
+        }
+
+        var t2 = 0.5 - x2 * x2 - y2 * y2;
+
+        if ( t2 < 0 ) {
+
+            n2 = 0.0;
+
+        } else {
+
+            var gi2 = permMod12[ ii + 1 + perm[ jj + 1 ] ] * 3;
+
+            t2 *= t2;
+
+            n2 = t2 * t2 * ( grad3[ gi2 ] * x2 + grad3[ gi2 + 1 ] * y2 );
+
+        }
+
+        // Add contributions from each corner to get the final noise value.
+        // The result is scaled to return values in the interval [-1,1].
+        
+        return 70.0 * ( n0 + n1 + n2 )
+
+    }
+
+    // 3D simplex noise
+
+    noise3D ( xin, yin, zin ) {
+
+        var permMod12 = this.permMod12,
+            perm = this.perm,
+            grad3 = this.grad3;
+        var n0, n1, n2, n3; // Noise contributions from the four corners
+        // Skew the input space to determine which simplex cell we're in
+        var s = ( xin + yin + zin ) * F3; // Very nice and simple skew factor for 3D
+        var i = Math.floor( xin + s );
+        var j = Math.floor( yin + s );
+        var k = Math.floor( zin + s );
+        var t = ( i + j + k ) * G3;
+        var X0 = i - t; // Unskew the cell origin back to (x,y,z) space
+        var Y0 = j - t;
+        var Z0 = k - t;
+        var x0 = xin - X0; // The x,y,z distances from the cell origin
+        var y0 = yin - Y0;
+        var z0 = zin - Z0;
+        // For the 3D case, the simplex shape is a slightly irregular tetrahedron.
+        // Determine which simplex we are in.
+        var i1, j1, k1; // Offsets for second corner of simplex in (i,j,k) coords
+        var i2, j2, k2; // Offsets for third corner of simplex in (i,j,k) coords
+        if ( x0 >= y0 ) {
+            if ( y0 >= z0 ) { i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 1; k2 = 0; } // X Y Z order
+            else if ( x0 >= z0 ) { i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 0; k2 = 1; } // X Z Y order
+            else { i1 = 0; j1 = 0; k1 = 1; i2 = 1; j2 = 0; k2 = 1; } // Z X Y order
+        }
+        else { // x0<y0
+            if ( y0 < z0 ) { i1 = 0; j1 = 0; k1 = 1; i2 = 0; j2 = 1; k2 = 1; } // Z Y X order
+            else if ( x0 < z0 ) { i1 = 0; j1 = 1; k1 = 0; i2 = 0; j2 = 1; k2 = 1; } // Y Z X order
+            else { i1 = 0; j1 = 1; k1 = 0; i2 = 1; j2 = 1; k2 = 0; } // Y X Z order
+        }
+        // A step of (1,0,0) in (i,j,k) means a step of (1-c,-c,-c) in (x,y,z),
+        // a step of (0,1,0) in (i,j,k) means a step of (-c,1-c,-c) in (x,y,z), and
+        // a step of (0,0,1) in (i,j,k) means a step of (-c,-c,1-c) in (x,y,z), where
+        // c = 1/6.
+        var x1 = x0 - i1 + G3; // Offsets for second corner in (x,y,z) coords
+        var y1 = y0 - j1 + G3;
+        var z1 = z0 - k1 + G3;
+        var x2 = x0 - i2 + 2.0 * G3; // Offsets for third corner in (x,y,z) coords
+        var y2 = y0 - j2 + 2.0 * G3;
+        var z2 = z0 - k2 + 2.0 * G3;
+        var x3 = x0 - 1.0 + 3.0 * G3; // Offsets for last corner in (x,y,z) coords
+        var y3 = y0 - 1.0 + 3.0 * G3;
+        var z3 = z0 - 1.0 + 3.0 * G3;
+        // Work out the hashed gradient indices of the four simplex corners
+        var ii = i & 255;
+        var jj = j & 255;
+        var kk = k & 255;
+        // Calculate the contribution from the four corners
+        var t0 = 0.6 - x0 * x0 - y0 * y0 - z0 * z0;
+        if ( t0 < 0 ) n0 = 0.0;
+        else {
+            var gi0 = permMod12[ ii + perm[ jj + perm[ kk ] ] ] * 3;
+            t0 *= t0;
+            n0 = t0 * t0 * ( grad3[ gi0 ] * x0 + grad3[ gi0 + 1 ] * y0 + grad3[ gi0 + 2 ] * z0 );
+        }
+        var t1 = 0.6 - x1 * x1 - y1 * y1 - z1 * z1;
+        if ( t1 < 0 ) n1 = 0.0;
+        else {
+            var gi1 = permMod12[ ii + i1 + perm[ jj + j1 + perm[ kk + k1 ] ] ] * 3;
+            t1 *= t1;
+            n1 = t1 * t1 * ( grad3[ gi1 ] * x1 + grad3[ gi1 + 1 ] * y1 + grad3[ gi1 + 2 ] * z1 );
+        }
+        var t2 = 0.6 - x2 * x2 - y2 * y2 - z2 * z2;
+        if ( t2 < 0 ) n2 = 0.0;
+        else {
+            var gi2 = permMod12[ ii + i2 + perm[ jj + j2 + perm[ kk + k2 ] ] ] * 3;
+            t2 *= t2;
+            n2 = t2 * t2 * ( grad3[ gi2 ] * x2 + grad3[ gi2 + 1 ] * y2 + grad3[ gi2 + 2 ] * z2 );
+        }
+        var t3 = 0.6 - x3 * x3 - y3 * y3 - z3 * z3;
+        if ( t3 < 0 ) n3 = 0.0;
+        else {
+            var gi3 = permMod12[ ii + 1 + perm[ jj + 1 + perm[ kk + 1 ] ] ] * 3;
+            t3 *= t3;
+            n3 = t3 * t3 * ( grad3[ gi3 ] * x3 + grad3[ gi3 + 1 ] * y3 + grad3[ gi3 + 2 ] * z3 );
+        }
+        // Add contributions from each corner to get the final noise value.
+        // The result is scaled to stay just inside [-1,1]
+        return 32.0 * ( n0 + n1 + n2 + n3 )
+
+    }
+
+    // 4D simplex noise, better simplex rank ordering method 2012-03-09
+
+    noise4D ( x, y, z, w ) {
+
+        this.permMod12;
+            var perm = this.perm,
+            grad4 = this.grad4;
+
+        var n0, n1, n2, n3, n4; // Noise contributions from the five corners
+        // Skew the (x,y,z,w) space to determine which cell of 24 simplices we're in
+        var s = ( x + y + z + w ) * F4; // Factor for 4D skewing
+        var i = Math.floor( x + s );
+        var j = Math.floor( y + s );
+        var k = Math.floor( z + s );
+        var l = Math.floor( w + s );
+        var t = ( i + j + k + l ) * G4; // Factor for 4D unskewing
+        var X0 = i - t; // Unskew the cell origin back to (x,y,z,w) space
+        var Y0 = j - t;
+        var Z0 = k - t;
+        var W0 = l - t;
+        var x0 = x - X0;  // The x,y,z,w distances from the cell origin
+        var y0 = y - Y0;
+        var z0 = z - Z0;
+        var w0 = w - W0;
+        // For the 4D case, the simplex is a 4D shape I won't even try to describe.
+        // To find out which of the 24 possible simplices we're in, we need to
+        // determine the magnitude ordering of x0, y0, z0 and w0.
+        // Six pair-wise comparisons are performed between each possible pair
+        // of the four coordinates, and the results are used to rank the numbers.
+        var rankx = 0;
+        var ranky = 0;
+        var rankz = 0;
+        var rankw = 0;
+        if ( x0 > y0 ) rankx++; else ranky++;
+        if ( x0 > z0 ) rankx++; else rankz++;
+        if ( x0 > w0 ) rankx++; else rankw++;
+        if ( y0 > z0 ) ranky++; else rankz++;
+        if ( y0 > w0 ) ranky++; else rankw++;
+        if ( z0 > w0 ) rankz++; else rankw++;
+        var i1, j1, k1, l1; // The integer offsets for the second simplex corner
+        var i2, j2, k2, l2; // The integer offsets for the third simplex corner
+        var i3, j3, k3, l3; // The integer offsets for the fourth simplex corner
+        // simplex[c] is a 4-vector with the numbers 0, 1, 2 and 3 in some order.
+        // Many values of c will never occur, since e.g. x>y>z>w makes x<z, y<w and x<w
+        // impossible. Only the 24 indices which have non-zero entries make any sense.
+        // We use a thresholding to set the coordinates in turn from the largest magnitude.
+        // Rank 3 denotes the largest coordinate.
+        i1 = rankx >= 3 ? 1 : 0;
+        j1 = ranky >= 3 ? 1 : 0;
+        k1 = rankz >= 3 ? 1 : 0;
+        l1 = rankw >= 3 ? 1 : 0;
+        // Rank 2 denotes the second largest coordinate.
+        i2 = rankx >= 2 ? 1 : 0;
+        j2 = ranky >= 2 ? 1 : 0;
+        k2 = rankz >= 2 ? 1 : 0;
+        l2 = rankw >= 2 ? 1 : 0;
+        // Rank 1 denotes the second smallest coordinate.
+        i3 = rankx >= 1 ? 1 : 0;
+        j3 = ranky >= 1 ? 1 : 0;
+        k3 = rankz >= 1 ? 1 : 0;
+        l3 = rankw >= 1 ? 1 : 0;
+        // The fifth corner has all coordinate offsets = 1, so no need to compute that.
+        var x1 = x0 - i1 + G4; // Offsets for second corner in (x,y,z,w) coords
+        var y1 = y0 - j1 + G4;
+        var z1 = z0 - k1 + G4;
+        var w1 = w0 - l1 + G4;
+        var x2 = x0 - i2 + 2.0 * G4; // Offsets for third corner in (x,y,z,w) coords
+        var y2 = y0 - j2 + 2.0 * G4;
+        var z2 = z0 - k2 + 2.0 * G4;
+        var w2 = w0 - l2 + 2.0 * G4;
+        var x3 = x0 - i3 + 3.0 * G4; // Offsets for fourth corner in (x,y,z,w) coords
+        var y3 = y0 - j3 + 3.0 * G4;
+        var z3 = z0 - k3 + 3.0 * G4;
+        var w3 = w0 - l3 + 3.0 * G4;
+        var x4 = x0 - 1.0 + 4.0 * G4; // Offsets for last corner in (x,y,z,w) coords
+        var y4 = y0 - 1.0 + 4.0 * G4;
+        var z4 = z0 - 1.0 + 4.0 * G4;
+        var w4 = w0 - 1.0 + 4.0 * G4;
+        // Work out the hashed gradient indices of the five simplex corners
+        var ii = i & 255;
+        var jj = j & 255;
+        var kk = k & 255;
+        var ll = l & 255;
+        // Calculate the contribution from the five corners
+        var t0 = 0.6 - x0 * x0 - y0 * y0 - z0 * z0 - w0 * w0;
+        if ( t0 < 0 ) n0 = 0.0;
+        else {
+            var gi0 = ( perm[ ii + perm[ jj + perm[ kk + perm[ ll ] ] ] ] % 32 ) * 4;
+            t0 *= t0;
+            n0 = t0 * t0 * ( grad4[ gi0 ] * x0 + grad4[ gi0 + 1 ] * y0 + grad4[ gi0 + 2 ] * z0 + grad4[ gi0 + 3 ] * w0 );
+        }
+        var t1 = 0.6 - x1 * x1 - y1 * y1 - z1 * z1 - w1 * w1;
+        if ( t1 < 0 ) n1 = 0.0;
+        else {
+            var gi1 = ( perm[ ii + i1 + perm[ jj + j1 + perm[ kk + k1 + perm[ ll + l1 ] ] ] ] % 32 ) * 4;
+            t1 *= t1;
+            n1 = t1 * t1 * ( grad4[ gi1 ] * x1 + grad4[ gi1 + 1 ] * y1 + grad4[ gi1 + 2 ] * z1 + grad4[ gi1 + 3 ] * w1 );
+        }
+        var t2 = 0.6 - x2 * x2 - y2 * y2 - z2 * z2 - w2 * w2;
+        if ( t2 < 0 ) n2 = 0.0;
+        else {
+            var gi2 = ( perm[ ii + i2 + perm[ jj + j2 + perm[ kk + k2 + perm[ ll + l2 ] ] ] ] % 32 ) * 4;
+            t2 *= t2;
+            n2 = t2 * t2 * ( grad4[ gi2 ] * x2 + grad4[ gi2 + 1 ] * y2 + grad4[ gi2 + 2 ] * z2 + grad4[ gi2 + 3 ] * w2 );
+        }
+        var t3 = 0.6 - x3 * x3 - y3 * y3 - z3 * z3 - w3 * w3;
+        if ( t3 < 0 ) n3 = 0.0;
+        else {
+            var gi3 = ( perm[ ii + i3 + perm[ jj + j3 + perm[ kk + k3 + perm[ ll + l3 ] ] ] ] % 32 ) * 4;
+            t3 *= t3;
+            n3 = t3 * t3 * ( grad4[ gi3 ] * x3 + grad4[ gi3 + 1 ] * y3 + grad4[ gi3 + 2 ] * z3 + grad4[ gi3 + 3 ] * w3 );
+        }
+        var t4 = 0.6 - x4 * x4 - y4 * y4 - z4 * z4 - w4 * w4;
+        if ( t4 < 0 ) n4 = 0.0;
+        else {
+            var gi4 = ( perm[ ii + 1 + perm[ jj + 1 + perm[ kk + 1 + perm[ ll + 1 ] ] ] ] % 32 ) * 4;
+            t4 *= t4;
+            n4 = t4 * t4 * ( grad4[ gi4 ] * x4 + grad4[ gi4 + 1 ] * y4 + grad4[ gi4 + 2 ] * z4 + grad4[ gi4 + 3 ] * w4 );
+        }
+        // Sum up and scale the result to cover the range [-1,1]
+        return 27.0 * ( n0 + n1 + n2 + n3 + n4 )
+
+    }
+
+}
+
+/**
+ * The Ease class provides a collection of easing functions for use with tween.js.
+ */
+ var Easing = {
+    Linear: {
+        None: function ( amount ) {
+            return amount
+        },
+    },
+    Quadratic: {
+        In: function ( amount ) {
+            return amount * amount
+        },
+        Out: function ( amount ) {
+            return amount * ( 2 - amount )
+        },
+        InOut: function ( amount ) {
+            if ( ( amount *= 2 ) < 1 ) {
+                return 0.5 * amount * amount
+            }
+            return -0.5 * ( --amount * ( amount - 2 ) - 1 )
+        },
+    },
+    Cubic: {
+        In: function ( amount ) {
+            return amount * amount * amount
+        },
+        Out: function ( amount ) {
+            return --amount * amount * amount + 1
+        },
+        InOut: function ( amount ) {
+            if ( ( amount *= 2 ) < 1 ) {
+                return 0.5 * amount * amount * amount
+            }
+            return 0.5 * ( ( amount -= 2 ) * amount * amount + 2 )
+        },
+    },
+    Quartic: {
+        In: function ( amount ) {
+            return amount * amount * amount * amount
+        },
+        Out: function ( amount ) {
+            return 1 - --amount * amount * amount * amount
+        },
+        InOut: function ( amount ) {
+            if ( ( amount *= 2 ) < 1 ) {
+                return 0.5 * amount * amount * amount * amount
+            }
+            return -0.5 * ( ( amount -= 2 ) * amount * amount * amount - 2 )
+        },
+    },
+    Quintic: {
+        In: function ( amount ) {
+            return amount * amount * amount * amount * amount
+        },
+        Out: function ( amount ) {
+            return --amount * amount * amount * amount * amount + 1
+        },
+        InOut: function ( amount ) {
+            if ( ( amount *= 2 ) < 1 ) {
+                return 0.5 * amount * amount * amount * amount * amount
+            }
+            return 0.5 * ( ( amount -= 2 ) * amount * amount * amount * amount + 2 )
+        },
+    },
+    Sinusoidal: {
+        In: function ( amount ) {
+            return 1 - Math.cos( ( amount * Math.PI ) / 2 )
+        },
+        Out: function ( amount ) {
+            return Math.sin( ( amount * Math.PI ) / 2 )
+        },
+        InOut: function ( amount ) {
+            return 0.5 * ( 1 - Math.cos( Math.PI * amount ) )
+        },
+    },
+    Exponential: {
+        In: function ( amount ) {
+            return amount === 0 ? 0 : Math.pow( 1024, amount - 1 )
+        },
+        Out: function ( amount ) {
+            return amount === 1 ? 1 : 1 - Math.pow( 2, -10 * amount )
+        },
+        InOut: function ( amount ) {
+            if ( amount === 0 ) {
+                return 0
+            }
+            if ( amount === 1 ) {
+                return 1
+            }
+            if ( ( amount *= 2 ) < 1 ) {
+                return 0.5 * Math.pow( 1024, amount - 1 )
+            }
+            return 0.5 * ( -Math.pow( 2, -10 * ( amount - 1 ) ) + 2 )
+        },
+    },
+    Circular: {
+        In: function ( amount ) {
+            return 1 - Math.sqrt( 1 - amount * amount )
+        },
+        Out: function ( amount ) {
+            return Math.sqrt( 1 - --amount * amount )
+        },
+        InOut: function ( amount ) {
+            if ( ( amount *= 2 ) < 1 ) {
+                return -0.5 * ( Math.sqrt( 1 - amount * amount ) - 1 )
+            }
+            return 0.5 * ( Math.sqrt( 1 - ( amount -= 2 ) * amount ) + 1 )
+        },
+    },
+    Elastic: {
+        In: function ( amount ) {
+            if ( amount === 0 ) {
+                return 0
+            }
+            if ( amount === 1 ) {
+                return 1
+            }
+            return -Math.pow( 2, 10 * ( amount - 1 ) ) * Math.sin( ( amount - 1.1 ) * 5 * Math.PI )
+        },
+        Out: function ( amount ) {
+            if ( amount === 0 ) {
+                return 0
+            }
+            if ( amount === 1 ) {
+                return 1
+            }
+            return Math.pow( 2, -10 * amount ) * Math.sin( ( amount - 0.1 ) * 5 * Math.PI ) + 1
+        },
+        InOut: function ( amount ) {
+            if ( amount === 0 ) {
+                return 0
+            }
+            if ( amount === 1 ) {
+                return 1
+            }
+            amount *= 2;
+            if ( amount < 1 ) {
+                return -0.5 * Math.pow( 2, 10 * ( amount - 1 ) ) * Math.sin( ( amount - 1.1 ) * 5 * Math.PI )
+            }
+            return 0.5 * Math.pow( 2, -10 * ( amount - 1 ) ) * Math.sin( ( amount - 1.1 ) * 5 * Math.PI ) + 1
+        },
+    },
+    Back: {
+        In: function ( amount ) {
+            var s = 1.70158;
+            return amount * amount * ( ( s + 1 ) * amount - s )
+        },
+        Out: function ( amount ) {
+            var s = 1.70158;
+            return --amount * amount * ( ( s + 1 ) * amount + s ) + 1
+        },
+        InOut: function ( amount ) {
+            var s = 1.70158 * 1.525;
+            if ( ( amount *= 2 ) < 1 ) {
+                return 0.5 * ( amount * amount * ( ( s + 1 ) * amount - s ) )
+            }
+            return 0.5 * ( ( amount -= 2 ) * amount * ( ( s + 1 ) * amount + s ) + 2 )
+        },
+    },
+    Bounce: {
+        In: function ( amount ) {
+            return 1 - Easing.Bounce.Out( 1 - amount )
+        },
+        Out: function ( amount ) {
+            if ( amount < 1 / 2.75 ) {
+                return 7.5625 * amount * amount
+            }
+            else if ( amount < 2 / 2.75 ) {
+                return 7.5625 * ( amount -= 1.5 / 2.75 ) * amount + 0.75
+            }
+            else if ( amount < 2.5 / 2.75 ) {
+                return 7.5625 * ( amount -= 2.25 / 2.75 ) * amount + 0.9375
+            }
+            else {
+                return 7.5625 * ( amount -= 2.625 / 2.75 ) * amount + 0.984375
+            }
+        },
+        InOut: function ( amount ) {
+            if ( amount < 0.5 ) {
+                return Easing.Bounce.In( amount * 2 ) * 0.5
+            }
+            return Easing.Bounce.Out( amount * 2 - 1 ) * 0.5 + 0.5
+        },
+    },
+};
+
+var now;
+// Include a performance.now polyfill.
+// In node.js, use process.hrtime.
+// eslint-disable-next-line
+// @ts-ignore
+if ( typeof self === 'undefined' && typeof process !== 'undefined' && process.hrtime ) {
+    now = function () {
+        // eslint-disable-next-line
+        // @ts-ignore
+        var time = process.hrtime();
+        // Convert [seconds, nanoseconds] to milliseconds.
+        return time[ 0 ] * 1000 + time[ 1 ] / 1000000
+    };
+}
+// In a browser, use self.performance.now if it is available.
+else if ( typeof self !== 'undefined' && self.performance !== undefined && self.performance.now !== undefined ) {
+    // This must be bound, because directly assigning this function
+    // leads to an invocation exception in Chrome.
+    now = self.performance.now.bind( self.performance );
+}
+// Use Date.now if it is available.
+else if ( Date.now !== undefined ) {
+    now = Date.now;
+}
+// Otherwise, use 'new Date().getTime()'.
+else {
+    now = function () {
+        return new Date().getTime()
+    };
+}
+var now$1 = now;
+
+/**
+ * Controlling groups of tweens
+ *
+ * Using the TWEEN singleton to manage your tweens can cause issues in large apps with many components.
+ * In these cases, you may want to create your own smaller groups of tween
+ */
+var Group = /** @class */ ( function () {
+    function Group () {
+        this._tweens = {};
+        this._tweensAddedDuringUpdate = {};
+    }
+    Group.prototype.getAll = function () {
+        var _this = this;
+        return Object.keys( this._tweens ).map( function ( tweenId ) {
+            return _this._tweens[ tweenId ]
+        } )
+    };
+    Group.prototype.removeAll = function () {
+        this._tweens = {};
+    };
+    Group.prototype.add = function ( tween ) {
+        this._tweens[ tween.getId() ] = tween;
+        this._tweensAddedDuringUpdate[ tween.getId() ] = tween;
+    };
+    Group.prototype.remove = function ( tween ) {
+        delete this._tweens[ tween.getId() ];
+        delete this._tweensAddedDuringUpdate[ tween.getId() ];
+    };
+    Group.prototype.update = function ( time, preserve ) {
+        if ( time === void 0 ) { time = now$1(); }
+        if ( preserve === void 0 ) { preserve = false; }
+        var tweenIds = Object.keys( this._tweens );
+        if ( tweenIds.length === 0 ) {
+            return false
+        }
+        // Tweens are updated in "batches". If you add a new tween during an
+        // update, then the new tween will be updated in the next batch.
+        // If you remove a tween during an update, it may or may not be updated.
+        // However, if the removed tween was added during the current batch,
+        // then it will not be updated.
+        while ( tweenIds.length > 0 ) {
+            this._tweensAddedDuringUpdate = {};
+            for ( var i = 0; i < tweenIds.length; i++ ) {
+                var tween = this._tweens[ tweenIds[ i ] ];
+                var autoStart = !preserve;
+                if ( tween && tween.update( time, autoStart ) === false && !preserve ) {
+                    delete this._tweens[ tweenIds[ i ] ];
+                }
+            }
+            tweenIds = Object.keys( this._tweensAddedDuringUpdate );
+        }
+        return true
+    };
+    return Group
+}() );
+
+/**
+ *
+ */
+var Interpolation = {
+    Linear: function ( v, k ) {
+        var m = v.length - 1;
+        var f = m * k;
+        var i = Math.floor( f );
+        var fn = Interpolation.Utils.Linear;
+        if ( k < 0 ) {
+            return fn( v[ 0 ], v[ 1 ], f )
+        }
+        if ( k > 1 ) {
+            return fn( v[ m ], v[ m - 1 ], m - f )
+        }
+        return fn( v[ i ], v[ i + 1 > m ? m : i + 1 ], f - i )
+    },
+    Bezier: function ( v, k ) {
+        var b = 0;
+        var n = v.length - 1;
+        var pw = Math.pow;
+        var bn = Interpolation.Utils.Bernstein;
+        for ( var i = 0; i <= n; i++ ) {
+            b += pw( 1 - k, n - i ) * pw( k, i ) * v[ i ] * bn( n, i );
+        }
+        return b
+    },
+    CatmullRom: function ( v, k ) {
+        var m = v.length - 1;
+        var f = m * k;
+        var i = Math.floor( f );
+        var fn = Interpolation.Utils.CatmullRom;
+        if ( v[ 0 ] === v[ m ] ) {
+            if ( k < 0 ) {
+                i = Math.floor( ( f = m * ( 1 + k ) ) );
+            }
+            return fn( v[ ( i - 1 + m ) % m ], v[ i ], v[ ( i + 1 ) % m ], v[ ( i + 2 ) % m ], f - i )
+        }
+        else {
+            if ( k < 0 ) {
+                return v[ 0 ] - ( fn( v[ 0 ], v[ 0 ], v[ 1 ], v[ 1 ], -f ) - v[ 0 ] )
+            }
+            if ( k > 1 ) {
+                return v[ m ] - ( fn( v[ m ], v[ m ], v[ m - 1 ], v[ m - 1 ], f - m ) - v[ m ] )
+            }
+            return fn( v[ i ? i - 1 : 0 ], v[ i ], v[ m < i + 1 ? m : i + 1 ], v[ m < i + 2 ? m : i + 2 ], f - i )
+        }
+    },
+    Utils: {
+        Linear: function ( p0, p1, t ) {
+            return ( p1 - p0 ) * t + p0
+        },
+        Bernstein: function ( n, i ) {
+            var fc = Interpolation.Utils.Factorial;
+            return fc( n ) / fc( i ) / fc( n - i )
+        },
+        Factorial: ( function () {
+            var a = [ 1 ];
+            return function ( n ) {
+                var s = 1;
+                if ( a[ n ] ) {
+                    return a[ n ]
+                }
+                for ( var i = n; i > 1; i-- ) {
+                    s *= i;
+                }
+                a[ n ] = s;
+                return s
+            }
+        } )(),
+        CatmullRom: function ( p0, p1, p2, p3, t ) {
+            var v0 = ( p2 - p0 ) * 0.5;
+            var v1 = ( p3 - p1 ) * 0.5;
+            var t2 = t * t;
+            var t3 = t * t2;
+            return ( 2 * p1 - 2 * p2 + v0 + v1 ) * t3 + ( -3 * p1 + 3 * p2 - 2 * v0 - v1 ) * t2 + v0 * t + p1
+        },
+    },
+};
+
+/**
+ * Utils
+ */
+var Sequence = /** @class */ ( function () {
+    function Sequence () {
+    }
+    Sequence.nextId = function () {
+        return Sequence._nextId++
+    };
+    Sequence._nextId = 0;
+    return Sequence
+}() );
+
+var mainGroup = new Group();
+
+/**
+ * Tween.js - Licensed under the MIT license
+ * https://github.com/tweenjs/tween.js
+ * ----------------------------------------------
+ *
+ * See https://github.com/tweenjs/tween.js/graphs/contributors for the full list of contributors.
+ * Thank you all, you're awesome!
+ */
+var Tween = /** @class */ ( function () {
+    function Tween ( _object, _group ) {
+        if ( _group === void 0 ) { _group = mainGroup; }
+        this._object = _object;
+        this._group = _group;
+        this._isPaused = false;
+        this._pauseStart = 0;
+        this._valuesStart = {};
+        this._valuesEnd = {};
+        this._valuesStartRepeat = {};
+        this._duration = 1000;
+        this._initialRepeat = 0;
+        this._repeat = 0;
+        this._yoyo = false;
+        this._isPlaying = false;
+        this._reversed = false;
+        this._delayTime = 0;
+        this._startTime = 0;
+        this._easingFunction = Easing.Linear.None;
+        this._interpolationFunction = Interpolation.Linear;
+        this._chainedTweens = [];
+        this._onStartCallbackFired = false;
+        this._id = Sequence.nextId();
+        this._isChainStopped = false;
+        this._goToEnd = false;
+    }
+    Tween.prototype.getId = function () {
+        return this._id
+    };
+    Tween.prototype.isPlaying = function () {
+        return this._isPlaying
+    };
+    Tween.prototype.isPaused = function () {
+        return this._isPaused
+    };
+    Tween.prototype.to = function ( properties, duration ) {
+        // TODO? restore this, then update the 07_dynamic_to example to set fox
+        // tween's to on each update. That way the behavior is opt-in (there's
+        // currently no opt-out).
+        // for (const prop in properties) this._valuesEnd[prop] = properties[prop]
+        this._valuesEnd = Object.create( properties );
+        if ( duration !== undefined ) {
+            this._duration = duration;
+        }
+        return this
+    };
+    Tween.prototype.duration = function ( d ) {
+        this._duration = d;
+        return this
+    };
+    Tween.prototype.start = function ( time ) {
+        if ( this._isPlaying ) {
+            return this
+        }
+        // eslint-disable-next-line
+        this._group && this._group.add(this);
+        this._repeat = this._initialRepeat;
+        if ( this._reversed ) {
+            // If we were reversed (f.e. using the yoyo feature) then we need to
+            // flip the tween direction back to forward.
+            this._reversed = false;
+            for ( var property in this._valuesStartRepeat ) {
+                this._swapEndStartRepeatValues( property );
+                this._valuesStart[ property ] = this._valuesStartRepeat[ property ];
+            }
+        }
+        this._isPlaying = true;
+        this._isPaused = false;
+        this._onStartCallbackFired = false;
+        this._isChainStopped = false;
+        this._startTime = time !== undefined ? ( typeof time === 'string' ? now$1() + parseFloat( time ) : time ) : now$1();
+        this._startTime += this._delayTime;
+        this._setupProperties( this._object, this._valuesStart, this._valuesEnd, this._valuesStartRepeat );
+        return this
+    };
+    Tween.prototype._setupProperties = function ( _object, _valuesStart, _valuesEnd, _valuesStartRepeat ) {
+        for ( var property in _valuesEnd ) {
+            var startValue = _object[ property ];
+            var startValueIsArray = Array.isArray( startValue );
+            var propType = startValueIsArray ? 'array' : typeof startValue;
+            var isInterpolationList = !startValueIsArray && Array.isArray( _valuesEnd[ property ] );
+            // If `to()` specifies a property that doesn't exist in the source object,
+            // we should not set that property in the object
+            if ( propType === 'undefined' || propType === 'function' ) {
+                continue
+            }
+            // Check if an Array was provided as property value
+            if ( isInterpolationList ) {
+                var endValues = _valuesEnd[ property ];
+                if ( endValues.length === 0 ) {
+                    continue
+                }
+                // handle an array of relative values
+                endValues = endValues.map( this._handleRelativeValue.bind( this, startValue ) );
+                // Create a local copy of the Array with the start value at the front
+                _valuesEnd[ property ] = [ startValue ].concat( endValues );
+            }
+            // handle the deepness of the values
+            if ( ( propType === 'object' || startValueIsArray ) && startValue && !isInterpolationList ) {
+                _valuesStart[ property ] = startValueIsArray ? [] : {};
+                // eslint-disable-next-line
+                for (var prop in startValue) {
+                    // eslint-disable-next-line
+                    // @ts-ignore FIXME?
+                    _valuesStart[ property ][ prop ] = startValue[ prop ];
+                }
+                _valuesStartRepeat[ property ] = startValueIsArray ? [] : {}; // TODO? repeat nested values? And yoyo? And array values?
+                // eslint-disable-next-line
+                // @ts-ignore FIXME?
+                this._setupProperties( startValue, _valuesStart[ property ], _valuesEnd[ property ], _valuesStartRepeat[ property ] );
+            }
+            else {
+                // Save the starting value, but only once.
+                if ( typeof _valuesStart[ property ] === 'undefined' ) {
+                    _valuesStart[ property ] = startValue;
+                }
+                if ( !startValueIsArray ) {
+                    // eslint-disable-next-line
+                    // @ts-ignore FIXME?
+                    _valuesStart[ property ] *= 1.0; // Ensures we're using numbers, not strings
+                }
+                if ( isInterpolationList ) {
+                    // eslint-disable-next-line
+                    // @ts-ignore FIXME?
+                    _valuesStartRepeat[ property ] = _valuesEnd[ property ].slice().reverse();
+                }
+                else {
+                    _valuesStartRepeat[ property ] = _valuesStart[ property ] || 0;
+                }
+            }
+        }
+    };
+    Tween.prototype.stop = function () {
+        if ( !this._isChainStopped ) {
+            this._isChainStopped = true;
+            this.stopChainedTweens();
+        }
+        if ( !this._isPlaying ) {
+            return this
+        }
+        // eslint-disable-next-line
+        this._group && this._group.remove(this);
+        this._isPlaying = false;
+        this._isPaused = false;
+        if ( this._onStopCallback ) {
+            this._onStopCallback( this._object );
+        }
+        return this
+    };
+    Tween.prototype.end = function () {
+        this._goToEnd = true;
+        this.update( Infinity );
+        return this
+    };
+    Tween.prototype.pause = function ( time ) {
+        if ( time === void 0 ) { time = now$1(); }
+        if ( this._isPaused || !this._isPlaying ) {
+            return this
+        }
+        this._isPaused = true;
+        this._pauseStart = time;
+        // eslint-disable-next-line
+        this._group && this._group.remove(this);
+        return this
+    };
+    Tween.prototype.resume = function ( time ) {
+        if ( time === void 0 ) { time = now$1(); }
+        if ( !this._isPaused || !this._isPlaying ) {
+            return this
+        }
+        this._isPaused = false;
+        this._startTime += time - this._pauseStart;
+        this._pauseStart = 0;
+        // eslint-disable-next-line
+        this._group && this._group.add(this);
+        return this
+    };
+    Tween.prototype.stopChainedTweens = function () {
+        for ( var i = 0, numChainedTweens = this._chainedTweens.length; i < numChainedTweens; i++ ) {
+            this._chainedTweens[ i ].stop();
+        }
+        return this
+    };
+    Tween.prototype.group = function ( group ) {
+        this._group = group;
+        return this
+    };
+    Tween.prototype.delay = function ( amount ) {
+        this._delayTime = amount;
+        return this
+    };
+    Tween.prototype.repeat = function ( times ) {
+        this._initialRepeat = times;
+        this._repeat = times;
+        return this
+    };
+    Tween.prototype.repeatDelay = function ( amount ) {
+        this._repeatDelayTime = amount;
+        return this
+    };
+    Tween.prototype.yoyo = function ( yoyo ) {
+        this._yoyo = yoyo;
+        return this
+    };
+    Tween.prototype.easing = function ( easingFunction ) {
+        this._easingFunction = easingFunction;
+        return this
+    };
+    Tween.prototype.interpolation = function ( interpolationFunction ) {
+        this._interpolationFunction = interpolationFunction;
+        return this
+    };
+    Tween.prototype.chain = function () {
+        var tweens = [];
+        for ( var _i = 0; _i < arguments.length; _i++ ) {
+            tweens[ _i ] = arguments[ _i ];
+        }
+        this._chainedTweens = tweens;
+        return this
+    };
+    Tween.prototype.onStart = function ( callback ) {
+        this._onStartCallback = callback;
+        return this
+    };
+    Tween.prototype.onUpdate = function ( callback ) {
+        this._onUpdateCallback = callback;
+        return this
+    };
+    Tween.prototype.onRepeat = function ( callback ) {
+        this._onRepeatCallback = callback;
+        return this
+    };
+    Tween.prototype.onComplete = function ( callback ) {
+        this._onCompleteCallback = callback;
+        return this
+    };
+    Tween.prototype.onStop = function ( callback ) {
+        this._onStopCallback = callback;
+        return this
+    };
+    /**
+     * @returns true if the tween is still playing after the update, false
+     * otherwise (calling update on a paused tween still returns true because
+     * it is still playing, just paused).
+     */
+    Tween.prototype.update = function ( time, autoStart ) {
+        if ( time === void 0 ) { time = now$1(); }
+        if ( autoStart === void 0 ) { autoStart = true; }
+        if ( this._isPaused )
+            return true
+        var property;
+        var elapsed;
+        var endTime = this._startTime + this._duration;
+        if ( !this._goToEnd && !this._isPlaying ) {
+            if ( time > endTime )
+                return false
+            if ( autoStart )
+                this.start( time );
+        }
+        this._goToEnd = false;
+        if ( time < this._startTime ) {
+            return true
+        }
+        if ( this._onStartCallbackFired === false ) {
+            if ( this._onStartCallback ) {
+                this._onStartCallback( this._object );
+            }
+            this._onStartCallbackFired = true;
+        }
+        elapsed = ( time - this._startTime ) / this._duration;
+        elapsed = this._duration === 0 || elapsed > 1 ? 1 : elapsed;
+        var value = this._easingFunction( elapsed );
+        // properties transformations
+        this._updateProperties( this._object, this._valuesStart, this._valuesEnd, value );
+        if ( this._onUpdateCallback ) {
+            this._onUpdateCallback( this._object, elapsed );
+        }
+        if ( elapsed === 1 ) {
+            if ( this._repeat > 0 ) {
+                if ( isFinite( this._repeat ) ) {
+                    this._repeat--;
+                }
+                // Reassign starting values, restart by making startTime = now
+                for ( property in this._valuesStartRepeat ) {
+                    if ( !this._yoyo && typeof this._valuesEnd[ property ] === 'string' ) {
+                        this._valuesStartRepeat[ property ] =
+                            // eslint-disable-next-line
+                            // @ts-ignore FIXME?
+                            this._valuesStartRepeat[ property ] + parseFloat( this._valuesEnd[ property ] );
+                    }
+                    if ( this._yoyo ) {
+                        this._swapEndStartRepeatValues( property );
+                    }
+                    this._valuesStart[ property ] = this._valuesStartRepeat[ property ];
+                }
+                if ( this._yoyo ) {
+                    this._reversed = !this._reversed;
+                }
+                if ( this._repeatDelayTime !== undefined ) {
+                    this._startTime = time + this._repeatDelayTime;
+                }
+                else {
+                    this._startTime = time + this._delayTime;
+                }
+                if ( this._onRepeatCallback ) {
+                    this._onRepeatCallback( this._object );
+                }
+                return true
+            }
+            else {
+                if ( this._onCompleteCallback ) {
+                    this._onCompleteCallback( this._object, this );
+                }
+                for ( var i = 0, numChainedTweens = this._chainedTweens.length; i < numChainedTweens; i++ ) {
+                    // Make the chained tweens start exactly at the time they should,
+                    // even if the `update()` method was called way past the duration of the tween
+                    this._chainedTweens[ i ].start( this._startTime + this._duration );
+                }
+                this._isPlaying = false;
+                return false
+            }
+        }
+        return true
+    };
+    Tween.prototype._updateProperties = function ( _object, _valuesStart, _valuesEnd, value ) {
+        for ( var property in _valuesEnd ) {
+            // Don't update properties that do not exist in the source object
+            if ( _valuesStart[ property ] === undefined ) {
+                continue
+            }
+            var start = _valuesStart[ property ] || 0;
+            var end = _valuesEnd[ property ];
+            var startIsArray = Array.isArray( _object[ property ] );
+            var endIsArray = Array.isArray( end );
+            var isInterpolationList = !startIsArray && endIsArray;
+            if ( isInterpolationList ) {
+                _object[ property ] = this._interpolationFunction( end, value );
+            }
+            else if ( typeof end === 'object' && end ) {
+                // eslint-disable-next-line
+                // @ts-ignore FIXME?
+                this._updateProperties( _object[ property ], start, end, value );
+            }
+            else {
+                // Parses relative end values with start as base (e.g.: +10, -3)
+                end = this._handleRelativeValue( start, end );
+                // Protect against non numeric properties.
+                if ( typeof end === 'number' ) {
+                    // eslint-disable-next-line
+                    // @ts-ignore FIXME?
+                    _object[ property ] = start + ( end - start ) * value;
+                }
+            }
+        }
+    };
+    Tween.prototype._handleRelativeValue = function ( start, end ) {
+        if ( typeof end !== 'string' ) {
+            return end
+        }
+        if ( end.charAt( 0 ) === '+' || end.charAt( 0 ) === '-' ) {
+            return start + parseFloat( end )
+        }
+        else {
+            return parseFloat( end )
+        }
+    };
+    Tween.prototype._swapEndStartRepeatValues = function ( property ) {
+        var tmp = this._valuesStartRepeat[ property ];
+        var endValue = this._valuesEnd[ property ];
+        if ( typeof endValue === 'string' ) {
+            this._valuesStartRepeat[ property ] = this._valuesStartRepeat[ property ] + parseFloat( endValue );
+        }
+        else {
+            this._valuesStartRepeat[ property ] = this._valuesEnd[ property ];
+        }
+        this._valuesEnd[ property ] = tmp;
+    };
+    return Tween
+}() );
+
+var VERSION = '18.6.4';
+
+/**
+ * Tween.js - Licensed under the MIT license
+ * https://github.com/tweenjs/tween.js
+ * ----------------------------------------------
+ *
+ * See https://github.com/tweenjs/tween.js/graphs/contributors for the full list of contributors.
+ * Thank you all, you're awesome!
+ */
+var nextId = Sequence.nextId;
+/**
+ * Controlling groups of tweens
+ *
+ * Using the TWEEN singleton to manage your tweens can cause issues in large apps with many components.
+ * In these cases, you may want to create your own smaller groups of tweens.
+ */
+var TWEEN = mainGroup;
+// This is the best way to export things in a way that's compatible with both ES
+// Modules and CommonJS, without build hacks, and so as not to break the
+// existing API.
+// https://github.com/rollup/rollup/issues/1961#issuecomment-423037881
+var getAll = TWEEN.getAll.bind( TWEEN );
+var removeAll = TWEEN.removeAll.bind( TWEEN );
+var add = TWEEN.add.bind( TWEEN );
+var remove = TWEEN.remove.bind( TWEEN );
+var update = TWEEN.update.bind( TWEEN );
+var exports = {
+    Easing: Easing,
+    Group: Group,
+    Interpolation: Interpolation,
+    now: now$1,
+    Sequence: Sequence,
+    nextId: nextId,
+    Tween: Tween,
+    VERSION: VERSION,
+    getAll: getAll,
+    removeAll: removeAll,
+    add: add,
+    remove: remove,
+    update: update,
+};
+
+var tween = /*#__PURE__*/Object.freeze({
+	__proto__: null,
+	'default': exports,
+	Easing: Easing,
+	Group: Group,
+	Interpolation: Interpolation,
+	Sequence: Sequence,
+	Action: Tween,
+	VERSION: VERSION,
+	add: add,
+	getAll: getAll,
+	nextId: nextId,
+	now: now$1,
+	remove: remove,
+	removeAll: removeAll,
+	update: update
+});
+
+var pack$5 = /*#__PURE__*/Object.freeze({
+	__proto__: null,
+	SimplexNoise: SimplexNoise,
+	Tween: tween
+});
+
 // This set of controls performs orbiting, dollying (zooming), and panning.
 // Unlike TrackballControls, it maintains the "up" direction object.up (+Y by default).
 //
@@ -58165,10 +59394,6 @@ class OrbitControls extends EventDispatcher {
 
 		this.object = object;
 		this.domElement = domElement;
-		
-		this.objOffsetX = 7.5;
-		this.objOffsetY = 7.5;
-		this.objOffsetZ = 8.5;
 
 		// Set to false to disable this control
 		this.enabled = true;
@@ -58202,6 +59427,7 @@ class OrbitControls extends EventDispatcher {
 		// If damping is enabled, you must call controls.update() in your animation loop
 		this.enableDamping = false;
 		this.dampingFactor = 0.05;
+		this.scrollDampingFactor = 0.05;
 
 		// This option actually enables dollying in and out; left as "zoom" for backwards compatibility.
 		// Set to false to disable zooming
@@ -58243,6 +59469,11 @@ class OrbitControls extends EventDispatcher {
 		//
 		// public methods
 		//
+
+		this.onPanEnd = function () {};
+		this.onPanStart = function () {};
+		this.onRotateEnd = function () {};
+		this.onRotateStart = function () {};
 
 		this.getPolarAngle = function () {
 
@@ -58323,19 +59554,20 @@ class OrbitControls extends EventDispatcher {
 					spherical.theta += sphericalDelta.theta * scope.dampingFactor;
 					spherical.phi += sphericalDelta.phi * scope.dampingFactor;
 
-					if ( scope.smoothZoom ) {
-						let factor = 1.0 + ( zoomEnd - scope.zoomStart ) * scope.zoomSpeed;
-
-			    		scale *= factor;
-
-			    		scope.zoomStart += ( zoomEnd - scope.zoomStart ) * scope.dampingFactor;
-
-					}
-
 				} else {
 
 					spherical.theta += sphericalDelta.theta;
 					spherical.phi += sphericalDelta.phi;
+
+				}
+
+				if ( scope.smoothZoom ) {
+
+					let factor = 1.0 + ( zoomEnd - scope.zoomStart ) * scope.zoomSpeed;
+
+					scale *= factor;
+
+					scope.zoomStart += ( zoomEnd - scope.zoomStart ) * scope.scrollDampingFactor;
 
 				}
 
@@ -58428,6 +59660,20 @@ class OrbitControls extends EventDispatcher {
 					zoomChanged = false;
 
 					return true
+
+				}
+
+				// calculate light position
+
+				if ( scope.light ) {
+
+					scope.light.position.set( 
+						scope.target.x + scope.light.offset.x, 
+						scope.target.y + scope.light.offset.y, 
+						scope.target.z + scope.light.offset.z 
+					);
+	
+					scope.light.target.position.copy( scope.target );
 
 				}
 
@@ -59364,10 +60610,46 @@ class OrbitControls extends EventDispatcher {
 
 	}
 
-	setTarget ( x, y, z ) {
+	setLight ( lightObject, oX, oY, oZ ) {
 
-		this.target.set( x, y, z );
-		this.object.position.set( this.objOffsetX + x, this.objOffsetY + y, this.objOffsetZ + z );
+		this.light = lightObject;
+		this.light.offset = new Vector3( oX, oY, oZ );
+
+	}
+
+	setTarget ( x, y, z, options = {} ) {
+
+		const oX = this.object.position.x - this.target.x;
+		const oY = this.object.position.y - this.target.y;
+		const oZ = this.object.position.z - this.target.z;
+
+		if ( options.smooth ) {
+
+			new Tween( this.target )
+				.to( { x, y, z }, options.duration ? options.duration : 1000 )
+				.easing( options.easing ? options.easing : Easing.Quadratic.Out )
+				.onComplete( ( obj, _this ) => {
+
+					_this.stop();
+
+				} )
+				.onUpdate( () => {
+
+					this.object.position.set( 
+						this.target.x + oX, 
+						this.target.y + oY, 
+						this.target.z + oZ 
+					);
+
+				} )
+				.start();
+
+		} else {
+
+			this.target.set( x, y, z );
+			this.object.position.set( this.target.x + oX, this.target.y + oY, this.target.z + oZ  );
+
+		}
 
 		return
 
@@ -60918,7 +62200,7 @@ class CSS2DRenderer {
 
 }
 
-var pack$5 = /*#__PURE__*/Object.freeze({
+var pack$4 = /*#__PURE__*/Object.freeze({
 	__proto__: null,
 	BokehShader: BokehShader,
 	BokehDepthShader: BokehDepthShader,
@@ -61026,7 +62308,7 @@ class ModelBank extends Bank {
 
 }
 
-var pack$4 = /*#__PURE__*/Object.freeze({
+var pack$3 = /*#__PURE__*/Object.freeze({
 	__proto__: null,
 	Bank: Bank,
 	Cursor: CursorBank,
@@ -61661,6 +62943,90 @@ class ConstantSpinComponent extends ECSComponent {
 ConstantSpinComponent.prototype._name = 'ConstantSpin';
 ConstantSpinComponent.prototype._requires = [ 'Mesh' ];
 
+class GLTFModelComponent extends ECSComponent {
+
+    constructor ( proxy, model, hasSkeleton = false ) {
+
+        super( proxy );
+
+        this.Model = model;
+        this.ModelGroup = hasSkeleton ? SkeletonUtils.clone( model.scene ) : model.scene.clone();
+        this.Mixer = new AnimationMixer( this.ModelGroup );
+
+        this._sortAnimations();
+
+    }
+
+    // private
+
+    _sortAnimations () {
+
+        this.Animations = {
+            array: [],
+            nameByIndex: [],
+        };
+
+        this.Model.animations.forEach( ( a ) => {
+
+            this.Animations.array.push( a );
+            this.Animations.nameByIndex.push( a.name );
+
+        } );
+
+    }
+
+    // public
+
+    addTo ( object3D ) {
+
+        object3D.add( this.ModelGroup );
+
+    }
+
+    getAnimation ( name ) {
+
+        const index = this.Animations.nameByIndex.indexOf( name );
+
+        return this.Animations.array[ index ]
+
+    }
+
+    playAllAnimations () {
+
+        this.Model.animations.forEach( ( a ) => {
+
+            this.Mixer.clipAction( a ).play();
+
+        } );
+
+    }
+
+    playAnimation ( name, loop = LoopRepeat, repetitions = Infinity ) {
+
+        const Action = this.getAnimation( name );
+        Action.repetitions = repetitions;
+        Action.loop = loop;
+
+    }
+
+    stopAllAnimations () {
+
+        this.Mixer.stopAllAction();
+
+    }
+
+    stopAnimation ( name ) {
+        
+        const Action = this.getAnimation( name );
+        Action.stop();
+
+    }
+
+}
+
+GLTFModelComponent.prototype._name = 'GLTFModel';
+GLTFModelComponent.prototype._requires = [];
+
 class MeshComponent extends ECSComponent {
 
     constructor ( proxy, geometry, material ) {
@@ -61718,7 +63084,7 @@ class MeshComponent extends ECSComponent {
 
         } else {
 
-            console.error( '<Altantis.ECS.Components.Mesh.setGeometry()>: This geometry class is not compatible with this version of the engine.' );
+            console.error( '<Dimensional.ECS.Components.Mesh.setGeometry()>: This geometry class is not compatible with this version of the engine.' );
 
         }
 
@@ -61736,7 +63102,7 @@ class MeshComponent extends ECSComponent {
 
         } else {
 
-            console.error( '<Altantis.ECS.Components.Mesh.setMaterial()>: This material class is not compatible with this version of the engine.' );
+            console.error( '<Dimensional.ECS.Components.Mesh.setMaterial()>: This material class is not compatible with this version of the engine.' );
 
         }
 
@@ -61797,60 +63163,26 @@ class MeshComponent extends ECSComponent {
 MeshComponent.prototype._name = 'Mesh';
 MeshComponent.prototype._requires = [];
 
-class MusicVideoShaderComponent extends ECSComponent {
+class MeshManipulatorComponent extends ECSComponent {
 
-    constructor ( proxy ) {
+    constructor ( proxy, scene, options = {} ) {
 
         super( proxy );
 
-        this.Material = new ShaderMaterial( {
-            uniforms: { time: { value: 0.0 } },
-            fragmentShader: `
-                uniform float time;
+        this.Mesh = this._Proxy.getComponent( 'Mesh' ).Mesh;
+        this.Points = new Points( this.Mesh.geometry, new PointsMaterial( {
+            size: options.pointSize ? options.pointSize: 0.1,
+            color: 'yellow',
+        } ) );
 
-			    varying vec2 vUv;
+        scene.add( this.Points );
 
-			    void main( void ) {
-
-                    vec2 position = vUv;
-    
-                    float color = 0.0;
-                    color += sin( position.x * cos( time / 15.0 ) * 80.0 ) + cos( position.y * cos( time / 15.0 ) * 10.0 );
-                    color += sin( position.y * sin( time / 10.0 ) * 40.0 ) + cos( position.x * sin( time / 25.0 ) * 40.0 );
-                    color += sin( position.x * sin( time / 5.0 ) * 10.0 ) + sin( position.y * sin( time / 35.0 ) * 80.0 );
-                    color *= sin( time / 10.0 ) * 0.5;
-    
-                    gl_FragColor = vec4( vec3( color, color * 0.5, sin( color + time / 3.0 ) * 0.75 ), 1.0 );
-    
-                }
-            `,
-            vertexShader: `
-                varying vec2 vUv;
-
-			    void main() {
-
-				    vUv = uv;
-				    vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-				    gl_Position = projectionMatrix * mvPosition;
-                    
-			    }
-            `
-        } );
-
-        this._Proxy.getComponent( 'Mesh' ).setMaterial( this.Material );
-
-    }
-
-    update ( deltaTime ) {
-
-        this.Material.uniforms[ 'time' ].value += deltaTime * 5;
-        
     }
 
 }
 
-MusicVideoShaderComponent.prototype._name = 'MusicVideoShader';
-MusicVideoShaderComponent.prototype._requires = [ 'Mesh' ];
+MeshManipulatorComponent.prototype._name = 'MeshManipulator';
+MeshManipulatorComponent.prototype._requires = [ 'Mesh' ];
 
 class RainbowShaderComponent extends ECSComponent {
 
@@ -62091,7 +63423,7 @@ class TerrainMeshComponent extends ECSComponent {
 
         this._chunks = [];
 
-        this._Group = new Group();
+        this._Group = new Group$1();
 
         this._Material = new MeshPhongMaterial( {
             color: 0x8c7f56,
@@ -62343,491 +63675,24 @@ class TerrainMeshComponent extends ECSComponent {
 TerrainMeshComponent.prototype._name = 'TerrainMesh';
 TerrainMeshComponent.prototype._requires = [];
 
-class WormholeShaderComponent extends ECSComponent {
-
-    constructor ( proxy ) {
-
-        super( proxy );
-
-        this.Material = new ShaderMaterial( {
-            uniforms: { time: { value: 0.0 } },
-            fragmentShader: `
-                uniform float time;
-
-			    varying vec2 vUv;
-
-			    void main(void) {
-
-				    vec2 p = - 1.0 + 2.0 * vUv;
-				    float a = time * 40.0;
-				    float d, e, f, g = 1.0 / 40.0 ,h ,i ,r ,q;
-
-				    e = 400.0 * ( p.x * 0.5 + 0.5 );
-				    f = 400.0 * ( p.y * 0.5 + 0.5 );
-				    i = 200.0 + sin( e * g + a / 150.0 ) * 20.0;
-				    d = 200.0 + cos( f * g / 2.0 ) * 18.0 + cos( e * g ) * 7.0;
-				    r = sqrt( pow( abs( i - e ), 2.0 ) + pow( abs( d - f ), 2.0 ) );
-				    q = f / r;
-				    e = ( r * cos( q ) ) - a / 2.0;
-				    f = ( r * sin( q ) ) - a / 2.0;
-				    d = sin( e * g ) * 176.0 + sin( e * g ) * 164.0 + r;
-				    h = ( ( f + d ) + a / 2.0 ) * g;
-				    i = cos( h + r * p.x / 1.3 ) * ( e + e + a ) + cos( q * g * 6.0 ) * ( r + h / 3.0 );
-				    h = sin( f * g ) * 144.0 - sin( e * g ) * 212.0 * p.x;
-				    h = ( h + ( f - e ) * q + sin( r - ( a + h ) / 7.0 ) * 10.0 + i / 4.0 ) * g;
-				    i += cos( h * 2.3 * sin( a / 350.0 - q ) ) * 184.0 * sin( q - ( r * 4.3 + a / 12.0 ) * g ) + tan( r * g + h ) * 184.0 * cos( r * g + h );
-				    i = mod( i / 5.6, 256.0 ) / 64.0;
-				    if ( i < 0.0 ) i += 4.0;
-				    if ( i >= 2.0 ) i = 4.0 - i;
-				    d = r / 350.0;
-				    d += sin( d * d * 8.0 ) * 0.52;
-				    f = ( sin( a * g ) + 1.0 ) / 2.0;
-				    gl_FragColor = vec4( vec3( f * i / 1.6, i / 2.0 + d / 13.0, i ) * d * p.x + vec3( i / 1.3 + d / 8.0, i / 2.0 + d / 18.0, i ) * d * ( 1.0 - p.x ), 1.0 );
-
-			    }
-            `,
-            vertexShader: `
-                varying vec2 vUv;
-
-			    void main() {
-
-				    vUv = uv;
-				    vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-				    gl_Position = projectionMatrix * mvPosition;
-                    
-			    }
-            `
-        } );
-
-        this._Proxy.getComponent( 'Mesh' ).setMaterial( this.Material );
-
-    }
-
-    update ( deltaTime ) {
-
-        this.Material.uniforms[ 'time' ].value += deltaTime * 5;
-        
-    }
-
-}
-
-WormholeShaderComponent.prototype._name = 'WormholeShader';
-WormholeShaderComponent.prototype._requires = [ 'Mesh' ];
-
 // exports
 
 const Components = {
     AlphaMapMaterial: AlphaMapMaterialComponent,
     ConstantSpin: ConstantSpinComponent,
+    GLTFModel: GLTFModelComponent,
     Mesh: MeshComponent,
-    MusicVideoShader: MusicVideoShaderComponent,
+    MeshManipulator: MeshManipulatorComponent,
     RainbowShader: RainbowShaderComponent,
     TerrainMesh: TerrainMeshComponent,
-    WormholeShader: WormholeShaderComponent,
 };
 
-var pack$3 = /*#__PURE__*/Object.freeze({
+var pack$2 = /*#__PURE__*/Object.freeze({
 	__proto__: null,
 	Components: Components,
 	Component: ECSComponent,
 	Entity: ECSEntity,
 	Manager: ECSManager
-});
-
-var F2 = 0.5 * ( Math.sqrt( 3.0 ) - 1.0 ),
-    G2 = ( 3.0 - Math.sqrt( 3.0 ) ) / 6.0,
-    F3 = 1.0 / 3.0,
-    G3 = 1.0 / 6.0,
-    F4 = ( Math.sqrt( 5.0 ) - 1.0 ) / 4.0,
-    G4 = ( 5.0 - Math.sqrt( 5.0 ) ) / 20.0;
-
-
-class SimplexNoise {
-
-    constructor ( table ) {
-
-        if ( table ) {
-
-            this.p = table;
-
-        } else {
-
-            this.p = new Uint8Array( 256 );
-
-            for ( var i = 0; i < 256; i++ ) {
-
-                this.p[ i ] = Math.random() * 255;
-
-            }
-
-        }
-
-        this.perm = new Uint8Array( 512 );
-        this.permMod12 = new Uint8Array( 512 );
-
-        for ( i = 0; i < 512; i++ ) {
-
-            this.perm[ i ] = this.p[ i & 255 ];
-            this.permMod12[ i ] = this.perm[ i ] % 12;
-
-        }
-        
-        // Create gradients for permutations
-
-        this.grad3 = new Float32Array( [ 
-            1, 1, 0,
-            -1, 1, 0,
-            1, -1, 0,
-    
-            -1, -1, 0,
-            1, 0, 1,
-            -1, 0, 1,
-    
-            1, 0, -1,
-            -1, 0, -1,
-            0, 1, 1,
-    
-            0, -1, 1,
-            0, 1, -1,
-            0, -1, -1 
-        ] );
-
-        this.grad4 =  new Float32Array( [ 
-            0, 1, 1, 1, 0, 1, 1, -1, 0, 1, -1, 1, 0, 1, -1, -1,
-            0, -1, 1, 1, 0, -1, 1, -1, 0, -1, -1, 1, 0, -1, -1, -1,
-            1, 0, 1, 1, 1, 0, 1, -1, 1, 0, -1, 1, 1, 0, -1, -1,
-            -1, 0, 1, 1, -1, 0, 1, -1, -1, 0, -1, 1, -1, 0, -1, -1,
-            1, 1, 0, 1, 1, 1, 0, -1, 1, -1, 0, 1, 1, -1, 0, -1,
-            -1, 1, 0, 1, -1, 1, 0, -1, -1, -1, 0, 1, -1, -1, 0, -1,
-            1, 1, 1, 0, 1, 1, -1, 0, 1, -1, 1, 0, 1, -1, -1, 0,
-            -1, 1, 1, 0, -1, 1, -1, 0, -1, -1, 1, 0, -1, -1, -1, 0 
-        ] );
-
-    }
-
-    // Noise methods
-
-    noise2D ( xin, yin ) {
-
-        var permMod12 = this.permMod12,
-            perm = this.perm,
-            grad3 = this.grad3;
-        
-        var n0, n1, n2; // Noise contributions from the three corners
-
-        // Skew the input space to determine which simplex cell we're in
-        
-        var s = ( xin + yin ) * F2; // Hairy factor for 2D
-        var i = Math.floor( xin + s );
-        var j = Math.floor( yin + s );
-        var t = ( i + j ) * G2;
-        var X0 = i - t; // Unskew the cell origin back to (x,y) space
-        var Y0 = j - t;
-        var x0 = xin - X0; // The x,y distances from the cell origin
-        var y0 = yin - Y0;
-
-        // For the 2D case, the simplex shape is an equilateral triangle.
-        // Determine which simplex we are in.
-
-        var i1, j1; // Offsets for second (middle) corner of simplex in (i,j) coords
-        
-        if ( x0 > y0 ) { // lower triangle, XY order: (0,0)->(1,0)->(1,1)
-            
-            i1 = 1;
-            j1 = 0;
-
-        } else { // upper triangle, YX order: (0,0)->(0,1)->(1,1)
-
-            i1 = 0;
-
-            j1 = 1;
-
-        }
-        
-        // A step of (1,0) in (i,j) means a step of (1-c,-c) in (x,y), and
-        // a step of (0,1) in (i,j) means a step of (-c,1-c) in (x,y), where
-        // c = (3-sqrt(3))/6
-
-        var x1 = x0 - i1 + G2; // Offsets for middle corner in (x,y) unskewed coords
-        var y1 = y0 - j1 + G2;
-        var x2 = x0 - 1.0 + 2.0 * G2; // Offsets for last corner in (x,y) unskewed coords
-        var y2 = y0 - 1.0 + 2.0 * G2;
-        
-        // Work out the hashed gradient indices of the three simplex corners
-        var ii = i & 255;
-        var jj = j & 255;
-
-        // Calculate the contribution from the three corners
-        var t0 = 0.5 - x0 * x0 - y0 * y0;
-
-        if ( t0 < 0 ) {
-
-            n0 = 0.0;
-
-        } else {
-
-            var gi0 = permMod12[ ii + perm[ jj ] ] * 3;
-
-            t0 *= t0;
-
-            n0 = t0 * t0 * ( grad3[ gi0 ] * x0 + grad3[ gi0 + 1 ] * y0 );  // (x,y) of grad3 used for 2D gradient
-        
-        }
-        
-        var t1 = 0.5 - x1 * x1 - y1 * y1;
-
-        if ( t1 < 0 ) {
-
-            n1 = 0.0;
-
-        } else {
-
-            var gi1 = permMod12[ ii + i1 + perm[ jj + j1 ] ] * 3;
-
-            t1 *= t1;
-
-            n1 = t1 * t1 * ( grad3[ gi1 ] * x1 + grad3[ gi1 + 1 ] * y1 );
-
-        }
-
-        var t2 = 0.5 - x2 * x2 - y2 * y2;
-
-        if ( t2 < 0 ) {
-
-            n2 = 0.0;
-
-        } else {
-
-            var gi2 = permMod12[ ii + 1 + perm[ jj + 1 ] ] * 3;
-
-            t2 *= t2;
-
-            n2 = t2 * t2 * ( grad3[ gi2 ] * x2 + grad3[ gi2 + 1 ] * y2 );
-
-        }
-
-        // Add contributions from each corner to get the final noise value.
-        // The result is scaled to return values in the interval [-1,1].
-        
-        return 70.0 * ( n0 + n1 + n2 )
-
-    }
-
-    // 3D simplex noise
-
-    noise3D ( xin, yin, zin ) {
-
-        var permMod12 = this.permMod12,
-            perm = this.perm,
-            grad3 = this.grad3;
-        var n0, n1, n2, n3; // Noise contributions from the four corners
-        // Skew the input space to determine which simplex cell we're in
-        var s = ( xin + yin + zin ) * F3; // Very nice and simple skew factor for 3D
-        var i = Math.floor( xin + s );
-        var j = Math.floor( yin + s );
-        var k = Math.floor( zin + s );
-        var t = ( i + j + k ) * G3;
-        var X0 = i - t; // Unskew the cell origin back to (x,y,z) space
-        var Y0 = j - t;
-        var Z0 = k - t;
-        var x0 = xin - X0; // The x,y,z distances from the cell origin
-        var y0 = yin - Y0;
-        var z0 = zin - Z0;
-        // For the 3D case, the simplex shape is a slightly irregular tetrahedron.
-        // Determine which simplex we are in.
-        var i1, j1, k1; // Offsets for second corner of simplex in (i,j,k) coords
-        var i2, j2, k2; // Offsets for third corner of simplex in (i,j,k) coords
-        if ( x0 >= y0 ) {
-            if ( y0 >= z0 ) { i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 1; k2 = 0; } // X Y Z order
-            else if ( x0 >= z0 ) { i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 0; k2 = 1; } // X Z Y order
-            else { i1 = 0; j1 = 0; k1 = 1; i2 = 1; j2 = 0; k2 = 1; } // Z X Y order
-        }
-        else { // x0<y0
-            if ( y0 < z0 ) { i1 = 0; j1 = 0; k1 = 1; i2 = 0; j2 = 1; k2 = 1; } // Z Y X order
-            else if ( x0 < z0 ) { i1 = 0; j1 = 1; k1 = 0; i2 = 0; j2 = 1; k2 = 1; } // Y Z X order
-            else { i1 = 0; j1 = 1; k1 = 0; i2 = 1; j2 = 1; k2 = 0; } // Y X Z order
-        }
-        // A step of (1,0,0) in (i,j,k) means a step of (1-c,-c,-c) in (x,y,z),
-        // a step of (0,1,0) in (i,j,k) means a step of (-c,1-c,-c) in (x,y,z), and
-        // a step of (0,0,1) in (i,j,k) means a step of (-c,-c,1-c) in (x,y,z), where
-        // c = 1/6.
-        var x1 = x0 - i1 + G3; // Offsets for second corner in (x,y,z) coords
-        var y1 = y0 - j1 + G3;
-        var z1 = z0 - k1 + G3;
-        var x2 = x0 - i2 + 2.0 * G3; // Offsets for third corner in (x,y,z) coords
-        var y2 = y0 - j2 + 2.0 * G3;
-        var z2 = z0 - k2 + 2.0 * G3;
-        var x3 = x0 - 1.0 + 3.0 * G3; // Offsets for last corner in (x,y,z) coords
-        var y3 = y0 - 1.0 + 3.0 * G3;
-        var z3 = z0 - 1.0 + 3.0 * G3;
-        // Work out the hashed gradient indices of the four simplex corners
-        var ii = i & 255;
-        var jj = j & 255;
-        var kk = k & 255;
-        // Calculate the contribution from the four corners
-        var t0 = 0.6 - x0 * x0 - y0 * y0 - z0 * z0;
-        if ( t0 < 0 ) n0 = 0.0;
-        else {
-            var gi0 = permMod12[ ii + perm[ jj + perm[ kk ] ] ] * 3;
-            t0 *= t0;
-            n0 = t0 * t0 * ( grad3[ gi0 ] * x0 + grad3[ gi0 + 1 ] * y0 + grad3[ gi0 + 2 ] * z0 );
-        }
-        var t1 = 0.6 - x1 * x1 - y1 * y1 - z1 * z1;
-        if ( t1 < 0 ) n1 = 0.0;
-        else {
-            var gi1 = permMod12[ ii + i1 + perm[ jj + j1 + perm[ kk + k1 ] ] ] * 3;
-            t1 *= t1;
-            n1 = t1 * t1 * ( grad3[ gi1 ] * x1 + grad3[ gi1 + 1 ] * y1 + grad3[ gi1 + 2 ] * z1 );
-        }
-        var t2 = 0.6 - x2 * x2 - y2 * y2 - z2 * z2;
-        if ( t2 < 0 ) n2 = 0.0;
-        else {
-            var gi2 = permMod12[ ii + i2 + perm[ jj + j2 + perm[ kk + k2 ] ] ] * 3;
-            t2 *= t2;
-            n2 = t2 * t2 * ( grad3[ gi2 ] * x2 + grad3[ gi2 + 1 ] * y2 + grad3[ gi2 + 2 ] * z2 );
-        }
-        var t3 = 0.6 - x3 * x3 - y3 * y3 - z3 * z3;
-        if ( t3 < 0 ) n3 = 0.0;
-        else {
-            var gi3 = permMod12[ ii + 1 + perm[ jj + 1 + perm[ kk + 1 ] ] ] * 3;
-            t3 *= t3;
-            n3 = t3 * t3 * ( grad3[ gi3 ] * x3 + grad3[ gi3 + 1 ] * y3 + grad3[ gi3 + 2 ] * z3 );
-        }
-        // Add contributions from each corner to get the final noise value.
-        // The result is scaled to stay just inside [-1,1]
-        return 32.0 * ( n0 + n1 + n2 + n3 )
-
-    }
-
-    // 4D simplex noise, better simplex rank ordering method 2012-03-09
-
-    noise4D ( x, y, z, w ) {
-
-        this.permMod12;
-            var perm = this.perm,
-            grad4 = this.grad4;
-
-        var n0, n1, n2, n3, n4; // Noise contributions from the five corners
-        // Skew the (x,y,z,w) space to determine which cell of 24 simplices we're in
-        var s = ( x + y + z + w ) * F4; // Factor for 4D skewing
-        var i = Math.floor( x + s );
-        var j = Math.floor( y + s );
-        var k = Math.floor( z + s );
-        var l = Math.floor( w + s );
-        var t = ( i + j + k + l ) * G4; // Factor for 4D unskewing
-        var X0 = i - t; // Unskew the cell origin back to (x,y,z,w) space
-        var Y0 = j - t;
-        var Z0 = k - t;
-        var W0 = l - t;
-        var x0 = x - X0;  // The x,y,z,w distances from the cell origin
-        var y0 = y - Y0;
-        var z0 = z - Z0;
-        var w0 = w - W0;
-        // For the 4D case, the simplex is a 4D shape I won't even try to describe.
-        // To find out which of the 24 possible simplices we're in, we need to
-        // determine the magnitude ordering of x0, y0, z0 and w0.
-        // Six pair-wise comparisons are performed between each possible pair
-        // of the four coordinates, and the results are used to rank the numbers.
-        var rankx = 0;
-        var ranky = 0;
-        var rankz = 0;
-        var rankw = 0;
-        if ( x0 > y0 ) rankx++; else ranky++;
-        if ( x0 > z0 ) rankx++; else rankz++;
-        if ( x0 > w0 ) rankx++; else rankw++;
-        if ( y0 > z0 ) ranky++; else rankz++;
-        if ( y0 > w0 ) ranky++; else rankw++;
-        if ( z0 > w0 ) rankz++; else rankw++;
-        var i1, j1, k1, l1; // The integer offsets for the second simplex corner
-        var i2, j2, k2, l2; // The integer offsets for the third simplex corner
-        var i3, j3, k3, l3; // The integer offsets for the fourth simplex corner
-        // simplex[c] is a 4-vector with the numbers 0, 1, 2 and 3 in some order.
-        // Many values of c will never occur, since e.g. x>y>z>w makes x<z, y<w and x<w
-        // impossible. Only the 24 indices which have non-zero entries make any sense.
-        // We use a thresholding to set the coordinates in turn from the largest magnitude.
-        // Rank 3 denotes the largest coordinate.
-        i1 = rankx >= 3 ? 1 : 0;
-        j1 = ranky >= 3 ? 1 : 0;
-        k1 = rankz >= 3 ? 1 : 0;
-        l1 = rankw >= 3 ? 1 : 0;
-        // Rank 2 denotes the second largest coordinate.
-        i2 = rankx >= 2 ? 1 : 0;
-        j2 = ranky >= 2 ? 1 : 0;
-        k2 = rankz >= 2 ? 1 : 0;
-        l2 = rankw >= 2 ? 1 : 0;
-        // Rank 1 denotes the second smallest coordinate.
-        i3 = rankx >= 1 ? 1 : 0;
-        j3 = ranky >= 1 ? 1 : 0;
-        k3 = rankz >= 1 ? 1 : 0;
-        l3 = rankw >= 1 ? 1 : 0;
-        // The fifth corner has all coordinate offsets = 1, so no need to compute that.
-        var x1 = x0 - i1 + G4; // Offsets for second corner in (x,y,z,w) coords
-        var y1 = y0 - j1 + G4;
-        var z1 = z0 - k1 + G4;
-        var w1 = w0 - l1 + G4;
-        var x2 = x0 - i2 + 2.0 * G4; // Offsets for third corner in (x,y,z,w) coords
-        var y2 = y0 - j2 + 2.0 * G4;
-        var z2 = z0 - k2 + 2.0 * G4;
-        var w2 = w0 - l2 + 2.0 * G4;
-        var x3 = x0 - i3 + 3.0 * G4; // Offsets for fourth corner in (x,y,z,w) coords
-        var y3 = y0 - j3 + 3.0 * G4;
-        var z3 = z0 - k3 + 3.0 * G4;
-        var w3 = w0 - l3 + 3.0 * G4;
-        var x4 = x0 - 1.0 + 4.0 * G4; // Offsets for last corner in (x,y,z,w) coords
-        var y4 = y0 - 1.0 + 4.0 * G4;
-        var z4 = z0 - 1.0 + 4.0 * G4;
-        var w4 = w0 - 1.0 + 4.0 * G4;
-        // Work out the hashed gradient indices of the five simplex corners
-        var ii = i & 255;
-        var jj = j & 255;
-        var kk = k & 255;
-        var ll = l & 255;
-        // Calculate the contribution from the five corners
-        var t0 = 0.6 - x0 * x0 - y0 * y0 - z0 * z0 - w0 * w0;
-        if ( t0 < 0 ) n0 = 0.0;
-        else {
-            var gi0 = ( perm[ ii + perm[ jj + perm[ kk + perm[ ll ] ] ] ] % 32 ) * 4;
-            t0 *= t0;
-            n0 = t0 * t0 * ( grad4[ gi0 ] * x0 + grad4[ gi0 + 1 ] * y0 + grad4[ gi0 + 2 ] * z0 + grad4[ gi0 + 3 ] * w0 );
-        }
-        var t1 = 0.6 - x1 * x1 - y1 * y1 - z1 * z1 - w1 * w1;
-        if ( t1 < 0 ) n1 = 0.0;
-        else {
-            var gi1 = ( perm[ ii + i1 + perm[ jj + j1 + perm[ kk + k1 + perm[ ll + l1 ] ] ] ] % 32 ) * 4;
-            t1 *= t1;
-            n1 = t1 * t1 * ( grad4[ gi1 ] * x1 + grad4[ gi1 + 1 ] * y1 + grad4[ gi1 + 2 ] * z1 + grad4[ gi1 + 3 ] * w1 );
-        }
-        var t2 = 0.6 - x2 * x2 - y2 * y2 - z2 * z2 - w2 * w2;
-        if ( t2 < 0 ) n2 = 0.0;
-        else {
-            var gi2 = ( perm[ ii + i2 + perm[ jj + j2 + perm[ kk + k2 + perm[ ll + l2 ] ] ] ] % 32 ) * 4;
-            t2 *= t2;
-            n2 = t2 * t2 * ( grad4[ gi2 ] * x2 + grad4[ gi2 + 1 ] * y2 + grad4[ gi2 + 2 ] * z2 + grad4[ gi2 + 3 ] * w2 );
-        }
-        var t3 = 0.6 - x3 * x3 - y3 * y3 - z3 * z3 - w3 * w3;
-        if ( t3 < 0 ) n3 = 0.0;
-        else {
-            var gi3 = ( perm[ ii + i3 + perm[ jj + j3 + perm[ kk + k3 + perm[ ll + l3 ] ] ] ] % 32 ) * 4;
-            t3 *= t3;
-            n3 = t3 * t3 * ( grad4[ gi3 ] * x3 + grad4[ gi3 + 1 ] * y3 + grad4[ gi3 + 2 ] * z3 + grad4[ gi3 + 3 ] * w3 );
-        }
-        var t4 = 0.6 - x4 * x4 - y4 * y4 - z4 * z4 - w4 * w4;
-        if ( t4 < 0 ) n4 = 0.0;
-        else {
-            var gi4 = ( perm[ ii + 1 + perm[ jj + 1 + perm[ kk + 1 + perm[ ll + 1 ] ] ] ] % 32 ) * 4;
-            t4 *= t4;
-            n4 = t4 * t4 * ( grad4[ gi4 ] * x4 + grad4[ gi4 + 1 ] * y4 + grad4[ gi4 + 2 ] * z4 + grad4[ gi4 + 3 ] * w4 );
-        }
-        // Sum up and scale the result to cover the range [-1,1]
-        return 27.0 * ( n0 + n1 + n2 + n3 + n4 )
-
-    }
-
-}
-
-var pack$2 = /*#__PURE__*/Object.freeze({
-	__proto__: null,
-	SimplexNoise: SimplexNoise
 });
 
 class PostProcessingManager {
@@ -62923,10 +63788,11 @@ var pack$1 = /*#__PURE__*/Object.freeze({
 	PostProcessing: PostProcessingManager
 });
 
-function create ( appClass ) {
+async function create ( appClass ) {
 
     window.App = new appClass();
-    window.App.build();
+    
+    await window.App.build();
 
     return
 
@@ -63232,10 +64098,12 @@ const C = {
     Actors: {},
     Banks: {},
     Cameras: {},
+    Controls: {},
+    Data: {},
     ECS: {},
     Elements: {},
     Scenes: {},
     Renderers: {},
 };
 
-export { pack$6 as Apps, pack$4 as Banks, C, pack$3 as ECS, pack$2 as Libs, pack$1 as Managers, PointCaster, pack$7 as Three, pack$5 as ThreeX, pack as Utils };
+export { pack$6 as Apps, pack$3 as Banks, C, pack$2 as ECS, pack$5 as Libs, pack$1 as Managers, PointCaster, pack$7 as Three, pack$4 as ThreeX, pack as Utils };

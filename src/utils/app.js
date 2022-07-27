@@ -1,7 +1,8 @@
-export function create ( appClass ) {
+export async function create ( appClass ) {
 
     window.App = new appClass()
-    window.App.build()
+    
+    await window.App.build()
 
     return
 

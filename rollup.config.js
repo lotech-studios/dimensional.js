@@ -12,6 +12,10 @@ export default {
         {
             file: '../copernicus-portfolio/src/js/libs/dimensional.js',
             format: 'es'
+        },
+        {
+            file: '../victorum/src/js/libs/dimensional.js',
+            format: 'es'
         }
     ]
 }
