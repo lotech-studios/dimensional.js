@@ -14,6 +14,10 @@ export default {
             format: 'es'
         },
         {
+            file: '../dimensional-editor/src/js/libs/dimensional.js',
+            format: 'es'
+        },
+        {
             file: '../victorum/src/js/libs/dimensional.js',
             format: 'es'
         }
