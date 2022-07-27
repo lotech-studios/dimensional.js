@@ -51,4 +51,6 @@ class CursorBank extends Bank {
 
 }
 
+CursorBank.prototype.isCursorBank = true
+
 export { CursorBank }

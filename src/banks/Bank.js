@@ -30,4 +30,6 @@ class Bank {
 
 }
 
+Bank.prototype.isBank = true
+
 export { Bank }

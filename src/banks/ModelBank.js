@@ -95,4 +95,6 @@ class ModelBank extends Bank {
 
 }
 
+ModelBank.prototype.isModelBank = true
+
 export { ModelBank }
