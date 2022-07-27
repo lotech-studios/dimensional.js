@@ -1,6 +1,7 @@
 ![One of the logos](https://github.com/lotech-studios/dimensional.js/blob/main/res/images/logos/dimensional-full-80.png?raw=true)
 
-Developed by [Nikolas Karinja](http://nikolaskarinja.com)
+* Developed by [Nikolas Karinja](http://nikolaskarinja.com)
+* Website is [here](http://dimensional.nikolaskarinja.com)
 
 #### Module-based Javascript 3D game engine
 
@@ -9,11 +10,12 @@ An easy to understand JavaScript ECS game engine. The 3D rendering and is based 
 ### Usage
 The code below does the same thing as the [Three.js example program](https://github.com/mrdoob/three.js#usage) on their github page except it utilizes the built-in ECS to create and modify the mesh.
 
+> This code creates a scene, a camera, and a geometric cube, and it adds the cube to the scene. It then creates a `WebGL` renderer for the scene and camera, and it adds that viewport to the `document.body` element. Finally, it animates the cube within the scene for the camera.
 
 ```javascript
-import * as D from './libs/dimensional.js'
+import * as D from './libs/dimensional.js' // or wherever the library is located
 
-D.Utils.App.create( class App extends D.Apps.Basic {
+D.Utils.App.create( class App extends D.Apps.Basic { // use the basic app class
 
     constructor () {
 
@@ -22,8 +24,12 @@ D.Utils.App.create( class App extends D.Apps.Basic {
     }
 
     async _buildECS () {
+    
+        // build ECS manager
 
         D.C.ECS.Manager = new D.ECS.Manager()
+        
+        // create mesh assembly
 
         D.C.ECS.Manager.createAssembly( 'Mesh', async () => {
 
@@ -41,6 +47,8 @@ D.Utils.App.create( class App extends D.Apps.Basic {
             D.C.ECS.Manager.addEntity( Entity )
 
         } )
+        
+        // assemble mesh asyncronously
 
         await D.C.ECS.Manager.assembleAsync( 'Mesh' )
 
@@ -84,15 +92,21 @@ D.Utils.App.create( class App extends D.Apps.Basic {
         return
 
     }
+    
+    // init
 
     async build () {
 
         await this._buildEssentials()
         await this._buildECS()
+        
+        // begin rendering
 
         this.render()
 
     }
+    
+    // what to do every frame
 
     onRender () {
 
@@ -103,3 +117,12 @@ D.Utils.App.create( class App extends D.Apps.Basic {
 
 } )
 ```
+
+### Screenshots
+Below are some screenshots of what I have made with this engine _(as of 7/20/22)_. This stuff just barely scratches the surface of what this engine is capable of. I mean it is based on [Three.js](https://github.com/mrdoob/three.js) afer all.
+
+#### Victorum (WIP)
+![Victorum](https://github.com/lotech-studios/dimensional.js/blob/main/res/images/screenshots/victorum.png?raw=true)
+#### Nik in a Nutshell (my personal website)
+![Nik in a Nutshell](https://github.com/lotech-studios/dimensional.js/blob/main/res/images/screenshots/nik-in-a-nutshell.png?raw=true)
+
