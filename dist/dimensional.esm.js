@@ -39487,7 +39487,7 @@ class LoadingManager {
 
 const DefaultLoadingManager = new LoadingManager();
 
-class Loader {
+class Loader$1 {
 
 	constructor( manager ) {
 
@@ -39556,7 +39556,7 @@ class Loader {
 
 const loading = {};
 
-class FileLoader extends Loader {
+class FileLoader extends Loader$1 {
 
 	constructor( manager ) {
 
@@ -39846,7 +39846,7 @@ class FileLoader extends Loader {
 
 }
 
-class AnimationLoader extends Loader {
+class AnimationLoader extends Loader$1 {
 
 	constructor( manager ) {
 
@@ -39912,7 +39912,7 @@ class AnimationLoader extends Loader {
  * Sub classes have to implement the parse() method which will be used in load().
  */
 
-class CompressedTextureLoader extends Loader {
+class CompressedTextureLoader extends Loader$1 {
 
 	constructor( manager ) {
 
@@ -40033,7 +40033,7 @@ class CompressedTextureLoader extends Loader {
 
 }
 
-class ImageLoader extends Loader {
+class ImageLoader extends Loader$1 {
 
 	constructor( manager ) {
 
@@ -40113,7 +40113,7 @@ class ImageLoader extends Loader {
 
 }
 
-class CubeTextureLoader extends Loader {
+class CubeTextureLoader extends Loader$1 {
 
 	constructor( manager ) {
 
@@ -40169,7 +40169,7 @@ class CubeTextureLoader extends Loader {
  * Sub classes have to implement the parse() method which will be used in load().
  */
 
-class DataTextureLoader extends Loader {
+class DataTextureLoader extends Loader$1 {
 
 	constructor( manager ) {
 
@@ -40270,7 +40270,7 @@ class DataTextureLoader extends Loader {
 
 }
 
-class TextureLoader extends Loader {
+class TextureLoader extends Loader$1 {
 
 	constructor( manager ) {
 
@@ -43284,7 +43284,7 @@ class LightProbe extends Light {
 
 LightProbe.prototype.isLightProbe = true;
 
-class MaterialLoader extends Loader {
+class MaterialLoader$1 extends Loader$1 {
 
 	constructor( manager ) {
 
@@ -43708,7 +43708,7 @@ class InstancedBufferAttribute extends BufferAttribute {
 
 InstancedBufferAttribute.prototype.isInstancedBufferAttribute = true;
 
-class BufferGeometryLoader extends Loader {
+class BufferGeometryLoader extends Loader$1 {
 
 	constructor( manager ) {
 
@@ -43919,7 +43919,7 @@ class BufferGeometryLoader extends Loader {
 
 }
 
-class ObjectLoader extends Loader {
+class ObjectLoader extends Loader$1 {
 
 	constructor( manager ) {
 
@@ -44355,7 +44355,7 @@ class ObjectLoader extends Loader {
 
 		if ( json !== undefined ) {
 
-			const loader = new MaterialLoader();
+			const loader = new MaterialLoader$1();
 			loader.setTextures( textures );
 
 			for ( let i = 0, l = json.length; i < l; i ++ ) {
@@ -45034,7 +45034,7 @@ const TEXTURE_FILTER = {
 	LinearMipmapLinearFilter: LinearMipmapLinearFilter
 };
 
-class ImageBitmapLoader extends Loader {
+class ImageBitmapLoader extends Loader$1 {
 
 	constructor( manager ) {
 
@@ -45557,7 +45557,7 @@ function createPath( char, scale, offsetX, offsetY, data ) {
 
 Font.prototype.isFont = true;
 
-class FontLoader extends Loader {
+class FontLoader extends Loader$1 {
 
 	constructor( manager ) {
 
@@ -45628,7 +45628,7 @@ const AudioContext = {
 
 };
 
-class AudioLoader extends Loader {
+class AudioLoader extends Loader$1 {
 
 	constructor( manager ) {
 
@@ -52367,7 +52367,7 @@ var pack$7 = /*#__PURE__*/Object.freeze({
 	DataTextureLoader: DataTextureLoader,
 	TextureLoader: TextureLoader,
 	ObjectLoader: ObjectLoader,
-	MaterialLoader: MaterialLoader,
+	MaterialLoader: MaterialLoader$1,
 	BufferGeometryLoader: BufferGeometryLoader,
 	DefaultLoadingManager: DefaultLoadingManager,
 	LoadingManager: LoadingManager,
@@ -52375,7 +52375,7 @@ var pack$7 = /*#__PURE__*/Object.freeze({
 	ImageBitmapLoader: ImageBitmapLoader,
 	FontLoader: FontLoader,
 	FileLoader: FileLoader,
-	Loader: Loader,
+	Loader: Loader$1,
 	LoaderUtils: LoaderUtils,
 	Cache: Cache,
 	AudioLoader: AudioLoader,
@@ -52861,6 +52861,8 @@ class Bank {
 
 }
 
+Bank.prototype.isBank = true;
+
 class StoredCursor {
 
     constructor ( url, oX, oY, type ) {
@@ -52911,6 +52913,92 @@ class CursorBank extends Bank {
     }
 
 }
+
+CursorBank.prototype.isCursorBank = true;
+
+class Loader {
+
+    constructor ( path ) {
+
+        this.bankType = '';
+        this.path = path ? path : '';
+
+    }
+
+    async load ( url, cb = function () {} ) {
+
+        const response = await fetch( this.path + url );
+        const json = await response.json();
+
+        cb( json );
+
+    }
+
+    isBank () {
+
+        if ( this.BankProxy ) return true
+        else return false
+
+    }
+
+    setBank ( proxy ) {
+
+        if ( proxy[ `is${ this.bankType }Bank` ] ) {
+
+            this.BankProxy = proxy;
+
+        }
+
+    }
+
+}
+
+class MaterialLoader extends Loader {
+
+    constructor ( path ) {
+
+        super( path );
+
+        this.bankType = 'Material';
+
+    }
+
+    async load ( url, cb = function () {} ) {
+
+        const Response = await fetch( this.path + url );
+        const Data = await Response.json();
+        const type = Data.type.toLowerCase();
+
+        const Material = new ShaderMaterial( {
+            uniforms: ShaderLib[ type ].uniforms,
+            fragmentShader: ShaderLib[ type ].fragmentShader,
+            vertexShader: ShaderLib[ type ].vertexShader,
+        } );
+
+        if ( this.isBank() ) {
+
+            await this.BankProxy.add( Data.name, Material );
+
+        }
+
+        cb( Material );
+
+    }
+
+}
+
+class MaterialBank extends Bank {
+
+    constructor ( path ) {
+
+        this.Loader = new MaterialLoader( path ? path : '' );
+        this.Loader.setBank( this );
+
+    }
+
+}
+
+MaterialBank.prototype.isMaterialBank = true;
 
 /**
  * Depth-of-field shader with bokeh
@@ -54219,7 +54307,7 @@ class BufferGeometryUtils {
 
 }
 
-class GLTFLoader extends Loader {
+class GLTFLoader extends Loader$1 {
 
 	constructor ( manager ) {
 
@@ -63486,10 +63574,13 @@ class ModelBank extends Bank {
 
 }
 
+ModelBank.prototype.isModelBank = true;
+
 var pack$3 = /*#__PURE__*/Object.freeze({
 	__proto__: null,
 	Bank: Bank,
 	Cursor: CursorBank,
+	Material: MaterialBank,
 	Model: ModelBank
 });
 
