@@ -42,6 +42,11 @@ class ModelBank extends Bank {
                             child.castShadow = true
                             child.receiveShadow = false
 
+                        } else if ( child.name.includes( '<no-shad>' ) ) {
+
+                            child.castShadow = false
+                            child.receiveShadow = false
+
                         } else {
 
                             child.castShadow = true

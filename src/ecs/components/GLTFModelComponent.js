@@ -66,6 +66,10 @@ class GLTFModelComponent extends ECSComponent {
         Action.repetitions = repetitions
         Action.loop = loop
 
+        this.Mixer.clipAction( Action ).play()
+
+        console.log( Action )
+
     }
 
     stopAllAnimations () {
@@ -78,6 +82,12 @@ class GLTFModelComponent extends ECSComponent {
         
         const Action = this.getAnimation( name )
         Action.stop()
+
+    }
+
+    update ( dT, eT ) {
+
+        this.Mixer.update( dT )
 
     }
 

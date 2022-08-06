@@ -63521,6 +63521,11 @@ class ModelBank extends Bank {
                             child.castShadow = true;
                             child.receiveShadow = false;
 
+                        } else if ( child.name.includes( '<no-shad>' ) ) {
+
+                            child.castShadow = false;
+                            child.receiveShadow = false;
+
                         } else {
 
                             child.castShadow = true;
@@ -64276,6 +64281,10 @@ class GLTFModelComponent extends ECSComponent {
         Action.repetitions = repetitions;
         Action.loop = loop;
 
+        this.Mixer.clipAction( Action ).play();
+
+        console.log( Action );
+
     }
 
     stopAllAnimations () {
@@ -64288,6 +64297,12 @@ class GLTFModelComponent extends ECSComponent {
         
         const Action = this.getAnimation( name );
         Action.stop();
+
+    }
+
+    update ( dT, eT ) {
+
+        this.Mixer.update( dT );
 
     }
 
