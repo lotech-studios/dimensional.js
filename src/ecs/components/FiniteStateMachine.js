@@ -6,8 +6,7 @@ class FiniteStateMachineComponent extends ECSComponent {
 
         super( proxy )
 
-        this.currentState = null
-
+        this.CurrentState = null
         this.States = {}
 
     }
@@ -20,29 +19,29 @@ class FiniteStateMachineComponent extends ECSComponent {
 
     setState ( name ) {
 
-        const previousState = this.currentState
+        const PreviousState = this.CurrentState
 
-        if ( previousState ) {
+        if ( PreviousState ) {
 
-            if ( previousState.name == name ) return
+            if ( PreviousState.name == name ) return
 
-            previousState.exit()
+            PreviousState.exit()
 
         }
 
         const State = new this.States[ name ]( this )
 
-        this.currentState = State
+        this.CurrentState = State
 
-        State.enter( previousState )
+        State.enter( PreviousState )
 
     }
 
-    update ( timeElapsed, input ) {
+    update ( dT, eT ) {
 
-        if ( this.currentState ) {
+        if ( this.CurrentState ) {
 
-            this.currentState.update( timeElapsed, input )
+            this.CurrentState.update( eT )
 
         }
 

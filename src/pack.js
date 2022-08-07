@@ -1,3 +1,4 @@
+export { FSMState } from './extras/FSMState.js'
 export { PointCaster } from './extras/PointCaster.js'
 
 export * as Apps from './apps/pack.js'
