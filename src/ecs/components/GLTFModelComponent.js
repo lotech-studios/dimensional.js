@@ -68,8 +68,6 @@ class GLTFModelComponent extends ECSComponent {
 
         this.Mixer.clipAction( Action ).play()
 
-        console.log( Action )
-
     }
 
     stopAllAnimations () {
