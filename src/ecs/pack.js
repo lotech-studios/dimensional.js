@@ -4,24 +4,26 @@ import { ECSManager } from './manager.js'
 
 // import components
 
-import { AlphaMapMaterialComponent } from './components/AlphaMap.js'
-import { ConstantSpinComponent } from './components/ConstantSpin.js'
-import { GLTFModelComponent } from './components/GLTFModelComponent.js'
-import { MeshComponent } from './components/Mesh.js'
-import { MeshManipulatorComponent } from './components/MeshManipulator.js'
-import { RainbowShaderComponent } from './components/RainbowShader.js'
-import { TerrainMeshComponent } from './components/TerrainMesh.js'
+import { AlphaMapMaterialComponent as AlphaMapMaterial } from './components/AlphaMap.js'
+import { ConstantSpinComponent as ConstantSpin } from './components/ConstantSpin.js'
+import { FiniteStateMachineComponent as FiniteStateMachine } from './components/FiniteStateMachine.js'
+import { GLTFModelComponent as GLTFModel } from './components/GLTFModelComponent.js'
+import { MeshComponent as Mesh } from './components/Mesh.js'
+import { MeshManipulatorComponent as MeshManipulator } from './components/MeshManipulator.js'
+import { RainbowShaderComponent as RainbowShader } from './components/RainbowShader.js'
+import { TerrainMeshComponent as TerrainMesh } from './components/TerrainMesh.js'
 
 // exports
 
 export const Components = {
-    AlphaMapMaterial: AlphaMapMaterialComponent,
-    ConstantSpin: ConstantSpinComponent,
-    GLTFModel: GLTFModelComponent,
-    Mesh: MeshComponent,
-    MeshManipulator: MeshManipulatorComponent,
-    RainbowShader: RainbowShaderComponent,
-    TerrainMesh: TerrainMeshComponent,
+    AlphaMapMaterial,
+    ConstantSpin,
+    FiniteStateMachine,
+    GLTFModel,
+    Mesh,
+    MeshManipulator,
+    RainbowShader,
+    TerrainMesh,
 }
 
 export {
