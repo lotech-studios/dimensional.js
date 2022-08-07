@@ -64283,6 +64283,17 @@ class FiniteStateMachineComponent extends ECSComponent {
 FiniteStateMachineComponent.prototype._name = 'FiniteStateMachine';
 FiniteStateMachineComponent.prototype._requires = [];
 
+class GLTFAnimation {
+
+    constructor ( action, clip ) {
+
+        this.Action = action;
+        this.Clip = clip;
+
+    }
+
+}
+
 class GLTFModelComponent extends ECSComponent {
 
     constructor ( proxy, model, hasSkeleton = false ) {
@@ -64308,7 +64319,9 @@ class GLTFModelComponent extends ECSComponent {
 
         this.Model.animations.forEach( ( a ) => {
 
-            this.Animations.array.push( a );
+            const Anim = new GLTFAnimation( this.Mixer.clipAction( a ), a );
+
+            this.Animations.array.push( Anim );
             this.Animations.nameByIndex.push( a.name );
 
         } );
@@ -64343,11 +64356,12 @@ class GLTFModelComponent extends ECSComponent {
 
     playAnimation ( name, loop = LoopRepeat, repetitions = Infinity ) {
 
-        const Action = this.getAnimation( name );
-        Action.repetitions = repetitions;
-        Action.loop = loop;
+        const Anim = this.getAnimation( name );
 
-        this.Mixer.clipAction( Action ).play();
+        Anim.Clip.repetitions = repetitions;
+        Anim.Clip.loop = loop;
+
+        Anim.Action.play();
 
     }
 
@@ -64359,8 +64373,8 @@ class GLTFModelComponent extends ECSComponent {
 
     stopAnimation ( name ) {
         
-        const Action = this.getAnimation( name );
-        Action.stop();
+        const Anim = this.getAnimation( name );
+        Anim.Action.stop();
 
     }
 
