@@ -3770,9 +3770,9 @@ class Vector3 {
 
 	projectOnPlane( planeNormal ) {
 
-		_vector$d.copy( this ).projectOnVector( planeNormal );
+		_vector$e.copy( this ).projectOnVector( planeNormal );
 
-		return this.sub( _vector$d );
+		return this.sub( _vector$e );
 
 	}
 
@@ -3781,7 +3781,7 @@ class Vector3 {
 		// reflect incident vector off plane orthogonal to normal
 		// normal is assumed to have unit length
 
-		return this.sub( _vector$d.copy( normal ).multiplyScalar( 2 * this.dot( normal ) ) );
+		return this.sub( _vector$e.copy( normal ).multiplyScalar( 2 * this.dot( normal ) ) );
 
 	}
 
@@ -3947,7 +3947,7 @@ class Vector3 {
 
 Vector3.prototype.isVector3 = true;
 
-const _vector$d = /*@__PURE__*/ new Vector3();
+const _vector$e = /*@__PURE__*/ new Vector3();
 const _quaternion$4 = /*@__PURE__*/ new Quaternion();
 
 class Box3 {
@@ -4050,7 +4050,7 @@ class Box3 {
 
 	setFromCenterAndSize( center, size ) {
 
-		const halfSize = _vector$c.copy( size ).multiplyScalar( 0.5 );
+		const halfSize = _vector$d.copy( size ).multiplyScalar( 0.5 );
 
 		this.min.copy( center ).sub( halfSize );
 		this.max.copy( center ).add( halfSize );
@@ -4169,10 +4169,10 @@ class Box3 {
 
 			}
 
-			_box$3.copy( geometry.boundingBox );
-			_box$3.applyMatrix4( object.matrixWorld );
+			_box$5.copy( geometry.boundingBox );
+			_box$5.applyMatrix4( object.matrixWorld );
 
-			this.union( _box$3 );
+			this.union( _box$5 );
 
 		}
 
@@ -4236,10 +4236,10 @@ class Box3 {
 	intersectsSphere( sphere ) {
 
 		// Find the point on the AABB closest to the sphere center.
-		this.clampPoint( sphere.center, _vector$c );
+		this.clampPoint( sphere.center, _vector$d );
 
 		// If that point is inside the sphere, the AABB and sphere intersect.
-		return _vector$c.distanceToSquared( sphere.center ) <= ( sphere.radius * sphere.radius );
+		return _vector$d.distanceToSquared( sphere.center ) <= ( sphere.radius * sphere.radius );
 
 	}
 
@@ -4358,7 +4358,7 @@ class Box3 {
 
 	distanceToPoint( point ) {
 
-		const clampedPoint = _vector$c.copy( point ).clamp( this.min, this.max );
+		const clampedPoint = _vector$d.copy( point ).clamp( this.min, this.max );
 
 		return clampedPoint.sub( point ).length();
 
@@ -4375,7 +4375,7 @@ class Box3 {
 
 		this.getCenter( target.center );
 
-		target.radius = this.getSize( _vector$c ).length() * 0.5;
+		target.radius = this.getSize( _vector$d ).length() * 0.5;
 
 		return target;
 
@@ -4453,9 +4453,9 @@ const _points = [
 	/*@__PURE__*/ new Vector3()
 ];
 
-const _vector$c = /*@__PURE__*/ new Vector3();
+const _vector$d = /*@__PURE__*/ new Vector3();
 
-const _box$3 = /*@__PURE__*/ new Box3();
+const _box$5 = /*@__PURE__*/ new Box3();
 
 // triangle centered vertices
 
@@ -4500,7 +4500,7 @@ function satForAxes( axes, v0, v1, v2, extents ) {
 
 }
 
-const _box$2 = /*@__PURE__*/ new Box3();
+const _box$4 = /*@__PURE__*/ new Box3();
 const _v1$6 = /*@__PURE__*/ new Vector3();
 const _toFarthestPoint = /*@__PURE__*/ new Vector3();
 const _toPoint = /*@__PURE__*/ new Vector3();
@@ -4533,7 +4533,7 @@ class Sphere {
 
 		} else {
 
-			_box$2.setFromPoints( points ).getCenter( center );
+			_box$4.setFromPoints( points ).getCenter( center );
 
 		}
 
@@ -4729,7 +4729,7 @@ class Sphere {
 
 }
 
-const _vector$b = /*@__PURE__*/ new Vector3();
+const _vector$c = /*@__PURE__*/ new Vector3();
 const _segCenter = /*@__PURE__*/ new Vector3();
 const _segDir = /*@__PURE__*/ new Vector3();
 const _diff = /*@__PURE__*/ new Vector3();
@@ -4788,7 +4788,7 @@ class Ray {
 
 	recast( t ) {
 
-		this.origin.copy( this.at( t, _vector$b ) );
+		this.origin.copy( this.at( t, _vector$c ) );
 
 		return this;
 
@@ -4825,7 +4825,7 @@ class Ray {
 
 	distanceSqToPoint( point ) {
 
-		const directionDistance = _vector$b.subVectors( point, this.origin ).dot( this.direction );
+		const directionDistance = _vector$c.subVectors( point, this.origin ).dot( this.direction );
 
 		// point behind the ray
 
@@ -4835,9 +4835,9 @@ class Ray {
 
 		}
 
-		_vector$b.copy( this.direction ).multiplyScalar( directionDistance ).add( this.origin );
+		_vector$c.copy( this.direction ).multiplyScalar( directionDistance ).add( this.origin );
 
-		return _vector$b.distanceToSquared( point );
+		return _vector$c.distanceToSquared( point );
 
 	}
 
@@ -4962,9 +4962,9 @@ class Ray {
 
 	intersectSphere( sphere, target ) {
 
-		_vector$b.subVectors( sphere.center, this.origin );
-		const tca = _vector$b.dot( this.direction );
-		const d2 = _vector$b.dot( _vector$b ) - tca * tca;
+		_vector$c.subVectors( sphere.center, this.origin );
+		const tca = _vector$c.dot( this.direction );
+		const d2 = _vector$c.dot( _vector$c ) - tca * tca;
 		const radius2 = sphere.radius * sphere.radius;
 
 		if ( d2 > radius2 ) return null;
@@ -5134,7 +5134,7 @@ class Ray {
 
 	intersectsBox( box ) {
 
-		return this.intersectBox( box, _vector$b ) !== null;
+		return this.intersectBox( box, _vector$c ) !== null;
 
 	}
 
@@ -9109,7 +9109,7 @@ class MeshBasicMaterial extends Material {
 
 MeshBasicMaterial.prototype.isMeshBasicMaterial = true;
 
-const _vector$a = new  Vector3();
+const _vector$b = new  Vector3();
 const _vector2 = new  Vector2();
 
 class BufferAttribute {
@@ -9310,10 +9310,10 @@ class BufferAttribute {
 
 			for ( let i = 0, l = this.count; i < l; i ++ ) {
 
-				_vector$a.fromBufferAttribute( this, i );
-				_vector$a.applyMatrix3( m );
+				_vector$b.fromBufferAttribute( this, i );
+				_vector$b.applyMatrix3( m );
 
-				this.setXYZ( i, _vector$a.x, _vector$a.y, _vector$a.z );
+				this.setXYZ( i, _vector$b.x, _vector$b.y, _vector$b.z );
 
 			}
 
@@ -9327,13 +9327,13 @@ class BufferAttribute {
 
 		for ( let i = 0, l = this.count; i < l; i ++ ) {
 
-			_vector$a.x = this.getX( i );
-			_vector$a.y = this.getY( i );
-			_vector$a.z = this.getZ( i );
+			_vector$b.x = this.getX( i );
+			_vector$b.y = this.getY( i );
+			_vector$b.z = this.getZ( i );
 
-			_vector$a.applyMatrix4( m );
+			_vector$b.applyMatrix4( m );
 
-			this.setXYZ( i, _vector$a.x, _vector$a.y, _vector$a.z );
+			this.setXYZ( i, _vector$b.x, _vector$b.y, _vector$b.z );
 
 		}
 
@@ -9345,13 +9345,13 @@ class BufferAttribute {
 
 		for ( let i = 0, l = this.count; i < l; i ++ ) {
 
-			_vector$a.x = this.getX( i );
-			_vector$a.y = this.getY( i );
-			_vector$a.z = this.getZ( i );
+			_vector$b.x = this.getX( i );
+			_vector$b.y = this.getY( i );
+			_vector$b.z = this.getZ( i );
 
-			_vector$a.applyNormalMatrix( m );
+			_vector$b.applyNormalMatrix( m );
 
-			this.setXYZ( i, _vector$a.x, _vector$a.y, _vector$a.z );
+			this.setXYZ( i, _vector$b.x, _vector$b.y, _vector$b.z );
 
 		}
 
@@ -9363,13 +9363,13 @@ class BufferAttribute {
 
 		for ( let i = 0, l = this.count; i < l; i ++ ) {
 
-			_vector$a.x = this.getX( i );
-			_vector$a.y = this.getY( i );
-			_vector$a.z = this.getZ( i );
+			_vector$b.x = this.getX( i );
+			_vector$b.y = this.getY( i );
+			_vector$b.z = this.getZ( i );
 
-			_vector$a.transformDirection( m );
+			_vector$b.transformDirection( m );
 
-			this.setXYZ( i, _vector$a.x, _vector$a.y, _vector$a.z );
+			this.setXYZ( i, _vector$b.x, _vector$b.y, _vector$b.z );
 
 		}
 
@@ -9655,9 +9655,9 @@ let _id = 0;
 const _m1 = new  Matrix4();
 const _obj = new  Object3D();
 const _offset = new  Vector3();
-const _box$1 = new  Box3();
+const _box$3 = new  Box3();
 const _boxMorphTargets = new  Box3();
-const _vector$9 = new  Vector3();
+const _vector$a = new  Vector3();
 
 class BufferGeometry extends EventDispatcher {
 
@@ -9950,20 +9950,20 @@ class BufferGeometry extends EventDispatcher {
 				for ( let i = 0, il = morphAttributesPosition.length; i < il; i ++ ) {
 
 					const morphAttribute = morphAttributesPosition[ i ];
-					_box$1.setFromBufferAttribute( morphAttribute );
+					_box$3.setFromBufferAttribute( morphAttribute );
 
 					if ( this.morphTargetsRelative ) {
 
-						_vector$9.addVectors( this.boundingBox.min, _box$1.min );
-						this.boundingBox.expandByPoint( _vector$9 );
+						_vector$a.addVectors( this.boundingBox.min, _box$3.min );
+						this.boundingBox.expandByPoint( _vector$a );
 
-						_vector$9.addVectors( this.boundingBox.max, _box$1.max );
-						this.boundingBox.expandByPoint( _vector$9 );
+						_vector$a.addVectors( this.boundingBox.max, _box$3.max );
+						this.boundingBox.expandByPoint( _vector$a );
 
 					} else {
 
-						this.boundingBox.expandByPoint( _box$1.min );
-						this.boundingBox.expandByPoint( _box$1.max );
+						this.boundingBox.expandByPoint( _box$3.min );
+						this.boundingBox.expandByPoint( _box$3.max );
 
 					}
 
@@ -10012,7 +10012,7 @@ class BufferGeometry extends EventDispatcher {
 
 			const center = this.boundingSphere.center;
 
-			_box$1.setFromBufferAttribute( position );
+			_box$3.setFromBufferAttribute( position );
 
 			// process morph attributes if present
 
@@ -10025,16 +10025,16 @@ class BufferGeometry extends EventDispatcher {
 
 					if ( this.morphTargetsRelative ) {
 
-						_vector$9.addVectors( _box$1.min, _boxMorphTargets.min );
-						_box$1.expandByPoint( _vector$9 );
+						_vector$a.addVectors( _box$3.min, _boxMorphTargets.min );
+						_box$3.expandByPoint( _vector$a );
 
-						_vector$9.addVectors( _box$1.max, _boxMorphTargets.max );
-						_box$1.expandByPoint( _vector$9 );
+						_vector$a.addVectors( _box$3.max, _boxMorphTargets.max );
+						_box$3.expandByPoint( _vector$a );
 
 					} else {
 
-						_box$1.expandByPoint( _boxMorphTargets.min );
-						_box$1.expandByPoint( _boxMorphTargets.max );
+						_box$3.expandByPoint( _boxMorphTargets.min );
+						_box$3.expandByPoint( _boxMorphTargets.max );
 
 					}
 
@@ -10042,7 +10042,7 @@ class BufferGeometry extends EventDispatcher {
 
 			}
 
-			_box$1.getCenter( center );
+			_box$3.getCenter( center );
 
 			// second, try to find a boundingSphere with a radius smaller than the
 			// boundingSphere of the boundingBox: sqrt(3) smaller in the best case
@@ -10051,9 +10051,9 @@ class BufferGeometry extends EventDispatcher {
 
 			for ( let i = 0, il = position.count; i < il; i ++ ) {
 
-				_vector$9.fromBufferAttribute( position, i );
+				_vector$a.fromBufferAttribute( position, i );
 
-				maxRadiusSq = Math.max( maxRadiusSq, center.distanceToSquared( _vector$9 ) );
+				maxRadiusSq = Math.max( maxRadiusSq, center.distanceToSquared( _vector$a ) );
 
 			}
 
@@ -10068,16 +10068,16 @@ class BufferGeometry extends EventDispatcher {
 
 					for ( let j = 0, jl = morphAttribute.count; j < jl; j ++ ) {
 
-						_vector$9.fromBufferAttribute( morphAttribute, j );
+						_vector$a.fromBufferAttribute( morphAttribute, j );
 
 						if ( morphTargetsRelative ) {
 
 							_offset.fromBufferAttribute( position, j );
-							_vector$9.add( _offset );
+							_vector$a.add( _offset );
 
 						}
 
-						maxRadiusSq = Math.max( maxRadiusSq, center.distanceToSquared( _vector$9 ) );
+						maxRadiusSq = Math.max( maxRadiusSq, center.distanceToSquared( _vector$a ) );
 
 					}
 
@@ -10413,11 +10413,11 @@ class BufferGeometry extends EventDispatcher {
 
 		for ( let i = 0, il = normals.count; i < il; i ++ ) {
 
-			_vector$9.fromBufferAttribute( normals, i );
+			_vector$a.fromBufferAttribute( normals, i );
 
-			_vector$9.normalize();
+			_vector$a.normalize();
 
-			normals.setXYZ( i, _vector$9.x, _vector$9.y, _vector$9.z );
+			normals.setXYZ( i, _vector$a.x, _vector$a.y, _vector$a.z );
 
 		}
 
@@ -10777,7 +10777,7 @@ BufferGeometry.prototype.isBufferGeometry = true;
 
 const _inverseMatrix$2 = /*@__PURE__*/ new Matrix4();
 const _ray$2 = /*@__PURE__*/ new Ray();
-const _sphere$3 = /*@__PURE__*/ new Sphere();
+const _sphere$4 = /*@__PURE__*/ new Sphere();
 
 const _vA$1 = /*@__PURE__*/ new Vector3();
 const _vB$1 = /*@__PURE__*/ new Vector3();
@@ -10893,10 +10893,10 @@ class Mesh extends Object3D {
 
 		if ( geometry.boundingSphere === null ) geometry.computeBoundingSphere();
 
-		_sphere$3.copy( geometry.boundingSphere );
-		_sphere$3.applyMatrix4( matrixWorld );
+		_sphere$4.copy( geometry.boundingSphere );
+		_sphere$4.applyMatrix4( matrixWorld );
 
-		if ( raycaster.ray.intersectsSphere( _sphere$3 ) === false ) return;
+		if ( raycaster.ray.intersectsSphere( _sphere$4 ) === false ) return;
 
 		//
 
@@ -12256,8 +12256,8 @@ class DataTexture extends Texture {
 
 DataTexture.prototype.isDataTexture = true;
 
-const _sphere$2 = /*@__PURE__*/ new Sphere();
-const _vector$8 = /*@__PURE__*/ new Vector3();
+const _sphere$3 = /*@__PURE__*/ new Sphere();
+const _vector$9 = /*@__PURE__*/ new Vector3();
 
 class Frustum {
 
@@ -12322,19 +12322,19 @@ class Frustum {
 
 		if ( geometry.boundingSphere === null ) geometry.computeBoundingSphere();
 
-		_sphere$2.copy( geometry.boundingSphere ).applyMatrix4( object.matrixWorld );
+		_sphere$3.copy( geometry.boundingSphere ).applyMatrix4( object.matrixWorld );
 
-		return this.intersectsSphere( _sphere$2 );
+		return this.intersectsSphere( _sphere$3 );
 
 	}
 
 	intersectsSprite( sprite ) {
 
-		_sphere$2.center.set( 0, 0, 0 );
-		_sphere$2.radius = 0.7071067811865476;
-		_sphere$2.applyMatrix4( sprite.matrixWorld );
+		_sphere$3.center.set( 0, 0, 0 );
+		_sphere$3.radius = 0.7071067811865476;
+		_sphere$3.applyMatrix4( sprite.matrixWorld );
 
-		return this.intersectsSphere( _sphere$2 );
+		return this.intersectsSphere( _sphere$3 );
 
 	}
 
@@ -12370,11 +12370,11 @@ class Frustum {
 
 			// corner at max distance
 
-			_vector$8.x = plane.normal.x > 0 ? box.max.x : box.min.x;
-			_vector$8.y = plane.normal.y > 0 ? box.max.y : box.min.y;
-			_vector$8.z = plane.normal.z > 0 ? box.max.z : box.min.z;
+			_vector$9.x = plane.normal.x > 0 ? box.max.x : box.min.x;
+			_vector$9.y = plane.normal.y > 0 ? box.max.y : box.min.y;
+			_vector$9.z = plane.normal.z > 0 ? box.max.z : box.min.z;
 
-			if ( plane.distanceToPoint( _vector$8 ) < 0 ) {
+			if ( plane.distanceToPoint( _vector$9 ) < 0 ) {
 
 				return false;
 
@@ -30655,7 +30655,7 @@ class InterleavedBuffer {
 
 InterleavedBuffer.prototype.isInterleavedBuffer = true;
 
-const _vector$7 = new  Vector3();
+const _vector$8 = new  Vector3();
 
 class InterleavedBufferAttribute {
 
@@ -30693,13 +30693,13 @@ class InterleavedBufferAttribute {
 
 		for ( let i = 0, l = this.data.count; i < l; i ++ ) {
 
-			_vector$7.x = this.getX( i );
-			_vector$7.y = this.getY( i );
-			_vector$7.z = this.getZ( i );
+			_vector$8.x = this.getX( i );
+			_vector$8.y = this.getY( i );
+			_vector$8.z = this.getZ( i );
 
-			_vector$7.applyMatrix4( m );
+			_vector$8.applyMatrix4( m );
 
-			this.setXYZ( i, _vector$7.x, _vector$7.y, _vector$7.z );
+			this.setXYZ( i, _vector$8.x, _vector$8.y, _vector$8.z );
 
 		}
 
@@ -30711,13 +30711,13 @@ class InterleavedBufferAttribute {
 
 		for ( let i = 0, l = this.count; i < l; i ++ ) {
 
-			_vector$7.x = this.getX( i );
-			_vector$7.y = this.getY( i );
-			_vector$7.z = this.getZ( i );
+			_vector$8.x = this.getX( i );
+			_vector$8.y = this.getY( i );
+			_vector$8.z = this.getZ( i );
 
-			_vector$7.applyNormalMatrix( m );
+			_vector$8.applyNormalMatrix( m );
 
-			this.setXYZ( i, _vector$7.x, _vector$7.y, _vector$7.z );
+			this.setXYZ( i, _vector$8.x, _vector$8.y, _vector$8.z );
 
 		}
 
@@ -30729,13 +30729,13 @@ class InterleavedBufferAttribute {
 
 		for ( let i = 0, l = this.count; i < l; i ++ ) {
 
-			_vector$7.x = this.getX( i );
-			_vector$7.y = this.getY( i );
-			_vector$7.z = this.getZ( i );
+			_vector$8.x = this.getX( i );
+			_vector$8.y = this.getY( i );
+			_vector$8.z = this.getZ( i );
 
-			_vector$7.transformDirection( m );
+			_vector$8.transformDirection( m );
 
-			this.setXYZ( i, _vector$7.x, _vector$7.y, _vector$7.z );
+			this.setXYZ( i, _vector$8.x, _vector$8.y, _vector$8.z );
 
 		}
 
@@ -31359,7 +31359,7 @@ const _basePosition = /*@__PURE__*/ new Vector3();
 const _skinIndex = /*@__PURE__*/ new Vector4();
 const _skinWeight = /*@__PURE__*/ new Vector4();
 
-const _vector$6 = /*@__PURE__*/ new Vector3();
+const _vector$7 = /*@__PURE__*/ new Vector3();
 const _matrix = /*@__PURE__*/ new Matrix4();
 
 class SkinnedMesh extends Mesh {
@@ -31488,7 +31488,7 @@ class SkinnedMesh extends Mesh {
 
 				_matrix.multiplyMatrices( skeleton.bones[ boneIndex ].matrixWorld, skeleton.boneInverses[ boneIndex ] );
 
-				target.addScaledVector( _vector$6.copy( _basePosition ).applyMatrix4( _matrix ), weight );
+				target.addScaledVector( _vector$7.copy( _basePosition ).applyMatrix4( _matrix ), weight );
 
 			}
 
@@ -31933,11 +31933,11 @@ class LineBasicMaterial extends Material {
 
 LineBasicMaterial.prototype.isLineBasicMaterial = true;
 
-const _start$1 = /*@__PURE__*/ new Vector3();
-const _end$1 = /*@__PURE__*/ new Vector3();
+const _start$2 = /*@__PURE__*/ new Vector3();
+const _end$2 = /*@__PURE__*/ new Vector3();
 const _inverseMatrix$1 = /*@__PURE__*/ new Matrix4();
 const _ray$1 = /*@__PURE__*/ new Ray();
-const _sphere$1 = /*@__PURE__*/ new Sphere();
+const _sphere$2 = /*@__PURE__*/ new Sphere();
 
 class Line extends Object3D {
 
@@ -31980,11 +31980,11 @@ class Line extends Object3D {
 
 				for ( let i = 1, l = positionAttribute.count; i < l; i ++ ) {
 
-					_start$1.fromBufferAttribute( positionAttribute, i - 1 );
-					_end$1.fromBufferAttribute( positionAttribute, i );
+					_start$2.fromBufferAttribute( positionAttribute, i - 1 );
+					_end$2.fromBufferAttribute( positionAttribute, i );
 
 					lineDistances[ i ] = lineDistances[ i - 1 ];
-					lineDistances[ i ] += _start$1.distanceTo( _end$1 );
+					lineDistances[ i ] += _start$2.distanceTo( _end$2 );
 
 				}
 
@@ -32017,11 +32017,11 @@ class Line extends Object3D {
 
 		if ( geometry.boundingSphere === null ) geometry.computeBoundingSphere();
 
-		_sphere$1.copy( geometry.boundingSphere );
-		_sphere$1.applyMatrix4( matrixWorld );
-		_sphere$1.radius += threshold;
+		_sphere$2.copy( geometry.boundingSphere );
+		_sphere$2.applyMatrix4( matrixWorld );
+		_sphere$2.radius += threshold;
 
-		if ( raycaster.ray.intersectsSphere( _sphere$1 ) === false ) return;
+		if ( raycaster.ray.intersectsSphere( _sphere$2 ) === false ) return;
 
 		//
 
@@ -32175,8 +32175,8 @@ class Line extends Object3D {
 
 Line.prototype.isLine = true;
 
-const _start = /*@__PURE__*/ new Vector3();
-const _end = /*@__PURE__*/ new Vector3();
+const _start$1 = /*@__PURE__*/ new Vector3();
+const _end$1 = /*@__PURE__*/ new Vector3();
 
 class LineSegments extends Line {
 
@@ -32203,11 +32203,11 @@ class LineSegments extends Line {
 
 				for ( let i = 0, l = positionAttribute.count; i < l; i += 2 ) {
 
-					_start.fromBufferAttribute( positionAttribute, i );
-					_end.fromBufferAttribute( positionAttribute, i + 1 );
+					_start$1.fromBufferAttribute( positionAttribute, i );
+					_end$1.fromBufferAttribute( positionAttribute, i + 1 );
 
 					lineDistances[ i ] = ( i === 0 ) ? 0 : lineDistances[ i - 1 ];
-					lineDistances[ i + 1 ] = lineDistances[ i ] + _start.distanceTo( _end );
+					lineDistances[ i + 1 ] = lineDistances[ i ] + _start$1.distanceTo( _end$1 );
 
 				}
 
@@ -32309,7 +32309,7 @@ PointsMaterial.prototype.isPointsMaterial = true;
 
 const _inverseMatrix = /*@__PURE__*/ new Matrix4();
 const _ray = /*@__PURE__*/ new Ray();
-const _sphere = /*@__PURE__*/ new Sphere();
+const _sphere$1 = /*@__PURE__*/ new Sphere();
 const _position$2 = /*@__PURE__*/ new Vector3();
 
 class Points extends Object3D {
@@ -32349,11 +32349,11 @@ class Points extends Object3D {
 
 		if ( geometry.boundingSphere === null ) geometry.computeBoundingSphere();
 
-		_sphere.copy( geometry.boundingSphere );
-		_sphere.applyMatrix4( matrixWorld );
-		_sphere.radius += threshold;
+		_sphere$1.copy( geometry.boundingSphere );
+		_sphere$1.applyMatrix4( matrixWorld );
+		_sphere$1.radius += threshold;
 
-		if ( raycaster.ray.intersectsSphere( _sphere ) === false ) return;
+		if ( raycaster.ray.intersectsSphere( _sphere$1 ) === false ) return;
 
 		//
 
@@ -49828,7 +49828,7 @@ class Cylindrical {
 
 }
 
-const _vector$5 = /*@__PURE__*/ new Vector2();
+const _vector$6 = /*@__PURE__*/ new Vector2();
 
 class Box2 {
 
@@ -49864,7 +49864,7 @@ class Box2 {
 
 	setFromCenterAndSize( center, size ) {
 
-		const halfSize = _vector$5.copy( size ).multiplyScalar( 0.5 );
+		const halfSize = _vector$6.copy( size ).multiplyScalar( 0.5 );
 		this.min.copy( center ).sub( halfSize );
 		this.max.copy( center ).add( halfSize );
 
@@ -50014,7 +50014,7 @@ class Box2 {
 
 	distanceToPoint( point ) {
 
-		const clampedPoint = _vector$5.copy( point ).clamp( this.min, this.max );
+		const clampedPoint = _vector$6.copy( point ).clamp( this.min, this.max );
 		return clampedPoint.sub( point ).length();
 
 	}
@@ -50222,7 +50222,7 @@ class ImmediateRenderObject extends Object3D {
 
 ImmediateRenderObject.prototype.isImmediateRenderObject = true;
 
-const _vector$4 = /*@__PURE__*/ new Vector3();
+const _vector$5 = /*@__PURE__*/ new Vector3();
 
 class SpotLightHelper extends Object3D {
 
@@ -50286,9 +50286,9 @@ class SpotLightHelper extends Object3D {
 
 		this.cone.scale.set( coneWidth, coneWidth, coneLength );
 
-		_vector$4.setFromMatrixPosition( this.light.target.matrixWorld );
+		_vector$5.setFromMatrixPosition( this.light.target.matrixWorld );
 
-		this.cone.lookAt( _vector$4 );
+		this.cone.lookAt( _vector$5 );
 
 		if ( this.color !== undefined ) {
 
@@ -50304,7 +50304,7 @@ class SpotLightHelper extends Object3D {
 
 }
 
-const _vector$3 = /*@__PURE__*/ new Vector3();
+const _vector$4 = /*@__PURE__*/ new Vector3();
 const _boneMatrix = /*@__PURE__*/ new Matrix4();
 const _matrixWorldInv = /*@__PURE__*/ new Matrix4();
 
@@ -50372,12 +50372,12 @@ class SkeletonHelper extends LineSegments {
 			if ( bone.parent && bone.parent.isBone ) {
 
 				_boneMatrix.multiplyMatrices( _matrixWorldInv, bone.matrixWorld );
-				_vector$3.setFromMatrixPosition( _boneMatrix );
-				position.setXYZ( j, _vector$3.x, _vector$3.y, _vector$3.z );
+				_vector$4.setFromMatrixPosition( _boneMatrix );
+				position.setXYZ( j, _vector$4.x, _vector$4.y, _vector$4.z );
 
 				_boneMatrix.multiplyMatrices( _matrixWorldInv, bone.parent.matrixWorld );
-				_vector$3.setFromMatrixPosition( _boneMatrix );
-				position.setXYZ( j + 1, _vector$3.x, _vector$3.y, _vector$3.z );
+				_vector$4.setFromMatrixPosition( _boneMatrix );
+				position.setXYZ( j + 1, _vector$4.x, _vector$4.y, _vector$4.z );
 
 				j += 2;
 
@@ -50499,7 +50499,7 @@ class PointLightHelper extends Mesh {
 
 }
 
-const _vector$2 = /*@__PURE__*/ new Vector3();
+const _vector$3 = /*@__PURE__*/ new Vector3();
 const _color1 = /*@__PURE__*/ new Color();
 const _color2 = /*@__PURE__*/ new Color();
 
@@ -50567,7 +50567,7 @@ class HemisphereLightHelper extends Object3D {
 
 		}
 
-		mesh.lookAt( _vector$2.setFromMatrixPosition( this.light.matrixWorld ).negate() );
+		mesh.lookAt( _vector$3.setFromMatrixPosition( this.light.matrixWorld ).negate() );
 
 	}
 
@@ -50770,7 +50770,7 @@ class DirectionalLightHelper extends Object3D {
 
 }
 
-const _vector$1 = /*@__PURE__*/ new Vector3();
+const _vector$2 = /*@__PURE__*/ new Vector3();
 const _camera = /*@__PURE__*/ new Camera();
 
 /**
@@ -50953,7 +50953,7 @@ class CameraHelper extends LineSegments {
 
 function setPoint( point, pointMap, geometry, camera, x, y, z ) {
 
-	_vector$1.set( x, y, z ).unproject( camera );
+	_vector$2.set( x, y, z ).unproject( camera );
 
 	const points = pointMap[ point ];
 
@@ -50963,7 +50963,7 @@ function setPoint( point, pointMap, geometry, camera, x, y, z ) {
 
 		for ( let i = 0, l = points.length; i < l; i ++ ) {
 
-			position.setXYZ( points[ i ], _vector$1.x, _vector$1.y, _vector$1.z );
+			position.setXYZ( points[ i ], _vector$2.x, _vector$2.y, _vector$2.z );
 
 		}
 
@@ -50971,7 +50971,7 @@ function setPoint( point, pointMap, geometry, camera, x, y, z ) {
 
 }
 
-const _box = /*@__PURE__*/ new Box3();
+const _box$2 = /*@__PURE__*/ new Box3();
 
 class BoxHelper extends LineSegments {
 
@@ -51005,14 +51005,14 @@ class BoxHelper extends LineSegments {
 
 		if ( this.object !== undefined ) {
 
-			_box.setFromObject( this.object );
+			_box$2.setFromObject( this.object );
 
 		}
 
-		if ( _box.isEmpty() ) return;
+		if ( _box$2.isEmpty() ) return;
 
-		const min = _box.min;
-		const max = _box.max;
+		const min = _box$2.min;
+		const max = _box$2.max;
 
 		/*
 			5____4
@@ -58260,6 +58260,1313 @@ function toTrianglesDrawMode ( geometry, drawMode ) {
 
 }
 
+const _box$1 = new Box3();
+const _vector$1 = new Vector3();
+
+class LineSegmentsGeometry extends InstancedBufferGeometry {
+
+	constructor() {
+
+		super();
+
+		this.type = 'LineSegmentsGeometry';
+
+		const positions = [ - 1, 2, 0, 1, 2, 0, - 1, 1, 0, 1, 1, 0, - 1, 0, 0, 1, 0, 0, - 1, - 1, 0, 1, - 1, 0 ];
+		const uvs = [ - 1, 2, 1, 2, - 1, 1, 1, 1, - 1, - 1, 1, - 1, - 1, - 2, 1, - 2 ];
+		const index = [ 0, 2, 1, 2, 3, 1, 2, 4, 3, 4, 5, 3, 4, 6, 5, 6, 7, 5 ];
+
+		this.setIndex( index );
+		this.setAttribute( 'position', new Float32BufferAttribute( positions, 3 ) );
+		this.setAttribute( 'uv', new Float32BufferAttribute( uvs, 2 ) );
+
+	}
+
+	applyMatrix4( matrix ) {
+
+		const start = this.attributes.instanceStart;
+		const end = this.attributes.instanceEnd;
+
+		if ( start !== undefined ) {
+
+			start.applyMatrix4( matrix );
+
+			end.applyMatrix4( matrix );
+
+			start.needsUpdate = true;
+
+		}
+
+		if ( this.boundingBox !== null ) {
+
+			this.computeBoundingBox();
+
+		}
+
+		if ( this.boundingSphere !== null ) {
+
+			this.computeBoundingSphere();
+
+		}
+
+		return this;
+
+	}
+
+	setPositions( array ) {
+
+		let lineSegments;
+
+		if ( array instanceof Float32Array ) {
+
+			lineSegments = array;
+
+		} else if ( Array.isArray( array ) ) {
+
+			lineSegments = new Float32Array( array );
+
+		}
+
+		const instanceBuffer = new InstancedInterleavedBuffer( lineSegments, 6, 1 ); // xyz, xyz
+
+		this.setAttribute( 'instanceStart', new InterleavedBufferAttribute( instanceBuffer, 3, 0 ) ); // xyz
+		this.setAttribute( 'instanceEnd', new InterleavedBufferAttribute( instanceBuffer, 3, 3 ) ); // xyz
+
+		//
+
+		this.computeBoundingBox();
+		this.computeBoundingSphere();
+
+		return this;
+
+	}
+
+	setColors( array ) {
+
+		let colors;
+
+		if ( array instanceof Float32Array ) {
+
+			colors = array;
+
+		} else if ( Array.isArray( array ) ) {
+
+			colors = new Float32Array( array );
+
+		}
+
+		const instanceColorBuffer = new InstancedInterleavedBuffer( colors, 6, 1 ); // rgb, rgb
+
+		this.setAttribute( 'instanceColorStart', new InterleavedBufferAttribute( instanceColorBuffer, 3, 0 ) ); // rgb
+		this.setAttribute( 'instanceColorEnd', new InterleavedBufferAttribute( instanceColorBuffer, 3, 3 ) ); // rgb
+
+		return this;
+
+	}
+
+	fromWireframeGeometry( geometry ) {
+
+		this.setPositions( geometry.attributes.position.array );
+
+		return this;
+
+	}
+
+	fromEdgesGeometry( geometry ) {
+
+		this.setPositions( geometry.attributes.position.array );
+
+		return this;
+
+	}
+
+	fromMesh( mesh ) {
+
+		this.fromWireframeGeometry( new WireframeGeometry( mesh.geometry ) );
+
+		// set colors, maybe
+
+		return this;
+
+	}
+
+	romLineSegments( lineSegments ) {
+
+		const geometry = lineSegments.geometry;
+
+		if ( geometry.isGeometry ) {
+
+			console.error( 'THREE.LineSegmentsGeometry no longer supports Geometry. Use THREE.BufferGeometry instead.' );
+			return;
+
+		} else if ( geometry.isBufferGeometry ) {
+
+			this.setPositions( geometry.attributes.position.array ); // assumes non-indexed
+
+		}
+
+		// set colors, maybe
+
+		return this;
+
+	}
+
+	computeBoundingBox() {
+
+		if ( this.boundingBox === null ) {
+
+			this.boundingBox = new Box3();
+
+		}
+
+		const start = this.attributes.instanceStart;
+		const end = this.attributes.instanceEnd;
+
+		if ( start !== undefined && end !== undefined ) {
+
+			this.boundingBox.setFromBufferAttribute( start );
+
+			_box$1.setFromBufferAttribute( end );
+
+			this.boundingBox.union( _box$1 );
+
+		}
+
+	}
+
+	computeBoundingSphere() {
+
+		if ( this.boundingSphere === null ) {
+
+			this.boundingSphere = new Sphere();
+
+		}
+
+		if ( this.boundingBox === null ) {
+
+			this.computeBoundingBox();
+
+		}
+
+		const start = this.attributes.instanceStart;
+		const end = this.attributes.instanceEnd;
+
+		if ( start !== undefined && end !== undefined ) {
+
+			const center = this.boundingSphere.center;
+
+			this.boundingBox.getCenter( center );
+
+			let maxRadiusSq = 0;
+
+			for ( let i = 0, il = start.count; i < il; i ++ ) {
+
+				_vector$1.fromBufferAttribute( start, i );
+				maxRadiusSq = Math.max( maxRadiusSq, center.distanceToSquared( _vector$1 ) );
+
+				_vector$1.fromBufferAttribute( end, i );
+				maxRadiusSq = Math.max( maxRadiusSq, center.distanceToSquared( _vector$1 ) );
+
+			}
+
+			this.boundingSphere.radius = Math.sqrt( maxRadiusSq );
+
+			if ( isNaN( this.boundingSphere.radius ) ) {
+
+				console.error( 'THREE.LineSegmentsGeometry.computeBoundingSphere(): Computed radius is NaN. The instanced position data is likely to have NaN values.', this );
+
+			}
+
+		}
+
+	}
+
+	toJSON() {
+
+		// todo
+
+	}
+
+	applyMatrix( matrix ) {
+
+		console.warn( 'THREE.LineSegmentsGeometry: applyMatrix() has been renamed to applyMatrix4().' );
+
+		return this.applyMatrix4( matrix );
+
+	}
+
+}
+
+LineSegmentsGeometry.prototype.isLineSegmentsGeometry = true;
+
+/**
+ * parameters = {
+ *  color: <hex>,
+ *  linewidth: <float>,
+ *  dashed: <boolean>,
+ *  dashScale: <float>,
+ *  dashSize: <float>,
+ *  dashOffset: <float>,
+ *  gapSize: <float>,
+ *  resolution: <Vector2>, // to be set by renderer
+ * }
+ */
+
+
+UniformsLib.line = {
+
+	worldUnits: { value: 1 },
+	linewidth: { value: 1 },
+	resolution: { value: new Vector2( 1, 1 ) },
+	dashOffset: { value: 0 },
+	dashScale: { value: 1 },
+	dashSize: { value: 1 },
+	gapSize: { value: 1 } // todo FIX - maybe change to totalSize
+
+};
+
+ShaderLib[ 'line' ] = {
+
+	uniforms: UniformsUtils.merge( [
+		UniformsLib.common,
+		UniformsLib.fog,
+		UniformsLib.line
+	] ),
+
+	vertexShader:
+	/* glsl */`
+		#include <common>
+		#include <color_pars_vertex>
+		#include <fog_pars_vertex>
+		#include <logdepthbuf_pars_vertex>
+		#include <clipping_planes_pars_vertex>
+
+		uniform float linewidth;
+		uniform vec2 resolution;
+
+		attribute vec3 instanceStart;
+		attribute vec3 instanceEnd;
+
+		attribute vec3 instanceColorStart;
+		attribute vec3 instanceColorEnd;
+
+		#ifdef WORLD_UNITS
+
+			varying vec4 worldPos;
+			varying vec3 worldStart;
+			varying vec3 worldEnd;
+
+			#ifdef USE_DASH
+
+				varying vec2 vUv;
+
+			#endif
+
+		#else
+
+			varying vec2 vUv;
+
+		#endif
+
+		#ifdef USE_DASH
+
+			uniform float dashScale;
+			attribute float instanceDistanceStart;
+			attribute float instanceDistanceEnd;
+			varying float vLineDistance;
+
+		#endif
+
+		void trimSegment( const in vec4 start, inout vec4 end ) {
+
+			// trim end segment so it terminates between the camera plane and the near plane
+
+			// conservative estimate of the near plane
+			float a = projectionMatrix[ 2 ][ 2 ]; // 3nd entry in 3th column
+			float b = projectionMatrix[ 3 ][ 2 ]; // 3nd entry in 4th column
+			float nearEstimate = - 0.5 * b / a;
+
+			float alpha = ( nearEstimate - start.z ) / ( end.z - start.z );
+
+			end.xyz = mix( start.xyz, end.xyz, alpha );
+
+		}
+
+		void main() {
+
+			#ifdef USE_COLOR
+
+				vColor.xyz = ( position.y < 0.5 ) ? instanceColorStart : instanceColorEnd;
+
+			#endif
+
+			#ifdef USE_DASH
+
+				vLineDistance = ( position.y < 0.5 ) ? dashScale * instanceDistanceStart : dashScale * instanceDistanceEnd;
+				vUv = uv;
+
+			#endif
+
+			float aspect = resolution.x / resolution.y;
+
+			// camera space
+			vec4 start = modelViewMatrix * vec4( instanceStart, 1.0 );
+			vec4 end = modelViewMatrix * vec4( instanceEnd, 1.0 );
+
+			#ifdef WORLD_UNITS
+
+				worldStart = start.xyz;
+				worldEnd = end.xyz;
+
+			#else
+
+				vUv = uv;
+
+			#endif
+
+			// special case for perspective projection, and segments that terminate either in, or behind, the camera plane
+			// clearly the gpu firmware has a way of addressing this issue when projecting into ndc space
+			// but we need to perform ndc-space calculations in the shader, so we must address this issue directly
+			// perhaps there is a more elegant solution -- WestLangley
+
+			bool perspective = ( projectionMatrix[ 2 ][ 3 ] == - 1.0 ); // 4th entry in the 3rd column
+
+			if ( perspective ) {
+
+				if ( start.z < 0.0 && end.z >= 0.0 ) {
+
+					trimSegment( start, end );
+
+				} else if ( end.z < 0.0 && start.z >= 0.0 ) {
+
+					trimSegment( end, start );
+
+				}
+
+			}
+
+			// clip space
+			vec4 clipStart = projectionMatrix * start;
+			vec4 clipEnd = projectionMatrix * end;
+
+			// ndc space
+			vec3 ndcStart = clipStart.xyz / clipStart.w;
+			vec3 ndcEnd = clipEnd.xyz / clipEnd.w;
+
+			// direction
+			vec2 dir = ndcEnd.xy - ndcStart.xy;
+
+			// account for clip-space aspect ratio
+			dir.x *= aspect;
+			dir = normalize( dir );
+
+			#ifdef WORLD_UNITS
+
+				// get the offset direction as perpendicular to the view vector
+				vec3 worldDir = normalize( end.xyz - start.xyz );
+				vec3 offset;
+				if ( position.y < 0.5 ) {
+
+					offset = normalize( cross( start.xyz, worldDir ) );
+
+				} else {
+
+					offset = normalize( cross( end.xyz, worldDir ) );
+
+				}
+
+				// sign flip
+				if ( position.x < 0.0 ) offset *= - 1.0;
+
+				float forwardOffset = dot( worldDir, vec3( 0.0, 0.0, 1.0 ) );
+
+				// don't extend the line if we're rendering dashes because we
+				// won't be rendering the endcaps
+				#ifndef USE_DASH
+
+					// extend the line bounds to encompass  endcaps
+					start.xyz += - worldDir * linewidth * 0.5;
+					end.xyz += worldDir * linewidth * 0.5;
+
+					// shift the position of the quad so it hugs the forward edge of the line
+					offset.xy -= dir * forwardOffset;
+					offset.z += 0.5;
+
+				#endif
+
+				// endcaps
+				if ( position.y > 1.0 || position.y < 0.0 ) {
+
+					offset.xy += dir * 2.0 * forwardOffset;
+
+				}
+
+				// adjust for linewidth
+				offset *= linewidth * 0.5;
+
+				// set the world position
+				worldPos = ( position.y < 0.5 ) ? start : end;
+				worldPos.xyz += offset;
+
+				// project the worldpos
+				vec4 clip = projectionMatrix * worldPos;
+
+				// shift the depth of the projected points so the line
+				// segments overlap neatly
+				vec3 clipPose = ( position.y < 0.5 ) ? ndcStart : ndcEnd;
+				clip.z = clipPose.z * clip.w;
+
+			#else
+
+				vec2 offset = vec2( dir.y, - dir.x );
+				// undo aspect ratio adjustment
+				dir.x /= aspect;
+				offset.x /= aspect;
+
+				// sign flip
+				if ( position.x < 0.0 ) offset *= - 1.0;
+
+				// endcaps
+				if ( position.y < 0.0 ) {
+
+					offset += - dir;
+
+				} else if ( position.y > 1.0 ) {
+
+					offset += dir;
+
+				}
+
+				// adjust for linewidth
+				offset *= linewidth;
+
+				// adjust for clip-space to screen-space conversion // maybe resolution should be based on viewport ...
+				offset /= resolution.y;
+
+				// select end
+				vec4 clip = ( position.y < 0.5 ) ? clipStart : clipEnd;
+
+				// back to clip space
+				offset *= clip.w;
+
+				clip.xy += offset;
+
+			#endif
+
+			gl_Position = clip;
+
+			vec4 mvPosition = ( position.y < 0.5 ) ? start : end; // this is an approximation
+
+			#include <logdepthbuf_vertex>
+			#include <clipping_planes_vertex>
+			#include <fog_vertex>
+
+		}
+		`,
+
+	fragmentShader:
+	/* glsl */`
+		uniform vec3 diffuse;
+		uniform float opacity;
+		uniform float linewidth;
+
+		#ifdef USE_DASH
+
+			uniform float dashOffset;
+			uniform float dashSize;
+			uniform float gapSize;
+
+		#endif
+
+		varying float vLineDistance;
+
+		#ifdef WORLD_UNITS
+
+			varying vec4 worldPos;
+			varying vec3 worldStart;
+			varying vec3 worldEnd;
+
+			#ifdef USE_DASH
+
+				varying vec2 vUv;
+
+			#endif
+
+		#else
+
+			varying vec2 vUv;
+
+		#endif
+
+		#include <common>
+		#include <color_pars_fragment>
+		#include <fog_pars_fragment>
+		#include <logdepthbuf_pars_fragment>
+		#include <clipping_planes_pars_fragment>
+
+		vec2 closestLineToLine(vec3 p1, vec3 p2, vec3 p3, vec3 p4) {
+
+			float mua;
+			float mub;
+
+			vec3 p13 = p1 - p3;
+			vec3 p43 = p4 - p3;
+
+			vec3 p21 = p2 - p1;
+
+			float d1343 = dot( p13, p43 );
+			float d4321 = dot( p43, p21 );
+			float d1321 = dot( p13, p21 );
+			float d4343 = dot( p43, p43 );
+			float d2121 = dot( p21, p21 );
+
+			float denom = d2121 * d4343 - d4321 * d4321;
+
+			float numer = d1343 * d4321 - d1321 * d4343;
+
+			mua = numer / denom;
+			mua = clamp( mua, 0.0, 1.0 );
+			mub = ( d1343 + d4321 * ( mua ) ) / d4343;
+			mub = clamp( mub, 0.0, 1.0 );
+
+			return vec2( mua, mub );
+
+		}
+
+		void main() {
+
+			#include <clipping_planes_fragment>
+
+			#ifdef USE_DASH
+
+				if ( vUv.y < - 1.0 || vUv.y > 1.0 ) discard; // discard endcaps
+
+				if ( mod( vLineDistance + dashOffset, dashSize + gapSize ) > dashSize ) discard; // todo - FIX
+
+			#endif
+
+			float alpha = opacity;
+
+			#ifdef WORLD_UNITS
+
+				// Find the closest points on the view ray and the line segment
+				vec3 rayEnd = normalize( worldPos.xyz ) * 1e5;
+				vec3 lineDir = worldEnd - worldStart;
+				vec2 params = closestLineToLine( worldStart, worldEnd, vec3( 0.0, 0.0, 0.0 ), rayEnd );
+
+				vec3 p1 = worldStart + lineDir * params.x;
+				vec3 p2 = rayEnd * params.y;
+				vec3 delta = p1 - p2;
+				float len = length( delta );
+				float norm = len / linewidth;
+
+				#ifndef USE_DASH
+
+					#ifdef USE_ALPHA_TO_COVERAGE
+
+						float dnorm = fwidth( norm );
+						alpha = 1.0 - smoothstep( 0.5 - dnorm, 0.5 + dnorm, norm );
+
+					#else
+
+						if ( norm > 0.5 ) {
+
+							discard;
+
+						}
+
+					#endif
+
+				#endif
+
+			#else
+
+				#ifdef USE_ALPHA_TO_COVERAGE
+
+					// artifacts appear on some hardware if a derivative is taken within a conditional
+					float a = vUv.x;
+					float b = ( vUv.y > 0.0 ) ? vUv.y - 1.0 : vUv.y + 1.0;
+					float len2 = a * a + b * b;
+					float dlen = fwidth( len2 );
+
+					if ( abs( vUv.y ) > 1.0 ) {
+
+						alpha = 1.0 - smoothstep( 1.0 - dlen, 1.0 + dlen, len2 );
+
+					}
+
+				#else
+
+					if ( abs( vUv.y ) > 1.0 ) {
+
+						float a = vUv.x;
+						float b = ( vUv.y > 0.0 ) ? vUv.y - 1.0 : vUv.y + 1.0;
+						float len2 = a * a + b * b;
+
+						if ( len2 > 1.0 ) discard;
+
+					}
+
+				#endif
+
+			#endif
+
+			vec4 diffuseColor = vec4( diffuse, alpha );
+
+			#include <logdepthbuf_fragment>
+			#include <color_fragment>
+
+			gl_FragColor = vec4( diffuseColor.rgb, alpha );
+
+			#include <tonemapping_fragment>
+			#include <encodings_fragment>
+			#include <fog_fragment>
+			#include <premultiplied_alpha_fragment>
+
+		}
+		`
+};
+
+class LineMaterial extends ShaderMaterial {
+
+	constructor( parameters ) {
+
+		super( {
+
+			type: 'LineMaterial',
+
+			uniforms: UniformsUtils.clone( ShaderLib[ 'line' ].uniforms ),
+
+			vertexShader: ShaderLib[ 'line' ].vertexShader,
+			fragmentShader: ShaderLib[ 'line' ].fragmentShader,
+
+			clipping: true // required for clipping support
+
+		} );
+
+		this.isLineMaterial = true;
+
+		Object.defineProperties( this, {
+
+			color: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return this.uniforms.diffuse.value;
+
+				},
+
+				set: function ( value ) {
+
+					this.uniforms.diffuse.value = value;
+
+				}
+
+			},
+
+			worldUnits: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return 'WORLD_UNITS' in this.defines;
+
+				},
+
+				set: function ( value ) {
+
+					if ( value === true ) {
+
+						this.defines.WORLD_UNITS = '';
+
+					} else {
+
+						delete this.defines.WORLD_UNITS;
+
+					}
+
+				}
+
+			},
+
+			linewidth: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return this.uniforms.linewidth.value;
+
+				},
+
+				set: function ( value ) {
+
+					this.uniforms.linewidth.value = value;
+
+				}
+
+			},
+
+			dashed: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return Boolean( 'USE_DASH' in this.defines );
+
+				},
+
+				set( value ) {
+
+					if ( Boolean( value ) !== Boolean( 'USE_DASH' in this.defines ) ) {
+
+						this.needsUpdate = true;
+
+					}
+
+					if ( value === true ) {
+
+						this.defines.USE_DASH = '';
+
+					} else {
+
+						delete this.defines.USE_DASH;
+
+					}
+
+				}
+
+			},
+
+			dashScale: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return this.uniforms.dashScale.value;
+
+				},
+
+				set: function ( value ) {
+
+					this.uniforms.dashScale.value = value;
+
+				}
+
+			},
+
+			dashSize: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return this.uniforms.dashSize.value;
+
+				},
+
+				set: function ( value ) {
+
+					this.uniforms.dashSize.value = value;
+
+				}
+
+			},
+
+			dashOffset: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return this.uniforms.dashOffset.value;
+
+				},
+
+				set: function ( value ) {
+
+					this.uniforms.dashOffset.value = value;
+
+				}
+
+			},
+
+			gapSize: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return this.uniforms.gapSize.value;
+
+				},
+
+				set: function ( value ) {
+
+					this.uniforms.gapSize.value = value;
+
+				}
+
+			},
+
+			opacity: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return this.uniforms.opacity.value;
+
+				},
+
+				set: function ( value ) {
+
+					this.uniforms.opacity.value = value;
+
+				}
+
+			},
+
+			resolution: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return this.uniforms.resolution.value;
+
+				},
+
+				set: function ( value ) {
+
+					this.uniforms.resolution.value.copy( value );
+
+				}
+
+			},
+
+			alphaToCoverage: {
+
+				enumerable: true,
+
+				get: function () {
+
+					return Boolean( 'USE_ALPHA_TO_COVERAGE' in this.defines );
+
+				},
+
+				set: function ( value ) {
+
+					if ( Boolean( value ) !== Boolean( 'USE_ALPHA_TO_COVERAGE' in this.defines ) ) {
+
+						this.needsUpdate = true;
+
+					}
+
+					if ( value === true ) {
+
+						this.defines.USE_ALPHA_TO_COVERAGE = '';
+						this.extensions.derivatives = true;
+
+					} else {
+
+						delete this.defines.USE_ALPHA_TO_COVERAGE;
+						this.extensions.derivatives = false;
+
+					}
+
+				}
+
+			}
+
+		} );
+
+		this.setValues( parameters );
+
+	}
+
+}
+
+const _start = new Vector3();
+const _end = new Vector3();
+
+const _start4 = new Vector4();
+const _end4 = new Vector4();
+
+const _ssOrigin = new Vector4();
+const _ssOrigin3 = new Vector3();
+const _mvMatrix = new Matrix4();
+const _line = new Line3();
+const _closestPoint = new Vector3();
+
+const _box = new Box3();
+const _sphere = new Sphere();
+const _clipToWorldVector = new Vector4();
+
+class LineSegments2 extends Mesh {
+
+	constructor( geometry = new LineSegmentsGeometry(), material = new LineMaterial( { color: Math.random() * 0xffffff } ) ) {
+
+		super( geometry, material );
+
+		this.type = 'LineSegments2';
+
+	}
+
+	// for backwards-compatability, but could be a method of LineSegmentsGeometry...
+
+	computeLineDistances() {
+
+		const geometry = this.geometry;
+
+		const instanceStart = geometry.attributes.instanceStart;
+		const instanceEnd = geometry.attributes.instanceEnd;
+		const lineDistances = new Float32Array( 2 * instanceStart.count );
+
+		for ( let i = 0, j = 0, l = instanceStart.count; i < l; i ++, j += 2 ) {
+
+			_start.fromBufferAttribute( instanceStart, i );
+			_end.fromBufferAttribute( instanceEnd, i );
+
+			lineDistances[ j ] = ( j === 0 ) ? 0 : lineDistances[ j - 1 ];
+			lineDistances[ j + 1 ] = lineDistances[ j ] + _start.distanceTo( _end );
+
+		}
+
+		const instanceDistanceBuffer = new InstancedInterleavedBuffer( lineDistances, 2, 1 ); // d0, d1
+
+		geometry.setAttribute( 'instanceDistanceStart', new InterleavedBufferAttribute( instanceDistanceBuffer, 1, 0 ) ); // d0
+		geometry.setAttribute( 'instanceDistanceEnd', new InterleavedBufferAttribute( instanceDistanceBuffer, 1, 1 ) ); // d1
+
+		return this;
+
+	}
+
+	raycast( raycaster, intersects ) {
+
+		if ( raycaster.camera === null ) {
+
+			console.error( 'LineSegments2: "Raycaster.camera" needs to be set in order to raycast against LineSegments2.' );
+
+		}
+
+		const threshold = ( raycaster.params.Line2 !== undefined ) ? raycaster.params.Line2.threshold || 0 : 0;
+
+		const ray = raycaster.ray;
+		const camera = raycaster.camera;
+		const projectionMatrix = camera.projectionMatrix;
+
+		const matrixWorld = this.matrixWorld;
+		const geometry = this.geometry;
+		const material = this.material;
+		const resolution = material.resolution;
+		const lineWidth = material.linewidth + threshold;
+
+		const instanceStart = geometry.attributes.instanceStart;
+		const instanceEnd = geometry.attributes.instanceEnd;
+
+		// camera forward is negative
+		const near = - camera.near;
+
+		// clip space is [ - 1, 1 ] so multiply by two to get the full
+		// width in clip space
+		const ssMaxWidth = 2.0 * Math.max( lineWidth / resolution.width, lineWidth / resolution.height );
+
+		//
+
+		// check if we intersect the sphere bounds
+		if ( geometry.boundingSphere === null ) {
+
+			geometry.computeBoundingSphere();
+
+		}
+
+		_sphere.copy( geometry.boundingSphere ).applyMatrix4( matrixWorld );
+		const distanceToSphere = Math.max( camera.near, _sphere.distanceToPoint( ray.origin ) );
+
+		// get the w component to scale the world space line width
+		_clipToWorldVector.set( 0, 0, - distanceToSphere, 1.0 ).applyMatrix4( camera.projectionMatrix );
+		_clipToWorldVector.multiplyScalar( 1.0 / _clipToWorldVector.w );
+		_clipToWorldVector.applyMatrix4( camera.projectionMatrixInverse );
+
+		// increase the sphere bounds by the worst case line screen space width
+		const sphereMargin = Math.abs( ssMaxWidth / _clipToWorldVector.w ) * 0.5;
+		_sphere.radius += sphereMargin;
+
+		if ( raycaster.ray.intersectsSphere( _sphere ) === false ) {
+
+			return;
+
+		}
+
+		//
+
+		// check if we intersect the box bounds
+		if ( geometry.boundingBox === null ) {
+
+			geometry.computeBoundingBox();
+
+		}
+
+		_box.copy( geometry.boundingBox ).applyMatrix4( matrixWorld );
+		const distanceToBox = Math.max( camera.near, _box.distanceToPoint( ray.origin ) );
+
+		// get the w component to scale the world space line width
+		_clipToWorldVector.set( 0, 0, - distanceToBox, 1.0 ).applyMatrix4( camera.projectionMatrix );
+		_clipToWorldVector.multiplyScalar( 1.0 / _clipToWorldVector.w );
+		_clipToWorldVector.applyMatrix4( camera.projectionMatrixInverse );
+
+		// increase the sphere bounds by the worst case line screen space width
+		const boxMargin = Math.abs( ssMaxWidth / _clipToWorldVector.w ) * 0.5;
+		_box.max.x += boxMargin;
+		_box.max.y += boxMargin;
+		_box.max.z += boxMargin;
+		_box.min.x -= boxMargin;
+		_box.min.y -= boxMargin;
+		_box.min.z -= boxMargin;
+
+		if ( raycaster.ray.intersectsBox( _box ) === false ) {
+
+			return;
+
+		}
+
+		//
+
+		// pick a point 1 unit out along the ray to avoid the ray origin
+		// sitting at the camera origin which will cause "w" to be 0 when
+		// applying the projection matrix.
+		ray.at( 1, _ssOrigin );
+
+		// ndc space [ - 1.0, 1.0 ]
+		_ssOrigin.w = 1;
+		_ssOrigin.applyMatrix4( camera.matrixWorldInverse );
+		_ssOrigin.applyMatrix4( projectionMatrix );
+		_ssOrigin.multiplyScalar( 1 / _ssOrigin.w );
+
+		// screen space
+		_ssOrigin.x *= resolution.x / 2;
+		_ssOrigin.y *= resolution.y / 2;
+		_ssOrigin.z = 0;
+
+		_ssOrigin3.copy( _ssOrigin );
+
+		_mvMatrix.multiplyMatrices( camera.matrixWorldInverse, matrixWorld );
+
+		for ( let i = 0, l = instanceStart.count; i < l; i ++ ) {
+
+			_start4.fromBufferAttribute( instanceStart, i );
+			_end4.fromBufferAttribute( instanceEnd, i );
+
+			_start.w = 1;
+			_end.w = 1;
+
+			// camera space
+			_start4.applyMatrix4( _mvMatrix );
+			_end4.applyMatrix4( _mvMatrix );
+
+			// skip the segment if it's entirely behind the camera
+			var isBehindCameraNear = _start4.z > near && _end4.z > near;
+			if ( isBehindCameraNear ) {
+
+				continue;
+
+			}
+
+			// trim the segment if it extends behind camera near
+			if ( _start4.z > near ) {
+
+				const deltaDist = _start4.z - _end4.z;
+				const t = ( _start4.z - near ) / deltaDist;
+				_start4.lerp( _end4, t );
+
+			} else if ( _end4.z > near ) {
+
+				const deltaDist = _end4.z - _start4.z;
+				const t = ( _end4.z - near ) / deltaDist;
+				_end4.lerp( _start4, t );
+
+			}
+
+			// clip space
+			_start4.applyMatrix4( projectionMatrix );
+			_end4.applyMatrix4( projectionMatrix );
+
+			// ndc space [ - 1.0, 1.0 ]
+			_start4.multiplyScalar( 1 / _start4.w );
+			_end4.multiplyScalar( 1 / _end4.w );
+
+			// screen space
+			_start4.x *= resolution.x / 2;
+			_start4.y *= resolution.y / 2;
+
+			_end4.x *= resolution.x / 2;
+			_end4.y *= resolution.y / 2;
+
+			// create 2d segment
+			_line.start.copy( _start4 );
+			_line.start.z = 0;
+
+			_line.end.copy( _end4 );
+			_line.end.z = 0;
+
+			// get closest point on ray to segment
+			const param = _line.closestPointToPointParameter( _ssOrigin3, true );
+			_line.at( param, _closestPoint );
+
+			// check if the intersection point is within clip space
+			const zPos = lerp( _start4.z, _end4.z, param );
+			const isInClipSpace = zPos >= - 1 && zPos <= 1;
+
+			const isInside = _ssOrigin3.distanceTo( _closestPoint ) < lineWidth * 0.5;
+
+			if ( isInClipSpace && isInside ) {
+
+				_line.start.fromBufferAttribute( instanceStart, i );
+				_line.end.fromBufferAttribute( instanceEnd, i );
+
+				_line.start.applyMatrix4( matrixWorld );
+				_line.end.applyMatrix4( matrixWorld );
+
+				const pointOnLine = new Vector3();
+				const point = new Vector3();
+
+				ray.distanceSqToSegment( _line.start, _line.end, point, pointOnLine );
+
+				intersects.push( {
+
+					point: point,
+					pointOnLine: pointOnLine,
+					distance: ray.origin.distanceTo( point ),
+
+					object: this,
+					face: null,
+					faceIndex: i,
+					uv: null,
+					uv2: null,
+
+				} );
+
+			}
+
+		}
+
+	}
+
+}
+
+LineSegments2.prototype.LineSegments2 = true;
+
+class LineGeometry extends LineSegmentsGeometry {
+
+	constructor() {
+
+		super();
+		this.type = 'LineGeometry';
+
+	}
+
+	setPositions( array ) {
+
+		// converts [ x1, y1, z1,  x2, y2, z2, ... ] to pairs format
+
+		var length = array.length - 3;
+		var points = new Float32Array( 2 * length );
+
+		for ( var i = 0; i < length; i += 3 ) {
+
+			points[ 2 * i ] = array[ i ];
+			points[ 2 * i + 1 ] = array[ i + 1 ];
+			points[ 2 * i + 2 ] = array[ i + 2 ];
+
+			points[ 2 * i + 3 ] = array[ i + 3 ];
+			points[ 2 * i + 4 ] = array[ i + 4 ];
+			points[ 2 * i + 5 ] = array[ i + 5 ];
+
+		}
+
+		super.setPositions( points );
+
+		return this;
+
+	}
+
+	setColors( array ) {
+
+		// converts [ r1, g1, b1,  r2, g2, b2, ... ] to pairs format
+
+		var length = array.length - 3;
+		var colors = new Float32Array( 2 * length );
+
+		for ( var i = 0; i < length; i += 3 ) {
+
+			colors[ 2 * i ] = array[ i ];
+			colors[ 2 * i + 1 ] = array[ i + 1 ];
+			colors[ 2 * i + 2 ] = array[ i + 2 ];
+
+			colors[ 2 * i + 3 ] = array[ i + 3 ];
+			colors[ 2 * i + 4 ] = array[ i + 4 ];
+			colors[ 2 * i + 5 ] = array[ i + 5 ];
+
+		}
+
+		super.setColors( colors );
+
+		return this;
+
+	}
+
+	fromLine( line ) {
+
+		var geometry = line.geometry;
+
+		if ( geometry.isGeometry ) {
+
+			console.error( 'THREE.LineGeometry no longer supports Geometry. Use THREE.BufferGeometry instead.' );
+			return;
+
+		} else if ( geometry.isBufferGeometry ) {
+
+			this.setPositions( geometry.attributes.position.array ); // assumes non-indexed
+
+		}
+
+		// set colors, maybe
+
+		return this;
+
+	}
+
+	copy( /* source */ ) {
+
+		// todo
+
+		return this;
+
+	}
+
+}
+
+LineGeometry.prototype.isLineGeometry = true;
+
+class Line2 extends LineSegments2 {
+
+	constructor( geometry = new LineGeometry(), material = new LineMaterial( { color: Math.random() * 0xffffff } ) ) {
+
+		super( geometry, material );
+
+		this.type = 'Line2';
+
+	}
+
+}
+
+Line2.prototype.isLine2 = true;
+
 var F2 = 0.5 * ( Math.sqrt( 3.0 ) - 1.0 ),
     G2 = ( 3.0 - Math.sqrt( 3.0 ) ) / 6.0,
     F3 = 1.0 / 3.0,
@@ -63489,6 +64796,9 @@ var pack$4 = /*#__PURE__*/Object.freeze({
     BokehDepthShader: BokehDepthShader,
     BufferGeometryUtils: BufferGeometryUtils,
     GLTFLoader: GLTFLoader,
+    Line2: Line2,
+    LineGeometry: LineGeometry,
+    LineMaterial: LineMaterial,
     MapControls: MapControls,
     OrbitControls: OrbitControls$1,
     StandardControls: OrbitControls,
