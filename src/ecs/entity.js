@@ -74,6 +74,12 @@ class ECSEntity {
 
     }
 
+    getId () {
+
+        return this._id
+
+    }
+
     removeComponent ( name ) {
 
         if ( this._Components.namesToIndex.includes( name ) ) {
