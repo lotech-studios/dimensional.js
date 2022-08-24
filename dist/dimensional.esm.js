@@ -46035,7 +46035,7 @@ class AudioListener extends Object3D {
 
 }
 
-class Audio extends Object3D {
+class Audio$1 extends Object3D {
 
 	constructor( listener ) {
 
@@ -46428,7 +46428,7 @@ const _quaternion = /*@__PURE__*/ new Quaternion();
 const _scale = /*@__PURE__*/ new Vector3();
 const _orientation = /*@__PURE__*/ new Vector3();
 
-class PositionalAudio extends Audio {
+class PositionalAudio extends Audio$1 {
 
 	constructor( listener ) {
 
@@ -52413,7 +52413,7 @@ var pack$7 = /*#__PURE__*/Object.freeze({
     PositionalAudio: PositionalAudio,
     AudioContext: AudioContext,
     AudioAnalyser: AudioAnalyser,
-    Audio: Audio,
+    Audio: Audio$1,
     VectorKeyframeTrack: VectorKeyframeTrack,
     StringKeyframeTrack: StringKeyframeTrack,
     QuaternionKeyframeTrack: QuaternionKeyframeTrack,
@@ -52843,7 +52843,33 @@ var pack$6 = /*#__PURE__*/Object.freeze({
     Basic: BasicApp
 });
 
-class Bank {
+class AudioBank extends Bank {
+
+    constructor ( path = '' ) {
+
+        super();
+
+        this.setPath( path );
+
+    }
+
+    add ( name, url ) {
+
+        this._Stored[ name ] = this.path + url;
+
+    }
+
+    setPath ( path ) {
+
+        this.path = path;
+
+    }
+
+}
+
+AudioBank.prototype.isAudioBank = true;
+
+class Bank$1 {
 
     constructor () {
 
@@ -52854,8 +52880,6 @@ class Bank {
     add ( name, content ) {
 
         this._Stored[ name ] = content;
-
-        return
 
     }
 
@@ -52869,13 +52893,11 @@ class Bank {
 
         delete this._Stored[ name ];
 
-        return
-
     }
 
 }
 
-Bank.prototype.isBank = true;
+Bank$1.prototype.isBank = true;
 
 class StoredCursor {
 
@@ -52890,7 +52912,7 @@ class StoredCursor {
 
 }
 
-class CursorBank extends Bank {
+class CursorBank extends Bank$1 {
 
     constructor ( path ) {
 
@@ -53001,7 +53023,7 @@ class MaterialLoader extends Loader {
 
 }
 
-class MaterialBank extends Bank {
+class MaterialBank extends Bank$1 {
 
     constructor ( path ) {
 
@@ -64805,7 +64827,7 @@ var pack$4 = /*#__PURE__*/Object.freeze({
     CSS2DRenderer: CSS2DRenderer
 });
 
-class ModelBank extends Bank {
+class ModelBank extends Bank$1 {
 
     constructor ( path ) {
 
@@ -64907,7 +64929,8 @@ ModelBank.prototype.isModelBank = true;
 
 var pack$3 = /*#__PURE__*/Object.freeze({
     __proto__: null,
-    Bank: Bank,
+    Audio: AudioBank,
+    Bank: Bank$1,
     Cursor: CursorBank,
     Material: MaterialBank,
     Model: ModelBank
@@ -66374,6 +66397,57 @@ var pack$2 = /*#__PURE__*/Object.freeze({
     Manager: ECSManager
 });
 
+class AudioManager {
+
+    constructor ( path = '' ) {
+
+        this.instancesCreated = 0;
+
+        this.Bank = new AudioBank( path );
+        this.Instances = {};
+        this.Timeouts = {};
+
+    }
+
+    /**
+     * 
+     * @param { string } name Name of the stored audio.
+     * @param { number } instanceDuration How long before instance is deleted. Default is the duration of the audio.
+     * @param { object } options Attribute to add to the <HTMLAudioElement> object.
+     */
+
+    playInstance ( name, instanceDuration = null, options = {} ) {
+
+        // update instance count
+
+        this.instancesCreated++;
+
+        // create and store instance
+
+        this.Instances[ `audio-${ this.instancesCreated }` ] = new Audio( this.Bank.get( name ) );
+
+        // add attributes to instance from <options>
+
+        for ( const o in options ) Sound[ o ] = options[ o ];
+
+        // create and store instance timeout
+
+        this.Timeouts[ `timeout-${ this.instancesCreated }` ] = setTimeout( () => {
+            
+            // delete instance
+            
+            delete this.Instances[ `audio-${ this.instancesCreated }` ];
+
+            // clear instance timeout
+
+            clearTimeout( this.Timeouts[ `timeout-${ this.instancesCreated }` ] );
+        
+        }, instanceDuration != null ? instanceDuration : this.Instances[ `audio-${ this.instancesCreated }` ].duration );
+
+    }
+
+}
+
 class PostProcessingManager {
 
     constructor () {
@@ -66464,6 +66538,7 @@ class PostProcessingManager {
 
 var pack$1 = /*#__PURE__*/Object.freeze({
     __proto__: null,
+    Audio: AudioManager,
     PostProcessing: PostProcessingManager
 });
 

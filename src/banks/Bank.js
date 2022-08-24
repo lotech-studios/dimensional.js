@@ -10,8 +10,6 @@ class Bank {
 
         this._Stored[ name ] = content
 
-        return
-
     }
 
     get ( name ) {
@@ -23,8 +21,6 @@ class Bank {
     remove ( name ) {
 
         delete this._Stored[ name ]
-
-        return
 
     }
 
