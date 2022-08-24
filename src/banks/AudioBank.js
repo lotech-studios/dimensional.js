@@ -8,7 +8,7 @@ class AudioBank extends Bank {
 
     }
 
-    add ( name, url ) {
+    async add ( name, url ) {
 
         this._Stored[ name ] = this.path + url
 
