@@ -1,3 +1,5 @@
+import { Bank } from './Bank.js'
+
 class AudioBank extends Bank {
 
     constructor ( path = '' ) {

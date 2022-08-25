@@ -5,6 +5,7 @@ class AudioManager {
     constructor ( path = '' ) {
 
         this.instancesCreated = 0
+        this.instancesPlaying = []
 
         this.Bank = new AudioBank( path )
         this.Instances = {}
@@ -27,25 +28,45 @@ class AudioManager {
 
         // create and store instance
 
-        this.Instances[ `audio-${ this.instancesCreated }` ] = new Audio( this.Bank.get( name ) )
+        this.Instances[ `${ name }-${ this.instancesCreated }` ] = new Audio( this.Bank.get( name ) )
 
         // add attributes to instance from <options>
 
-        for ( const o in options ) Sound[ o ] = options[ o ]
+        for ( const o in options ) this.Instances[ `${ name }-${ this.instancesCreated }` ][ o ] = options[ o ]
+
+        // play audio
+
+        this.Instances[ `${ name }-${ this.instancesCreated }` ].play()
 
         // create and store instance timeout
 
-        this.Timeouts[ `timeout-${ this.instancesCreated }` ] = setTimeout( () => {
-            
-            // delete instance
-            
-            delete this.Instances[ `audio-${ this.instancesCreated }` ]
+        if ( !options.keep ) {
 
-            // clear instance timeout
+            this.Timeouts[ `${ name }-${ this.instancesCreated }` ] = setTimeout( () => {
+            
+                this.removeInstance( name )
+            
+            }, instanceDuration != null ? instanceDuration : this.Instances[ `${ name }-${ this.instancesCreated }` ].duration )
 
-            clearTimeout( this.Timeouts[ `timeout-${ this.instancesCreated }` ] )
-        
-        }, instanceDuration != null ? instanceDuration : this.Instances[ `audio-${ this.instancesCreated }` ].duration )
+        }
+
+        return `${ name }-${ this.instancesCreated }`
+
+    }
+
+    removeInstance ( name ) {
+
+        // pause audio
+
+        this.Instances[ name ].pause()
+
+        // delete instance
+            
+        delete this.Instances[ name ]
+
+        // clear instance timeout
+
+        clearTimeout( this.Timeouts[ name ] )
 
     }
 

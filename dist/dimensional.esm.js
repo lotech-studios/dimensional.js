@@ -52843,33 +52843,7 @@ var pack$6 = /*#__PURE__*/Object.freeze({
     Basic: BasicApp
 });
 
-class AudioBank extends Bank {
-
-    constructor ( path = '' ) {
-
-        super();
-
-        this.setPath( path );
-
-    }
-
-    async add ( name, url ) {
-
-        this._Stored[ name ] = this.path + url;
-
-    }
-
-    setPath ( path ) {
-
-        this.path = path;
-
-    }
-
-}
-
-AudioBank.prototype.isAudioBank = true;
-
-class Bank$1 {
+class Bank {
 
     constructor () {
 
@@ -52909,7 +52883,33 @@ class Bank$1 {
 
 }
 
-Bank$1.prototype.isBank = true;
+Bank.prototype.isBank = true;
+
+class AudioBank extends Bank {
+
+    constructor ( path = '' ) {
+
+        super();
+
+        this.setPath( path );
+
+    }
+
+    async add ( name, url ) {
+
+        this._Stored[ name ] = this.path + url;
+
+    }
+
+    setPath ( path ) {
+
+        this.path = path;
+
+    }
+
+}
+
+AudioBank.prototype.isAudioBank = true;
 
 class StoredCursor {
 
@@ -52924,7 +52924,7 @@ class StoredCursor {
 
 }
 
-class CursorBank extends Bank$1 {
+class CursorBank extends Bank {
 
     constructor ( path ) {
 
@@ -53035,7 +53035,7 @@ class MaterialLoader extends Loader {
 
 }
 
-class MaterialBank extends Bank$1 {
+class MaterialBank extends Bank {
 
     constructor ( path ) {
 
@@ -64839,7 +64839,7 @@ var pack$4 = /*#__PURE__*/Object.freeze({
     CSS2DRenderer: CSS2DRenderer
 });
 
-class ModelBank extends Bank$1 {
+class ModelBank extends Bank {
 
     constructor ( path ) {
 
@@ -64942,7 +64942,7 @@ ModelBank.prototype.isModelBank = true;
 var pack$3 = /*#__PURE__*/Object.freeze({
     __proto__: null,
     Audio: AudioBank,
-    Bank: Bank$1,
+    Bank: Bank,
     Cursor: CursorBank,
     Material: MaterialBank,
     Model: ModelBank
@@ -66414,6 +66414,7 @@ class AudioManager {
     constructor ( path = '' ) {
 
         this.instancesCreated = 0;
+        this.instancesPlaying = [];
 
         this.Bank = new AudioBank( path );
         this.Instances = {};
@@ -66436,25 +66437,45 @@ class AudioManager {
 
         // create and store instance
 
-        this.Instances[ `audio-${ this.instancesCreated }` ] = new Audio( this.Bank.get( name ) );
+        this.Instances[ `${ name }-${ this.instancesCreated }` ] = new Audio( this.Bank.get( name ) );
 
         // add attributes to instance from <options>
 
-        for ( const o in options ) Sound[ o ] = options[ o ];
+        for ( const o in options ) this.Instances[ `${ name }-${ this.instancesCreated }` ][ o ] = options[ o ];
+
+        // play audio
+
+        this.Instances[ `${ name }-${ this.instancesCreated }` ].play();
 
         // create and store instance timeout
 
-        this.Timeouts[ `timeout-${ this.instancesCreated }` ] = setTimeout( () => {
-            
-            // delete instance
-            
-            delete this.Instances[ `audio-${ this.instancesCreated }` ];
+        if ( !options.keep ) {
 
-            // clear instance timeout
+            this.Timeouts[ `${ name }-${ this.instancesCreated }` ] = setTimeout( () => {
+            
+                this.removeInstance( name );
+            
+            }, instanceDuration != null ? instanceDuration : this.Instances[ `${ name }-${ this.instancesCreated }` ].duration );
 
-            clearTimeout( this.Timeouts[ `timeout-${ this.instancesCreated }` ] );
-        
-        }, instanceDuration != null ? instanceDuration : this.Instances[ `audio-${ this.instancesCreated }` ].duration );
+        }
+
+        return `${ name }-${ this.instancesCreated }`
+
+    }
+
+    removeInstance ( name ) {
+
+        // pause audio
+
+        this.Instances[ name ].pause();
+
+        // delete instance
+            
+        delete this.Instances[ name ];
+
+        // clear instance timeout
+
+        clearTimeout( this.Timeouts[ name ] );
 
     }
 
