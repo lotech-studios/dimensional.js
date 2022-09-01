@@ -7,8 +7,7 @@ export function generateId () {
 
     for ( let i = 0; i < Database.ID.length; i++ ) {
 
-        result += Database.Chars.string.charAt( 
-            Math.floor( Math.random() * Database.Chars.string.length ) )
+        result += Database.Chars.string.charAt( Math.floor( Math.random() * Database.Chars.string.length ) )
 
     }
 
@@ -22,15 +21,8 @@ export function randomHexRotation ( radians = false ) {
 
     const rot = Math.floor( Math.random() * 6 ) * 60
 
-    if ( radians ) {
-
-        return Three.MathUtils.degToRad( rot )
-
-    } else {
-
-        return rot
-
-    }
+    if ( radians ) return Three.MathUtils.degToRad( rot )
+    else return rot
 
 }
 
