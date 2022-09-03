@@ -405,7 +405,7 @@ class TerrainMeshComponent extends ECSComponent {
 
         this._resolveGroup()
         this._buildMeshes()
-
+ 
         return
 
     }

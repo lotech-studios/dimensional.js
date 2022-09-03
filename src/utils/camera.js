@@ -7,5 +7,6 @@ export function getWindowAspect () {
 export function setAspectFromWindow ( camera ) {
 
     camera.aspect = window.innerWidth / window.innerHeight
+    camera.updateProjectionMatrix()
 
 }
