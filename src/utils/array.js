@@ -29,3 +29,15 @@ export function removeValue ( array, value, instancesToRemove = 1 ) {
     array.splice( index, instancesToRemove )
 
 }
+
+export function sortHighestToLowest ( array ) {
+
+    return array.sort( ( a, b ) => b - a )
+
+}
+
+export function sortLowestToHighest ( array ) {
+
+    return array.sort( ( a, b ) => a - b )
+
+}

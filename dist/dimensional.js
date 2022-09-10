@@ -3233,7 +3233,7 @@ class Quaternion {
 
 Quaternion.prototype.isQuaternion = true;
 
-class Vector3 {
+class Vector3$1 {
 
 	constructor( x = 0, y = 0, z = 0 ) {
 
@@ -3945,14 +3945,14 @@ class Vector3 {
 
 }
 
-Vector3.prototype.isVector3 = true;
+Vector3$1.prototype.isVector3 = true;
 
-const _vector$e = /*@__PURE__*/ new Vector3();
+const _vector$e = /*@__PURE__*/ new Vector3$1();
 const _quaternion$4 = /*@__PURE__*/ new Quaternion();
 
 class Box3 {
 
-	constructor( min = new Vector3( + Infinity, + Infinity, + Infinity ), max = new Vector3( - Infinity, - Infinity, - Infinity ) ) {
+	constructor( min = new Vector3$1( + Infinity, + Infinity, + Infinity ), max = new Vector3$1( - Infinity, - Infinity, - Infinity ) ) {
 
 		this.min = min;
 		this.max = max;
@@ -4104,7 +4104,7 @@ class Box3 {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Box3: .getCenter() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -4117,7 +4117,7 @@ class Box3 {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Box3: .getSize() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -4212,7 +4212,7 @@ class Box3 {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Box3: .getParameter() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -4348,7 +4348,7 @@ class Box3 {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Box3: .clampPoint() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -4443,36 +4443,36 @@ class Box3 {
 Box3.prototype.isBox3 = true;
 
 const _points = [
-	/*@__PURE__*/ new Vector3(),
-	/*@__PURE__*/ new Vector3(),
-	/*@__PURE__*/ new Vector3(),
-	/*@__PURE__*/ new Vector3(),
-	/*@__PURE__*/ new Vector3(),
-	/*@__PURE__*/ new Vector3(),
-	/*@__PURE__*/ new Vector3(),
-	/*@__PURE__*/ new Vector3()
+	/*@__PURE__*/ new Vector3$1(),
+	/*@__PURE__*/ new Vector3$1(),
+	/*@__PURE__*/ new Vector3$1(),
+	/*@__PURE__*/ new Vector3$1(),
+	/*@__PURE__*/ new Vector3$1(),
+	/*@__PURE__*/ new Vector3$1(),
+	/*@__PURE__*/ new Vector3$1(),
+	/*@__PURE__*/ new Vector3$1()
 ];
 
-const _vector$d = /*@__PURE__*/ new Vector3();
+const _vector$d = /*@__PURE__*/ new Vector3$1();
 
 const _box$5 = /*@__PURE__*/ new Box3();
 
 // triangle centered vertices
 
-const _v0$2 = /*@__PURE__*/ new Vector3();
-const _v1$7 = /*@__PURE__*/ new Vector3();
-const _v2$3 = /*@__PURE__*/ new Vector3();
+const _v0$2 = /*@__PURE__*/ new Vector3$1();
+const _v1$7 = /*@__PURE__*/ new Vector3$1();
+const _v2$3 = /*@__PURE__*/ new Vector3$1();
 
 // triangle edge vectors
 
-const _f0 = /*@__PURE__*/ new Vector3();
-const _f1 = /*@__PURE__*/ new Vector3();
-const _f2 = /*@__PURE__*/ new Vector3();
+const _f0 = /*@__PURE__*/ new Vector3$1();
+const _f1 = /*@__PURE__*/ new Vector3$1();
+const _f2 = /*@__PURE__*/ new Vector3$1();
 
-const _center = /*@__PURE__*/ new Vector3();
-const _extents = /*@__PURE__*/ new Vector3();
-const _triangleNormal = /*@__PURE__*/ new Vector3();
-const _testAxis = /*@__PURE__*/ new Vector3();
+const _center = /*@__PURE__*/ new Vector3$1();
+const _extents = /*@__PURE__*/ new Vector3$1();
+const _triangleNormal = /*@__PURE__*/ new Vector3$1();
+const _testAxis = /*@__PURE__*/ new Vector3$1();
 
 function satForAxes( axes, v0, v1, v2, extents ) {
 
@@ -4501,13 +4501,13 @@ function satForAxes( axes, v0, v1, v2, extents ) {
 }
 
 const _box$4 = /*@__PURE__*/ new Box3();
-const _v1$6 = /*@__PURE__*/ new Vector3();
-const _toFarthestPoint = /*@__PURE__*/ new Vector3();
-const _toPoint = /*@__PURE__*/ new Vector3();
+const _v1$6 = /*@__PURE__*/ new Vector3$1();
+const _toFarthestPoint = /*@__PURE__*/ new Vector3$1();
+const _toPoint = /*@__PURE__*/ new Vector3$1();
 
 class Sphere {
 
-	constructor( center = new Vector3(), radius = - 1 ) {
+	constructor( center = new Vector3$1(), radius = - 1 ) {
 
 		this.center = center;
 		this.radius = radius;
@@ -4614,7 +4614,7 @@ class Sphere {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Sphere: .clampPoint() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -4729,18 +4729,18 @@ class Sphere {
 
 }
 
-const _vector$c = /*@__PURE__*/ new Vector3();
-const _segCenter = /*@__PURE__*/ new Vector3();
-const _segDir = /*@__PURE__*/ new Vector3();
-const _diff = /*@__PURE__*/ new Vector3();
+const _vector$c = /*@__PURE__*/ new Vector3$1();
+const _segCenter = /*@__PURE__*/ new Vector3$1();
+const _segDir = /*@__PURE__*/ new Vector3$1();
+const _diff = /*@__PURE__*/ new Vector3$1();
 
-const _edge1 = /*@__PURE__*/ new Vector3();
-const _edge2 = /*@__PURE__*/ new Vector3();
-const _normal$1 = /*@__PURE__*/ new Vector3();
+const _edge1 = /*@__PURE__*/ new Vector3$1();
+const _edge2 = /*@__PURE__*/ new Vector3$1();
+const _normal$1 = /*@__PURE__*/ new Vector3$1();
 
 class Ray {
 
-	constructor( origin = new Vector3(), direction = new Vector3( 0, 0, - 1 ) ) {
+	constructor( origin = new Vector3$1(), direction = new Vector3$1( 0, 0, - 1 ) ) {
 
 		this.origin = origin;
 		this.direction = direction;
@@ -4770,7 +4770,7 @@ class Ray {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Ray: .at() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -4799,7 +4799,7 @@ class Ray {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Ray: .closestPointToPoint() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -6110,13 +6110,13 @@ class Matrix4 {
 
 Matrix4.prototype.isMatrix4 = true;
 
-const _v1$5 = /*@__PURE__*/ new Vector3();
+const _v1$5 = /*@__PURE__*/ new Vector3$1();
 const _m1$2 = /*@__PURE__*/ new Matrix4();
-const _zero = /*@__PURE__*/ new Vector3( 0, 0, 0 );
-const _one = /*@__PURE__*/ new Vector3( 1, 1, 1 );
-const _x = /*@__PURE__*/ new Vector3();
-const _y = /*@__PURE__*/ new Vector3();
-const _z = /*@__PURE__*/ new Vector3();
+const _zero = /*@__PURE__*/ new Vector3$1( 0, 0, 0 );
+const _one = /*@__PURE__*/ new Vector3$1( 1, 1, 1 );
+const _x = /*@__PURE__*/ new Vector3$1();
+const _y = /*@__PURE__*/ new Vector3$1();
+const _z = /*@__PURE__*/ new Vector3$1();
 
 const _matrix$1 = /*@__PURE__*/ new Matrix4();
 const _quaternion$3 = /*@__PURE__*/ new Quaternion();
@@ -6413,7 +6413,7 @@ class Euler {
 
 		} else {
 
-			return new Vector3( this._x, this._y, this._z );
+			return new Vector3$1( this._x, this._y, this._z );
 
 		}
 
@@ -6490,18 +6490,18 @@ class Layers {
 
 let _object3DId = 0;
 
-const _v1$4 = new  Vector3();
+const _v1$4 = new  Vector3$1();
 const _q1 = new  Quaternion();
 const _m1$1 = new  Matrix4();
-const _target = new  Vector3();
+const _target = new  Vector3$1();
 
-const _position$3 = new  Vector3();
-const _scale$2 = new  Vector3();
+const _position$3 = new  Vector3$1();
+const _scale$2 = new  Vector3$1();
 const _quaternion$2 = new  Quaternion();
 
-const _xAxis = new  Vector3( 1, 0, 0 );
-const _yAxis = new  Vector3( 0, 1, 0 );
-const _zAxis = new  Vector3( 0, 0, 1 );
+const _xAxis = new  Vector3$1( 1, 0, 0 );
+const _yAxis = new  Vector3$1( 0, 1, 0 );
+const _zAxis = new  Vector3$1( 0, 0, 1 );
 
 const _addedEvent = { type: 'added' };
 const _removedEvent = { type: 'removed' };
@@ -6524,10 +6524,10 @@ class Object3D extends EventDispatcher {
 
 		this.up = Object3D.DefaultUp.clone();
 
-		const position = new Vector3();
+		const position = new Vector3$1();
 		const rotation = new Euler();
 		const quaternion = new Quaternion();
-		const scale = new Vector3( 1, 1, 1 );
+		const scale = new Vector3$1( 1, 1, 1 );
 
 		function onRotationChange() {
 
@@ -6931,7 +6931,7 @@ class Object3D extends EventDispatcher {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Object3D: .getWorldPosition() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -6963,7 +6963,7 @@ class Object3D extends EventDispatcher {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Object3D: .getWorldScale() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -6980,7 +6980,7 @@ class Object3D extends EventDispatcher {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Object3D: .getWorldDirection() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -7386,18 +7386,18 @@ class Object3D extends EventDispatcher {
 
 }
 
-Object3D.DefaultUp = new Vector3( 0, 1, 0 );
+Object3D.DefaultUp = new Vector3$1( 0, 1, 0 );
 Object3D.DefaultMatrixAutoUpdate = true;
 
 Object3D.prototype.isObject3D = true;
 
-const _vector1 = /*@__PURE__*/ new Vector3();
-const _vector2$1 = /*@__PURE__*/ new Vector3();
+const _vector1 = /*@__PURE__*/ new Vector3$1();
+const _vector2$1 = /*@__PURE__*/ new Vector3$1();
 const _normalMatrix = /*@__PURE__*/ new Matrix3();
 
 class Plane {
 
-	constructor( normal = new Vector3( 1, 0, 0 ), constant = 0 ) {
+	constructor( normal = new Vector3$1( 1, 0, 0 ), constant = 0 ) {
 
 		// normal is assumed to be normalized
 
@@ -7492,7 +7492,7 @@ class Plane {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Plane: .projectPoint() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -7505,7 +7505,7 @@ class Plane {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Plane: .intersectLine() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -7567,7 +7567,7 @@ class Plane {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Plane: .coplanarPoint() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -7613,21 +7613,21 @@ class Plane {
 
 Plane.prototype.isPlane = true;
 
-const _v0$1 = /*@__PURE__*/ new Vector3();
-const _v1$3 = /*@__PURE__*/ new Vector3();
-const _v2$2 = /*@__PURE__*/ new Vector3();
-const _v3$1 = /*@__PURE__*/ new Vector3();
+const _v0$1 = /*@__PURE__*/ new Vector3$1();
+const _v1$3 = /*@__PURE__*/ new Vector3$1();
+const _v2$2 = /*@__PURE__*/ new Vector3$1();
+const _v3$1 = /*@__PURE__*/ new Vector3$1();
 
-const _vab = /*@__PURE__*/ new Vector3();
-const _vac = /*@__PURE__*/ new Vector3();
-const _vbc = /*@__PURE__*/ new Vector3();
-const _vap = /*@__PURE__*/ new Vector3();
-const _vbp = /*@__PURE__*/ new Vector3();
-const _vcp = /*@__PURE__*/ new Vector3();
+const _vab = /*@__PURE__*/ new Vector3$1();
+const _vac = /*@__PURE__*/ new Vector3$1();
+const _vbc = /*@__PURE__*/ new Vector3$1();
+const _vap = /*@__PURE__*/ new Vector3$1();
+const _vbp = /*@__PURE__*/ new Vector3$1();
+const _vcp = /*@__PURE__*/ new Vector3$1();
 
 class Triangle {
 
-	constructor( a = new Vector3(), b = new Vector3(), c = new Vector3() ) {
+	constructor( a = new Vector3$1(), b = new Vector3$1(), c = new Vector3$1() ) {
 
 		this.a = a;
 		this.b = b;
@@ -7640,7 +7640,7 @@ class Triangle {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Triangle: .getNormal() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -7678,7 +7678,7 @@ class Triangle {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Triangle: .getBarycoord() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -7781,7 +7781,7 @@ class Triangle {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Triangle: .getMidpoint() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -7843,7 +7843,7 @@ class Triangle {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Triangle: .closestPointToPoint() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -9109,7 +9109,7 @@ class MeshBasicMaterial extends Material {
 
 MeshBasicMaterial.prototype.isMeshBasicMaterial = true;
 
-const _vector$b = new  Vector3();
+const _vector$b = new  Vector3$1();
 const _vector2 = new  Vector2();
 
 class BufferAttribute {
@@ -9252,7 +9252,7 @@ class BufferAttribute {
 			if ( vector === undefined ) {
 
 				console.warn( 'THREE.BufferAttribute.copyVector3sArray(): vector is undefined', i );
-				vector = new Vector3();
+				vector = new Vector3$1();
 
 			}
 
@@ -9654,10 +9654,10 @@ let _id = 0;
 
 const _m1 = new  Matrix4();
 const _obj = new  Object3D();
-const _offset = new  Vector3();
+const _offset = new  Vector3$1();
 const _box$3 = new  Box3();
 const _boxMorphTargets = new  Box3();
-const _vector$a = new  Vector3();
+const _vector$a = new  Vector3$1();
 
 class BufferGeometry extends EventDispatcher {
 
@@ -9931,8 +9931,8 @@ class BufferGeometry extends EventDispatcher {
 			console.error( 'THREE.BufferGeometry.computeBoundingBox(): GLBufferAttribute requires a manual bounding box. Alternatively set "mesh.frustumCulled" to "false".', this );
 
 			this.boundingBox.set(
-				new Vector3( - Infinity, - Infinity, - Infinity ),
-				new Vector3( + Infinity, + Infinity, + Infinity )
+				new Vector3$1( - Infinity, - Infinity, - Infinity ),
+				new Vector3$1( + Infinity, + Infinity, + Infinity )
 			);
 
 			return
@@ -10000,7 +10000,7 @@ class BufferGeometry extends EventDispatcher {
 
 			console.error( 'THREE.BufferGeometry.computeBoundingSphere(): GLBufferAttribute requires a manual bounding sphere. Alternatively set "mesh.frustumCulled" to "false".', this );
 
-			this.boundingSphere.set( new Vector3(), Infinity );
+			this.boundingSphere.set( new Vector3$1(), Infinity );
 
 			return
 
@@ -10140,21 +10140,21 @@ class BufferGeometry extends EventDispatcher {
 
 		for ( let i = 0; i < nVertices; i ++ ) {
 
-			tan1[ i ] = new Vector3();
-			tan2[ i ] = new Vector3();
+			tan1[ i ] = new Vector3$1();
+			tan2[ i ] = new Vector3$1();
 
 		}
 
-		const vA = new Vector3(),
-			vB = new Vector3(),
-			vC = new Vector3(),
+		const vA = new Vector3$1(),
+			vB = new Vector3$1(),
+			vC = new Vector3$1(),
 
 			uvA = new Vector2(),
 			uvB = new Vector2(),
 			uvC = new Vector2(),
 
-			sdir = new Vector3(),
-			tdir = new Vector3();
+			sdir = new Vector3$1(),
+			tdir = new Vector3$1();
 
 		function handleTriangle ( a, b, c ) {
 
@@ -10221,8 +10221,8 @@ class BufferGeometry extends EventDispatcher {
 
 		}
 
-		const tmp = new Vector3(), tmp2 = new Vector3();
-		const n = new Vector3(), n2 = new Vector3();
+		const tmp = new Vector3$1(), tmp2 = new Vector3$1();
+		const n = new Vector3$1(), n2 = new Vector3$1();
 
 		function handleVertex ( v ) {
 
@@ -10294,9 +10294,9 @@ class BufferGeometry extends EventDispatcher {
 
 			}
 
-			const pA = new Vector3(), pB = new Vector3(), pC = new Vector3();
-			const nA = new Vector3(), nB = new Vector3(), nC = new Vector3();
-			const cb = new Vector3(), ab = new Vector3();
+			const pA = new Vector3$1(), pB = new Vector3$1(), pC = new Vector3$1();
+			const nA = new Vector3$1(), nB = new Vector3$1(), nC = new Vector3$1();
+			const cb = new Vector3$1(), ab = new Vector3$1();
 
 			// indexed elements
 
@@ -10779,24 +10779,24 @@ const _inverseMatrix$2 = /*@__PURE__*/ new Matrix4();
 const _ray$2 = /*@__PURE__*/ new Ray();
 const _sphere$4 = /*@__PURE__*/ new Sphere();
 
-const _vA$1 = /*@__PURE__*/ new Vector3();
-const _vB$1 = /*@__PURE__*/ new Vector3();
-const _vC$1 = /*@__PURE__*/ new Vector3();
+const _vA$1 = /*@__PURE__*/ new Vector3$1();
+const _vB$1 = /*@__PURE__*/ new Vector3$1();
+const _vC$1 = /*@__PURE__*/ new Vector3$1();
 
-const _tempA = /*@__PURE__*/ new Vector3();
-const _tempB = /*@__PURE__*/ new Vector3();
-const _tempC = /*@__PURE__*/ new Vector3();
+const _tempA = /*@__PURE__*/ new Vector3$1();
+const _tempB = /*@__PURE__*/ new Vector3$1();
+const _tempC = /*@__PURE__*/ new Vector3$1();
 
-const _morphA = /*@__PURE__*/ new Vector3();
-const _morphB = /*@__PURE__*/ new Vector3();
-const _morphC = /*@__PURE__*/ new Vector3();
+const _morphA = /*@__PURE__*/ new Vector3$1();
+const _morphB = /*@__PURE__*/ new Vector3$1();
+const _morphC = /*@__PURE__*/ new Vector3$1();
 
 const _uvA$1 = /*@__PURE__*/ new Vector2();
 const _uvB$1 = /*@__PURE__*/ new Vector2();
 const _uvC$1 = /*@__PURE__*/ new Vector2();
 
-const _intersectionPoint = /*@__PURE__*/ new Vector3();
-const _intersectionPointWorld = /*@__PURE__*/ new Vector3();
+const _intersectionPoint = /*@__PURE__*/ new Vector3$1();
+const _intersectionPointWorld = /*@__PURE__*/ new Vector3$1();
 
 class Mesh extends Object3D {
 
@@ -11168,7 +11168,7 @@ function checkBufferGeometryIntersection( object, material, raycaster, ray, posi
 			a: a,
 			b: b,
 			c: c,
-			normal: new Vector3(),
+			normal: new Vector3$1(),
 			materialIndex: 0
 		};
 
@@ -11250,7 +11250,7 @@ class BoxGeometry extends BufferGeometry {
 			let vertexCounter = 0;
 			let groupCount = 0;
 
-			const vector = new Vector3();
+			const vector = new Vector3$1();
 
 			// generate vertices, normals and uvs
 
@@ -11659,7 +11659,7 @@ class Camera extends Object3D {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Camera: .getWorldDirection() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -11975,37 +11975,37 @@ class CubeCamera extends Object3D {
 		const cameraPX = new PerspectiveCamera( fov, aspect, near, far );
 		cameraPX.layers = this.layers;
 		cameraPX.up.set( 0, - 1, 0 );
-		cameraPX.lookAt( new Vector3( 1, 0, 0 ) );
+		cameraPX.lookAt( new Vector3$1( 1, 0, 0 ) );
 		this.add( cameraPX );
 
 		const cameraNX = new PerspectiveCamera( fov, aspect, near, far );
 		cameraNX.layers = this.layers;
 		cameraNX.up.set( 0, - 1, 0 );
-		cameraNX.lookAt( new Vector3( - 1, 0, 0 ) );
+		cameraNX.lookAt( new Vector3$1( - 1, 0, 0 ) );
 		this.add( cameraNX );
 
 		const cameraPY = new PerspectiveCamera( fov, aspect, near, far );
 		cameraPY.layers = this.layers;
 		cameraPY.up.set( 0, 0, 1 );
-		cameraPY.lookAt( new Vector3( 0, 1, 0 ) );
+		cameraPY.lookAt( new Vector3$1( 0, 1, 0 ) );
 		this.add( cameraPY );
 
 		const cameraNY = new PerspectiveCamera( fov, aspect, near, far );
 		cameraNY.layers = this.layers;
 		cameraNY.up.set( 0, 0, - 1 );
-		cameraNY.lookAt( new Vector3( 0, - 1, 0 ) );
+		cameraNY.lookAt( new Vector3$1( 0, - 1, 0 ) );
 		this.add( cameraNY );
 
 		const cameraPZ = new PerspectiveCamera( fov, aspect, near, far );
 		cameraPZ.layers = this.layers;
 		cameraPZ.up.set( 0, - 1, 0 );
-		cameraPZ.lookAt( new Vector3( 0, 0, 1 ) );
+		cameraPZ.lookAt( new Vector3$1( 0, 0, 1 ) );
 		this.add( cameraPZ );
 
 		const cameraNZ = new PerspectiveCamera( fov, aspect, near, far );
 		cameraNZ.layers = this.layers;
 		cameraNZ.up.set( 0, - 1, 0 );
-		cameraNZ.lookAt( new Vector3( 0, 0, - 1 ) );
+		cameraNZ.lookAt( new Vector3$1( 0, 0, - 1 ) );
 		this.add( cameraNZ );
 
 	}
@@ -12257,7 +12257,7 @@ class DataTexture extends Texture {
 DataTexture.prototype.isDataTexture = true;
 
 const _sphere$3 = /*@__PURE__*/ new Sphere();
-const _vector$9 = /*@__PURE__*/ new Vector3();
+const _vector$9 = /*@__PURE__*/ new Vector3$1();
 
 class Frustum {
 
@@ -12653,7 +12653,7 @@ function WebGLAttributes( gl, capabilities ) {
 
 class PlaneGeometry extends BufferGeometry {
 
-	constructor( width = 1, height = 1, widthSegments = 1, heightSegments = 1 ) {
+	constructor( width = 1, height = 1, widthSegments = 1, heightSegments = 1, mosaic = false ) {
 
 		super();
 		this.type = 'PlaneGeometry';
@@ -12712,8 +12712,44 @@ class PlaneGeometry extends BufferGeometry {
 				const c = ( ix + 1 ) + gridX1 * ( iy + 1 );
 				const d = ( ix + 1 ) + gridX1 * iy;
 
-				indices.push( a, b, d );
-				indices.push( b, c, d );
+				if ( mosaic ) {
+
+					if ( iy % 2 == 0 ) {
+
+						if ( ix % 2 == 0 ) {
+	
+							indices.push( a, b, d );
+							indices.push( b, c, d );
+	
+						} else {
+	
+							indices.push( a, b, c );
+							indices.push( a, c, d );
+	
+						}
+	
+					} else {
+	
+						if ( ix % 2 != 0 ) {
+	
+							indices.push( a, b, d );
+							indices.push( b, c, d );
+	
+						} else {
+	
+							indices.push( a, b, c );
+							indices.push( a, c, d );
+	
+						}
+	
+					}
+
+				} else {
+
+					indices.push( a, b, d );
+					indices.push( b, c, d );
+
+				}
 
 			}
 
@@ -18498,7 +18534,7 @@ const ShaderLib = {
 			UniformsLib.common,
 			UniformsLib.displacementmap,
 			{
-				referencePosition: { value: new Vector3() },
+				referencePosition: { value: new Vector3$1() },
 				nearDistance: { value: 1 },
 				farDistance: { value: 1000 }
 			}
@@ -22994,15 +23030,15 @@ function UniformsCache() {
 
 				case 'DirectionalLight':
 					uniforms = {
-						direction: new Vector3(),
+						direction: new Vector3$1(),
 						color: new Color()
 					};
 					break;
 
 				case 'SpotLight':
 					uniforms = {
-						position: new Vector3(),
-						direction: new Vector3(),
+						position: new Vector3$1(),
+						direction: new Vector3$1(),
 						color: new Color(),
 						distance: 0,
 						coneCos: 0,
@@ -23013,7 +23049,7 @@ function UniformsCache() {
 
 				case 'PointLight':
 					uniforms = {
-						position: new Vector3(),
+						position: new Vector3$1(),
 						color: new Color(),
 						distance: 0,
 						decay: 0
@@ -23022,7 +23058,7 @@ function UniformsCache() {
 
 				case 'HemisphereLight':
 					uniforms = {
-						direction: new Vector3(),
+						direction: new Vector3$1(),
 						skyColor: new Color(),
 						groundColor: new Color()
 					};
@@ -23031,9 +23067,9 @@ function UniformsCache() {
 				case 'RectAreaLight':
 					uniforms = {
 						color: new Color(),
-						position: new Vector3(),
-						halfWidth: new Vector3(),
-						halfHeight: new Vector3()
+						position: new Vector3$1(),
+						halfWidth: new Vector3$1(),
+						halfHeight: new Vector3$1()
 					};
 					break;
 
@@ -23163,9 +23199,9 @@ function WebGLLights( extensions, capabilities ) {
 
 	};
 
-	for ( let i = 0; i < 9; i ++ ) state.probe.push( new Vector3() );
+	for ( let i = 0; i < 9; i ++ ) state.probe.push( new Vector3$1() );
 
-	const vector3 = new Vector3();
+	const vector3 = new Vector3$1();
 	const matrix4 = new Matrix4();
 	const matrix42 = new Matrix4();
 
@@ -23721,7 +23757,7 @@ class MeshDistanceMaterial extends Material {
 
 		this.type = 'MeshDistanceMaterial';
 
-		this.referencePosition = new Vector3();
+		this.referencePosition = new Vector3$1();
 		this.nearDistance = 1;
 		this.farDistance = 1000;
 
@@ -26881,9 +26917,9 @@ class WebXRController {
 			this._targetRay.matrixAutoUpdate = false;
 			this._targetRay.visible = false;
 			this._targetRay.hasLinearVelocity = false;
-			this._targetRay.linearVelocity = new Vector3();
+			this._targetRay.linearVelocity = new Vector3$1();
 			this._targetRay.hasAngularVelocity = false;
-			this._targetRay.angularVelocity = new Vector3();
+			this._targetRay.angularVelocity = new Vector3$1();
 
 		}
 
@@ -26899,9 +26935,9 @@ class WebXRController {
 			this._grip.matrixAutoUpdate = false;
 			this._grip.visible = false;
 			this._grip.hasLinearVelocity = false;
-			this._grip.linearVelocity = new Vector3();
+			this._grip.linearVelocity = new Vector3$1();
 			this._grip.hasAngularVelocity = false;
-			this._grip.angularVelocity = new Vector3();
+			this._grip.angularVelocity = new Vector3$1();
 
 		}
 
@@ -27403,8 +27439,8 @@ class WebXRManager extends EventDispatcher {
 
 		//
 
-		const cameraLPos = new Vector3();
-		const cameraRPos = new Vector3();
+		const cameraLPos = new Vector3$1();
+		const cameraRPos = new Vector3$1();
 
 		/**
 		 * Assumes 2 cameras that are parallel and share an X-axis, and that
@@ -28440,7 +28476,7 @@ function WebGLRenderer( parameters ) {
 
 	const _projScreenMatrix = new Matrix4();
 
-	const _vector3 = new Vector3();
+	const _vector3 = new Vector3$1();
 
 	const _emptyScene = { background: null, fog: null, environment: null, overrideMaterial: null, isScene: true };
 
@@ -30655,7 +30691,7 @@ class InterleavedBuffer {
 
 InterleavedBuffer.prototype.isInterleavedBuffer = true;
 
-const _vector$8 = new  Vector3();
+const _vector$8 = new  Vector3$1();
 
 class InterleavedBufferAttribute {
 
@@ -30996,17 +31032,17 @@ SpriteMaterial.prototype.isSpriteMaterial = true;
 
 let _geometry;
 
-const _intersectPoint = /*@__PURE__*/ new Vector3();
-const _worldScale = /*@__PURE__*/ new Vector3();
-const _mvPosition = /*@__PURE__*/ new Vector3();
+const _intersectPoint = /*@__PURE__*/ new Vector3$1();
+const _worldScale = /*@__PURE__*/ new Vector3$1();
+const _mvPosition = /*@__PURE__*/ new Vector3$1();
 
 const _alignedPosition = /*@__PURE__*/ new Vector2();
 const _rotatedPosition = /*@__PURE__*/ new Vector2();
 const _viewWorldMatrix = /*@__PURE__*/ new Matrix4();
 
-const _vA = /*@__PURE__*/ new Vector3();
-const _vB = /*@__PURE__*/ new Vector3();
-const _vC = /*@__PURE__*/ new Vector3();
+const _vA = /*@__PURE__*/ new Vector3$1();
+const _vB = /*@__PURE__*/ new Vector3$1();
+const _vC = /*@__PURE__*/ new Vector3$1();
 
 const _uvA = /*@__PURE__*/ new Vector2();
 const _uvB = /*@__PURE__*/ new Vector2();
@@ -31164,8 +31200,8 @@ function transformVertex( vertexPosition, mvPosition, center, scale, sin, cos ) 
 
 }
 
-const _v1$2 = /*@__PURE__*/ new Vector3();
-const _v2$1 = /*@__PURE__*/ new Vector3();
+const _v1$2 = /*@__PURE__*/ new Vector3$1();
+const _v2$1 = /*@__PURE__*/ new Vector3$1();
 
 class LOD extends Object3D {
 
@@ -31354,12 +31390,12 @@ class LOD extends Object3D {
 
 }
 
-const _basePosition = /*@__PURE__*/ new Vector3();
+const _basePosition = /*@__PURE__*/ new Vector3$1();
 
 const _skinIndex = /*@__PURE__*/ new Vector4();
 const _skinWeight = /*@__PURE__*/ new Vector4();
 
-const _vector$7 = /*@__PURE__*/ new Vector3();
+const _vector$7 = /*@__PURE__*/ new Vector3$1();
 const _matrix = /*@__PURE__*/ new Matrix4();
 
 class SkinnedMesh extends Mesh {
@@ -31933,8 +31969,8 @@ class LineBasicMaterial extends Material {
 
 LineBasicMaterial.prototype.isLineBasicMaterial = true;
 
-const _start$2 = /*@__PURE__*/ new Vector3();
-const _end$2 = /*@__PURE__*/ new Vector3();
+const _start$2 = /*@__PURE__*/ new Vector3$1();
+const _end$2 = /*@__PURE__*/ new Vector3$1();
 const _inverseMatrix$1 = /*@__PURE__*/ new Matrix4();
 const _ray$1 = /*@__PURE__*/ new Ray();
 const _sphere$2 = /*@__PURE__*/ new Sphere();
@@ -32031,10 +32067,10 @@ class Line extends Object3D {
 		const localThreshold = threshold / ( ( this.scale.x + this.scale.y + this.scale.z ) / 3 );
 		const localThresholdSq = localThreshold * localThreshold;
 
-		const vStart = new Vector3();
-		const vEnd = new Vector3();
-		const interSegment = new Vector3();
-		const interRay = new Vector3();
+		const vStart = new Vector3$1();
+		const vEnd = new Vector3$1();
+		const interSegment = new Vector3$1();
+		const interRay = new Vector3$1();
 		const step = this.isLineSegments ? 2 : 1;
 
 		if ( geometry.isBufferGeometry ) {
@@ -32175,8 +32211,8 @@ class Line extends Object3D {
 
 Line.prototype.isLine = true;
 
-const _start$1 = /*@__PURE__*/ new Vector3();
-const _end$1 = /*@__PURE__*/ new Vector3();
+const _start$1 = /*@__PURE__*/ new Vector3$1();
+const _end$1 = /*@__PURE__*/ new Vector3$1();
 
 class LineSegments extends Line {
 
@@ -32310,7 +32346,7 @@ PointsMaterial.prototype.isPointsMaterial = true;
 const _inverseMatrix = /*@__PURE__*/ new Matrix4();
 const _ray = /*@__PURE__*/ new Ray();
 const _sphere$1 = /*@__PURE__*/ new Sphere();
-const _position$2 = /*@__PURE__*/ new Vector3();
+const _position$2 = /*@__PURE__*/ new Vector3$1();
 
 class Points extends Object3D {
 
@@ -32462,7 +32498,7 @@ function testPoint( point, index, localThresholdSq, matrixWorld, raycaster, inte
 
 	if ( rayPointDistanceSq < localThresholdSq ) {
 
-		const intersectPoint = new Vector3();
+		const intersectPoint = new Vector3$1();
 
 		_ray.closestPointToPoint( point, intersectPoint );
 		intersectPoint.applyMatrix4( matrixWorld );
@@ -32636,7 +32672,7 @@ class CircleGeometry extends BufferGeometry {
 
 		// helper variables
 
-		const vertex = new Vector3();
+		const vertex = new Vector3$1();
 		const uv = new Vector2();
 
 		// center point
@@ -32745,8 +32781,8 @@ class CylinderGeometry extends BufferGeometry {
 
 		function generateTorso() {
 
-			const normal = new Vector3();
-			const vertex = new Vector3();
+			const normal = new Vector3$1();
+			const vertex = new Vector3$1();
 
 			let groupCount = 0;
 
@@ -32844,7 +32880,7 @@ class CylinderGeometry extends BufferGeometry {
 			const centerIndexStart = index;
 
 			const uv = new Vector2();
-			const vertex = new Vector3();
+			const vertex = new Vector3$1();
 
 			let groupCount = 0;
 
@@ -33024,9 +33060,9 @@ class PolyhedronGeometry extends BufferGeometry {
 
 		function subdivide( detail ) {
 
-			const a = new Vector3();
-			const b = new Vector3();
-			const c = new Vector3();
+			const a = new Vector3$1();
+			const b = new Vector3$1();
+			const c = new Vector3$1();
 
 			// iterate over all faces and apply a subdivison with the given detail value
 
@@ -33111,7 +33147,7 @@ class PolyhedronGeometry extends BufferGeometry {
 
 		function applyRadius( radius ) {
 
-			const vertex = new Vector3();
+			const vertex = new Vector3$1();
 
 			// iterate over the entire buffer and apply the radius to each vertex
 
@@ -33133,7 +33169,7 @@ class PolyhedronGeometry extends BufferGeometry {
 
 		function generateUVs() {
 
-			const vertex = new Vector3();
+			const vertex = new Vector3$1();
 
 			for ( let i = 0; i < vertexBuffer.length; i += 3 ) {
 
@@ -33200,11 +33236,11 @@ class PolyhedronGeometry extends BufferGeometry {
 
 		function correctUVs() {
 
-			const a = new Vector3();
-			const b = new Vector3();
-			const c = new Vector3();
+			const a = new Vector3$1();
+			const b = new Vector3$1();
+			const c = new Vector3$1();
 
-			const centroid = new Vector3();
+			const centroid = new Vector3$1();
 
 			const uvA = new Vector2();
 			const uvB = new Vector2();
@@ -33325,9 +33361,9 @@ class DodecahedronGeometry extends PolyhedronGeometry {
 
 }
 
-const _v0 = new Vector3();
-const _v1$1 = new Vector3();
-const _normal = new Vector3();
+const _v0 = new Vector3$1();
+const _v1$1 = new Vector3$1();
+const _normal = new Vector3$1();
 const _triangle = new Triangle();
 
 class EdgesGeometry extends BufferGeometry {
@@ -34450,9 +34486,9 @@ class ExtrudeGeometry extends BufferGeometry {
 
 				// console.log(splineTube, 'splineTube', splineTube.normals.length, 'steps', steps, 'extrudePts', extrudePts.length);
 
-				binormal = new Vector3();
-				normal = new Vector3();
-				position2 = new Vector3();
+				binormal = new Vector3$1();
+				normal = new Vector3$1();
+				position2 = new Vector3$1();
 
 			}
 
@@ -35182,7 +35218,7 @@ class LatheGeometry extends BufferGeometry {
 		// helper variables
 
 		const inverseSegments = 1.0 / segments;
-		const vertex = new Vector3();
+		const vertex = new Vector3$1();
 		const uv = new Vector2();
 
 		// generate vertices and uvs
@@ -35254,9 +35290,9 @@ class LatheGeometry extends BufferGeometry {
 		if ( phiLength === Math.PI * 2 ) {
 
 			const normals = this.attributes.normal.array;
-			const n1 = new Vector3();
-			const n2 = new Vector3();
-			const n = new Vector3();
+			const n1 = new Vector3$1();
+			const n2 = new Vector3$1();
+			const n = new Vector3$1();
 
 			// this is the buffer offset for the last line of vertices
 
@@ -35350,10 +35386,10 @@ class ParametricGeometry extends BufferGeometry {
 
 		const EPS = 0.00001;
 
-		const normal = new Vector3();
+		const normal = new Vector3$1();
 
-		const p0 = new Vector3(), p1 = new Vector3();
-		const pu = new Vector3(), pv = new Vector3();
+		const p0 = new Vector3$1(), p1 = new Vector3$1();
+		const pu = new Vector3$1(), pv = new Vector3$1();
 
 		if ( func.length < 3 ) {
 
@@ -35481,7 +35517,7 @@ class RingGeometry extends BufferGeometry {
 
 		let radius = innerRadius;
 		const radiusStep = ( ( outerRadius - innerRadius ) / phiSegments );
-		const vertex = new Vector3();
+		const vertex = new Vector3$1();
 		const uv = new Vector2();
 
 		// generate vertices, normals and uvs
@@ -35741,8 +35777,8 @@ class SphereGeometry extends BufferGeometry {
 		let index = 0;
 		const grid = [];
 
-		const vertex = new Vector3();
-		const normal = new Vector3();
+		const vertex = new Vector3$1();
+		const normal = new Vector3$1();
 
 		// buffers
 
@@ -35933,9 +35969,9 @@ class TorusGeometry extends BufferGeometry {
 
 		// helper variables
 
-		const center = new Vector3();
-		const vertex = new Vector3();
-		const normal = new Vector3();
+		const center = new Vector3$1();
+		const vertex = new Vector3$1();
+		const normal = new Vector3$1();
 
 		// generate vertices, normals and uvs
 
@@ -36032,15 +36068,15 @@ class TorusKnotGeometry extends BufferGeometry {
 
 		// helper variables
 
-		const vertex = new Vector3();
-		const normal = new Vector3();
+		const vertex = new Vector3$1();
+		const normal = new Vector3$1();
 
-		const P1 = new Vector3();
-		const P2 = new Vector3();
+		const P1 = new Vector3$1();
+		const P2 = new Vector3$1();
 
-		const B = new Vector3();
-		const T = new Vector3();
-		const N = new Vector3();
+		const B = new Vector3$1();
+		const T = new Vector3$1();
+		const N = new Vector3$1();
 
 		// generate vertices, normals and uvs
 
@@ -36174,10 +36210,10 @@ class TubeGeometry extends BufferGeometry {
 
 		// helper variables
 
-		const vertex = new Vector3();
-		const normal = new Vector3();
+		const vertex = new Vector3$1();
+		const normal = new Vector3$1();
 		const uv = new Vector2();
-		let P = new Vector3();
+		let P = new Vector3$1();
 
 		// buffer
 
@@ -36340,7 +36376,7 @@ class WireframeGeometry extends BufferGeometry {
 
 		const edge = [ 0, 0 ], edges = {};
 
-		const vertex = new Vector3();
+		const vertex = new Vector3$1();
 
 		if ( geometry.index !== null ) {
 
@@ -40567,7 +40603,7 @@ class Curve {
 		const pt1 = this.getPoint( t1 );
 		const pt2 = this.getPoint( t2 );
 
-		const tangent = optionalTarget || ( ( pt1.isVector2 ) ? new Vector2() : new Vector3() );
+		const tangent = optionalTarget || ( ( pt1.isVector2 ) ? new Vector2() : new Vector3$1() );
 
 		tangent.copy( pt2 ).sub( pt1 ).normalize();
 
@@ -40586,13 +40622,13 @@ class Curve {
 
 		// see http://www.cs.indiana.edu/pub/techreports/TR425.pdf
 
-		const normal = new Vector3();
+		const normal = new Vector3$1();
 
 		const tangents = [];
 		const normals = [];
 		const binormals = [];
 
-		const vec = new Vector3();
+		const vec = new Vector3$1();
 		const mat = new Matrix4();
 
 		// compute the tangent vectors for each segment on the curve
@@ -40601,7 +40637,7 @@ class Curve {
 
 			const u = i / segments;
 
-			tangents[ i ] = this.getTangentAt( u, new Vector3() );
+			tangents[ i ] = this.getTangentAt( u, new Vector3$1() );
 			tangents[ i ].normalize();
 
 		}
@@ -40609,8 +40645,8 @@ class Curve {
 		// select an initial normal vector perpendicular to the first tangent vector,
 		// and in the direction of the minimum tangent xyz component
 
-		normals[ 0 ] = new Vector3();
-		binormals[ 0 ] = new Vector3();
+		normals[ 0 ] = new Vector3$1();
+		binormals[ 0 ] = new Vector3$1();
 		let min = Number.MAX_VALUE;
 		const tx = Math.abs( tangents[ 0 ].x );
 		const ty = Math.abs( tangents[ 0 ].y );
@@ -40981,7 +41017,7 @@ function CubicPoly() {
 
 //
 
-const tmp = new Vector3();
+const tmp = new Vector3$1();
 const px = new CubicPoly(), py = new CubicPoly(), pz = new CubicPoly();
 
 class CatmullRomCurve3 extends Curve {
@@ -40999,7 +41035,7 @@ class CatmullRomCurve3 extends Curve {
 
 	}
 
-	getPoint( t, optionalTarget = new Vector3() ) {
+	getPoint( t, optionalTarget = new Vector3$1() ) {
 
 		const point = optionalTarget;
 
@@ -41137,7 +41173,7 @@ class CatmullRomCurve3 extends Curve {
 		for ( let i = 0, l = json.points.length; i < l; i ++ ) {
 
 			const point = json.points[ i ];
-			this.points.push( new Vector3().fromArray( point ) );
+			this.points.push( new Vector3$1().fromArray( point ) );
 
 		}
 
@@ -41306,7 +41342,7 @@ CubicBezierCurve.prototype.isCubicBezierCurve = true;
 
 class CubicBezierCurve3 extends Curve {
 
-	constructor( v0 = new Vector3(), v1 = new Vector3(), v2 = new Vector3(), v3 = new Vector3() ) {
+	constructor( v0 = new Vector3$1(), v1 = new Vector3$1(), v2 = new Vector3$1(), v3 = new Vector3$1() ) {
 
 		super();
 
@@ -41319,7 +41355,7 @@ class CubicBezierCurve3 extends Curve {
 
 	}
 
-	getPoint( t, optionalTarget = new Vector3() ) {
+	getPoint( t, optionalTarget = new Vector3$1() ) {
 
 		const point = optionalTarget;
 
@@ -41466,7 +41502,7 @@ LineCurve.prototype.isLineCurve = true;
 
 class LineCurve3 extends Curve {
 
-	constructor( v1 = new Vector3(), v2 = new Vector3() ) {
+	constructor( v1 = new Vector3$1(), v2 = new Vector3$1() ) {
 
 		super();
 
@@ -41477,7 +41513,7 @@ class LineCurve3 extends Curve {
 		this.v2 = v2;
 
 	}
-	getPoint( t, optionalTarget = new Vector3() ) {
+	getPoint( t, optionalTarget = new Vector3$1() ) {
 
 		const point = optionalTarget;
 
@@ -41605,7 +41641,7 @@ QuadraticBezierCurve.prototype.isQuadraticBezierCurve = true;
 
 class QuadraticBezierCurve3 extends Curve {
 
-	constructor( v0 = new Vector3(), v1 = new Vector3(), v2 = new Vector3() ) {
+	constructor( v0 = new Vector3$1(), v1 = new Vector3$1(), v2 = new Vector3$1() ) {
 
 		super();
 
@@ -41617,7 +41653,7 @@ class QuadraticBezierCurve3 extends Curve {
 
 	}
 
-	getPoint( t, optionalTarget = new Vector3() ) {
+	getPoint( t, optionalTarget = new Vector3$1() ) {
 
 		const point = optionalTarget;
 
@@ -42392,8 +42428,8 @@ class HemisphereLight extends Light {
 HemisphereLight.prototype.isHemisphereLight = true;
 
 const _projScreenMatrix$1 = /*@__PURE__*/ new Matrix4();
-const _lightPositionWorld$1 = /*@__PURE__*/ new Vector3();
-const _lookTarget$1 = /*@__PURE__*/ new Vector3();
+const _lightPositionWorld$1 = /*@__PURE__*/ new Vector3$1();
+const _lookTarget$1 = /*@__PURE__*/ new Vector3$1();
 
 class LightShadow {
 
@@ -42642,8 +42678,8 @@ class SpotLight extends Light {
 SpotLight.prototype.isSpotLight = true;
 
 const _projScreenMatrix = /*@__PURE__*/ new Matrix4();
-const _lightPositionWorld = /*@__PURE__*/ new Vector3();
-const _lookTarget = /*@__PURE__*/ new Vector3();
+const _lightPositionWorld = /*@__PURE__*/ new Vector3$1();
+const _lookTarget = /*@__PURE__*/ new Vector3$1();
 
 class PointLightShadow extends LightShadow {
 
@@ -42684,13 +42720,13 @@ class PointLightShadow extends LightShadow {
 		];
 
 		this._cubeDirections = [
-			new Vector3( 1, 0, 0 ), new Vector3( - 1, 0, 0 ), new Vector3( 0, 0, 1 ),
-			new Vector3( 0, 0, - 1 ), new Vector3( 0, 1, 0 ), new Vector3( 0, - 1, 0 )
+			new Vector3$1( 1, 0, 0 ), new Vector3$1( - 1, 0, 0 ), new Vector3$1( 0, 0, 1 ),
+			new Vector3$1( 0, 0, - 1 ), new Vector3$1( 0, 1, 0 ), new Vector3$1( 0, - 1, 0 )
 		];
 
 		this._cubeUps = [
-			new Vector3( 0, 1, 0 ), new Vector3( 0, 1, 0 ), new Vector3( 0, 1, 0 ),
-			new Vector3( 0, 1, 0 ), new Vector3( 0, 0, 1 ),	new Vector3( 0, 0, - 1 )
+			new Vector3$1( 0, 1, 0 ), new Vector3$1( 0, 1, 0 ), new Vector3$1( 0, 1, 0 ),
+			new Vector3$1( 0, 1, 0 ), new Vector3$1( 0, 0, 1 ),	new Vector3$1( 0, 0, - 1 )
 		];
 
 	}
@@ -43037,7 +43073,7 @@ class SphericalHarmonics3 {
 
 		for ( let i = 0; i < 9; i ++ ) {
 
-			this.coefficients.push( new Vector3() );
+			this.coefficients.push( new Vector3$1() );
 
 		}
 
@@ -43467,7 +43503,7 @@ class MaterialLoader$1 extends Loader$1 {
 						break;
 
 					case 'v3':
-						material.uniforms[ name ].value = new Vector3().fromArray( uniform.value );
+						material.uniforms[ name ].value = new Vector3$1().fromArray( uniform.value );
 						break;
 
 					case 'v4':
@@ -43916,7 +43952,7 @@ class BufferGeometryLoader extends Loader$1 {
 
 		if ( boundingSphere !== undefined ) {
 
-			const center = new Vector3();
+			const center = new Vector3$1();
 
 			if ( boundingSphere.center !== undefined ) {
 
@@ -45709,8 +45745,8 @@ class HemisphereLightProbe extends LightProbe {
 		const color1 = new Color().set( skyColor );
 		const color2 = new Color().set( groundColor );
 
-		const sky = new Vector3( color1.r, color1.g, color1.b );
-		const ground = new Vector3( color2.r, color2.g, color2.b );
+		const sky = new Vector3$1( color1.r, color1.g, color1.b );
+		const ground = new Vector3$1( color2.r, color2.g, color2.b );
 
 		// without extra factor of PI in the shader, should = 1 / Math.sqrt( Math.PI );
 		const c0 = Math.sqrt( Math.PI );
@@ -45909,10 +45945,10 @@ function now$2() {
 
 }
 
-const _position$1 = /*@__PURE__*/ new Vector3();
+const _position$1 = /*@__PURE__*/ new Vector3$1();
 const _quaternion$1 = /*@__PURE__*/ new Quaternion();
-const _scale$1 = /*@__PURE__*/ new Vector3();
-const _orientation$1 = /*@__PURE__*/ new Vector3();
+const _scale$1 = /*@__PURE__*/ new Vector3$1();
+const _orientation$1 = /*@__PURE__*/ new Vector3$1();
 
 class AudioListener extends Object3D {
 
@@ -46427,10 +46463,10 @@ class Audio$1 extends Object3D {
 
 }
 
-const _position = /*@__PURE__*/ new Vector3();
+const _position = /*@__PURE__*/ new Vector3$1();
 const _quaternion = /*@__PURE__*/ new Quaternion();
-const _scale = /*@__PURE__*/ new Vector3();
-const _orientation = /*@__PURE__*/ new Vector3();
+const _scale = /*@__PURE__*/ new Vector3$1();
+const _orientation = /*@__PURE__*/ new Vector3$1();
 
 class PositionalAudio extends Audio$1 {
 
@@ -50056,12 +50092,12 @@ class Box2 {
 
 Box2.prototype.isBox2 = true;
 
-const _startP = /*@__PURE__*/ new Vector3();
-const _startEnd = /*@__PURE__*/ new Vector3();
+const _startP = /*@__PURE__*/ new Vector3$1();
+const _startEnd = /*@__PURE__*/ new Vector3$1();
 
 class Line3 {
 
-	constructor( start = new Vector3(), end = new Vector3() ) {
+	constructor( start = new Vector3$1(), end = new Vector3$1() ) {
 
 		this.start = start;
 		this.end = end;
@@ -50091,7 +50127,7 @@ class Line3 {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Line3: .getCenter() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -50104,7 +50140,7 @@ class Line3 {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Line3: .delta() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -50129,7 +50165,7 @@ class Line3 {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Line3: .at() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -50164,7 +50200,7 @@ class Line3 {
 		if ( target === undefined ) {
 
 			console.warn( 'THREE.Line3: .closestPointToPoint() target is now required' );
-			target = new Vector3();
+			target = new Vector3$1();
 
 		}
 
@@ -50222,7 +50258,7 @@ class ImmediateRenderObject extends Object3D {
 
 ImmediateRenderObject.prototype.isImmediateRenderObject = true;
 
-const _vector$5 = /*@__PURE__*/ new Vector3();
+const _vector$5 = /*@__PURE__*/ new Vector3$1();
 
 class SpotLightHelper extends Object3D {
 
@@ -50304,7 +50340,7 @@ class SpotLightHelper extends Object3D {
 
 }
 
-const _vector$4 = /*@__PURE__*/ new Vector3();
+const _vector$4 = /*@__PURE__*/ new Vector3$1();
 const _boneMatrix = /*@__PURE__*/ new Matrix4();
 const _matrixWorldInv = /*@__PURE__*/ new Matrix4();
 
@@ -50499,7 +50535,7 @@ class PointLightHelper extends Mesh {
 
 }
 
-const _vector$3 = /*@__PURE__*/ new Vector3();
+const _vector$3 = /*@__PURE__*/ new Vector3$1();
 const _color1 = /*@__PURE__*/ new Color();
 const _color2 = /*@__PURE__*/ new Color();
 
@@ -50691,9 +50727,9 @@ class PolarGridHelper extends LineSegments {
 
 }
 
-const _v1 = /*@__PURE__*/ new Vector3();
-const _v2 = /*@__PURE__*/ new Vector3();
-const _v3 = /*@__PURE__*/ new Vector3();
+const _v1 = /*@__PURE__*/ new Vector3$1();
+const _v2 = /*@__PURE__*/ new Vector3$1();
+const _v3 = /*@__PURE__*/ new Vector3$1();
 
 class DirectionalLightHelper extends Object3D {
 
@@ -50770,7 +50806,7 @@ class DirectionalLightHelper extends Object3D {
 
 }
 
-const _vector$2 = /*@__PURE__*/ new Vector3();
+const _vector$2 = /*@__PURE__*/ new Vector3$1();
 const _camera = /*@__PURE__*/ new Camera();
 
 /**
@@ -51160,14 +51196,14 @@ class PlaneHelper extends Line {
 
 }
 
-const _axis = /*@__PURE__*/ new Vector3();
+const _axis = /*@__PURE__*/ new Vector3$1();
 let _lineGeometry, _coneGeometry;
 
 class ArrowHelper extends Object3D {
 
 	// dir is assumed to be normalized
 
-	constructor( dir = new Vector3( 0, 0, 1 ), origin = new Vector3( 0, 0, 0 ), length = 1, color = 0xffff00, headLength = length * 0.2, headWidth = headLength * 0.2 ) {
+	constructor( dir = new Vector3$1( 0, 0, 1 ), origin = new Vector3$1( 0, 0, 0 ), length = 1, color = 0xffff00, headLength = length * 0.2, headWidth = headLength * 0.2 ) {
 
 		super();
 
@@ -51393,16 +51429,16 @@ const INV_PHI = 1 / PHI;
 // Vertices of a dodecahedron (except the opposites, which represent the
 // same axis), used as axis directions evenly spread on a sphere.
 const _axisDirections = [
-	/*@__PURE__*/ new Vector3( 1, 1, 1 ),
-	/*@__PURE__*/ new Vector3( - 1, 1, 1 ),
-	/*@__PURE__*/ new Vector3( 1, 1, - 1 ),
-	/*@__PURE__*/ new Vector3( - 1, 1, - 1 ),
-	/*@__PURE__*/ new Vector3( 0, PHI, INV_PHI ),
-	/*@__PURE__*/ new Vector3( 0, PHI, - INV_PHI ),
-	/*@__PURE__*/ new Vector3( INV_PHI, 0, PHI ),
-	/*@__PURE__*/ new Vector3( - INV_PHI, 0, PHI ),
-	/*@__PURE__*/ new Vector3( PHI, INV_PHI, 0 ),
-	/*@__PURE__*/ new Vector3( - PHI, INV_PHI, 0 ) ];
+	/*@__PURE__*/ new Vector3$1( 1, 1, 1 ),
+	/*@__PURE__*/ new Vector3$1( - 1, 1, 1 ),
+	/*@__PURE__*/ new Vector3$1( 1, 1, - 1 ),
+	/*@__PURE__*/ new Vector3$1( - 1, 1, - 1 ),
+	/*@__PURE__*/ new Vector3$1( 0, PHI, INV_PHI ),
+	/*@__PURE__*/ new Vector3$1( 0, PHI, - INV_PHI ),
+	/*@__PURE__*/ new Vector3$1( INV_PHI, 0, PHI ),
+	/*@__PURE__*/ new Vector3$1( - INV_PHI, 0, PHI ),
+	/*@__PURE__*/ new Vector3$1( PHI, INV_PHI, 0 ),
+	/*@__PURE__*/ new Vector3$1( - PHI, INV_PHI, 0 ) ];
 
 /**
  * This class generates a Prefiltered, Mipmapped Radiance Environment Map
@@ -51964,7 +52000,7 @@ function _setViewport( target, x, y, width, height ) {
 function _getBlurShader( maxSamples ) {
 
 	const weights = new Float32Array( maxSamples );
-	const poleAxis = new Vector3( 0, 1, 0 );
+	const poleAxis = new Vector3$1( 0, 1, 0 );
 	const shaderMaterial = new RawShaderMaterial( {
 
 		name: 'SphericalGaussianBlur',
@@ -52464,7 +52500,7 @@ var pack$7 = /*#__PURE__*/Object.freeze({
     Line3: Line3,
     Euler: Euler,
     Vector4: Vector4,
-    Vector3: Vector3,
+    Vector3: Vector3$1,
     Vector2: Vector2,
     Quaternion: Quaternion,
     Color: Color,
@@ -54074,17 +54110,17 @@ class BufferGeometryUtils {
 
 		}
 
-		const _vA = new Vector3();
-		const _vB = new Vector3();
-		const _vC = new Vector3();
+		const _vA = new Vector3$1();
+		const _vB = new Vector3$1();
+		const _vC = new Vector3$1();
 
-		const _tempA = new Vector3();
-		const _tempB = new Vector3();
-		const _tempC = new Vector3();
+		const _tempA = new Vector3$1();
+		const _tempB = new Vector3$1();
+		const _tempC = new Vector3$1();
 
-		const _morphA = new Vector3();
-		const _morphB = new Vector3();
-		const _morphC = new Vector3();
+		const _morphA = new Vector3$1();
+		const _morphB = new Vector3$1();
+		const _morphC = new Vector3$1();
 
 		function _calculateMorphedAttributeData (
 			object,
@@ -58048,8 +58084,8 @@ function computeBounds ( geometry, primitiveDef, parser ) {
 		if ( min !== undefined && max !== undefined ) {
 
 			box.set(
-				new Vector3( min[ 0 ], min[ 1 ], min[ 2 ] ),
-				new Vector3( max[ 0 ], max[ 1 ], max[ 2 ] )
+				new Vector3$1( min[ 0 ], min[ 1 ], min[ 2 ] ),
+				new Vector3$1( max[ 0 ], max[ 1 ], max[ 2 ] )
 			);
 
 			if ( accessor.normalized ) {
@@ -58078,8 +58114,8 @@ function computeBounds ( geometry, primitiveDef, parser ) {
 
 	if ( targets !== undefined ) {
 
-		const maxDisplacement = new Vector3();
-		const vector = new Vector3();
+		const maxDisplacement = new Vector3$1();
+		const vector = new Vector3$1();
 
 		for ( let i = 0, il = targets.length; i < il; i ++ ) {
 
@@ -58295,7 +58331,7 @@ function toTrianglesDrawMode ( geometry, drawMode ) {
 }
 
 const _box$1 = new Box3();
-const _vector$1 = new Vector3();
+const _vector$1 = new Vector3$1();
 
 class LineSegmentsGeometry extends InstancedBufferGeometry {
 
@@ -59225,17 +59261,17 @@ class LineMaterial extends ShaderMaterial {
 
 }
 
-const _start = new Vector3();
-const _end = new Vector3();
+const _start = new Vector3$1();
+const _end = new Vector3$1();
 
 const _start4 = new Vector4();
 const _end4 = new Vector4();
 
 const _ssOrigin = new Vector4();
-const _ssOrigin3 = new Vector3();
+const _ssOrigin3 = new Vector3$1();
 const _mvMatrix = new Matrix4();
 const _line = new Line3();
-const _closestPoint = new Vector3();
+const _closestPoint = new Vector3$1();
 
 const _box = new Box3();
 const _sphere = new Sphere();
@@ -59466,8 +59502,8 @@ class LineSegments2 extends Mesh {
 				_line.start.applyMatrix4( matrixWorld );
 				_line.end.applyMatrix4( matrixWorld );
 
-				const pointOnLine = new Vector3();
-				const point = new Vector3();
+				const pointOnLine = new Vector3$1();
+				const point = new Vector3$1();
 
 				ray.distanceSqToSegment( _line.start, _line.end, point, pointOnLine );
 
@@ -60846,7 +60882,7 @@ class OrbitControls$1 extends EventDispatcher {
 		this.enabled = true;
 
 		// "target" sets the location of focus, where the object orbits around
-		this.target = new Vector3();
+		this.target = new Vector3$1();
 
 		// smooth zoom variables
 		this.smoothZoom = true;
@@ -60967,13 +61003,13 @@ class OrbitControls$1 extends EventDispatcher {
 		// this method is exposed, but perhaps it would be better if we can make it private...
 		this.update = function () {
 
-			const offset = new Vector3();
+			const offset = new Vector3$1();
 
 			// so camera.up is the orbit axis
-			const quat = new Quaternion().setFromUnitVectors( object.up, new Vector3( 0, 1, 0 ) );
+			const quat = new Quaternion().setFromUnitVectors( object.up, new Vector3$1( 0, 1, 0 ) );
 			const quatInverse = quat.clone().invert();
 
-			const lastPosition = new Vector3();
+			const lastPosition = new Vector3$1();
 			const lastQuaternion = new Quaternion();
 
 			const twoPI = 2 * Math.PI;
@@ -61181,7 +61217,7 @@ class OrbitControls$1 extends EventDispatcher {
 		const sphericalDelta = new Spherical();
 
 		let scale = 1;
-		const panOffset = new Vector3();
+		const panOffset = new Vector3$1();
 		let zoomChanged = false;
 
 		const rotateStart = new Vector2();
@@ -61222,7 +61258,7 @@ class OrbitControls$1 extends EventDispatcher {
 
 		const panLeft = function () {
 
-			const v = new Vector3();
+			const v = new Vector3$1();
 
 			return function panLeft ( distance, objectMatrix ) {
 
@@ -61237,7 +61273,7 @@ class OrbitControls$1 extends EventDispatcher {
 
 		const panUp = function () {
 
-			const v = new Vector3();
+			const v = new Vector3$1();
 
 			return function panUp ( distance, objectMatrix ) {
 
@@ -61263,7 +61299,7 @@ class OrbitControls$1 extends EventDispatcher {
 		// deltaX and deltaY are in pixels; right and down are positive
 		const pan = function () {
 
-			const offset = new Vector3();
+			const offset = new Vector3$1();
 
 			return function pan ( deltaX, deltaY ) {
 
@@ -62060,7 +62096,7 @@ class OrbitControls$1 extends EventDispatcher {
 	setLight ( lightObject, oX, oY, oZ ) {
 
 		this.light = lightObject;
-		this.light.offset = new Vector3( oX, oY, oZ );
+		this.light.offset = new Vector3$1( oX, oY, oZ );
 
 	}
 
@@ -62149,7 +62185,7 @@ class OrbitControls extends EventDispatcher {
 		this.enabled = true;
 
 		// "target" sets the location of focus, where the object orbits around
-		this.target = new Vector3();
+		this.target = new Vector3$1();
 
 		// How far you can dolly in and out ( PerspectiveCamera only )
 		this.minDistance = 0;
@@ -62260,13 +62296,13 @@ class OrbitControls extends EventDispatcher {
 		// this method is exposed, but perhaps it would be better if we can make it private...
 		this.update = function () {
 
-			const offset = new Vector3();
+			const offset = new Vector3$1();
 
 			// so camera.up is the orbit axis
-			const quat = new Quaternion().setFromUnitVectors( object.up, new Vector3( 0, 1, 0 ) );
+			const quat = new Quaternion().setFromUnitVectors( object.up, new Vector3$1( 0, 1, 0 ) );
 			const quatInverse = quat.clone().invert();
 
-			const lastPosition = new Vector3();
+			const lastPosition = new Vector3$1();
 			const lastQuaternion = new Quaternion();
 
 			const twoPI = 2 * Math.PI;
@@ -62450,7 +62486,7 @@ class OrbitControls extends EventDispatcher {
 		const sphericalDelta = new Spherical();
 
 		let scale = 1;
-		const panOffset = new Vector3();
+		const panOffset = new Vector3$1();
 		let zoomChanged = false;
 
 		const rotateStart = new Vector2();
@@ -62491,7 +62527,7 @@ class OrbitControls extends EventDispatcher {
 
 		const panLeft = function () {
 
-			const v = new Vector3();
+			const v = new Vector3$1();
 
 			return function panLeft( distance, objectMatrix ) {
 
@@ -62506,7 +62542,7 @@ class OrbitControls extends EventDispatcher {
 
 		const panUp = function () {
 
-			const v = new Vector3();
+			const v = new Vector3$1();
 
 			return function panUp( distance, objectMatrix ) {
 
@@ -62532,7 +62568,7 @@ class OrbitControls extends EventDispatcher {
 		// deltaX and deltaY are in pixels; right and down are positive
 		const pan = function () {
 
-			const offset = new Vector3();
+			const offset = new Vector3$1();
 
 			return function pan( deltaX, deltaY ) {
 
@@ -63322,15 +63358,15 @@ class LowPolyWater extends Mesh {
 		//
 
 		const reflectorPlane = new Plane();
-		const normal = new Vector3();
-		const reflectorWorldPosition = new Vector3();
-		const cameraWorldPosition = new Vector3();
+		const normal = new Vector3$1();
+		const reflectorWorldPosition = new Vector3$1();
+		const cameraWorldPosition = new Vector3$1();
 		const rotationMatrix = new Matrix4();
-		const lookAtPosition = new Vector3( 0, 0, - 1 );
+		const lookAtPosition = new Vector3$1( 0, 0, - 1 );
 		const clipPlane = new Vector4();
 
-		const view = new Vector3();
-		const target = new Vector3();
+		const view = new Vector3$1();
+		const target = new Vector3$1();
 		const q = new Vector4();
 
 		const textureMatrix = new Matrix4();
@@ -64060,9 +64096,9 @@ class SkeletonUtils {
 
 	static retarget ( target, source, options = {} ) {
 
-		const pos = new Vector3(),
+		const pos = new Vector3$1(),
 			quat = new Quaternion(),
-			scale = new Vector3(),
+			scale = new Vector3$1(),
 			bindBoneMatrix = new Matrix4(),
 			relativeMatrix = new Matrix4(),
 			globalMatrix = new Matrix4();
@@ -64384,10 +64420,10 @@ class SkeletonUtils {
 
 	static getSkeletonOffsets ( target, source, options = {} ) {
 
-		const targetParentPos = new Vector3(),
-			targetPos = new Vector3(),
-			sourceParentPos = new Vector3(),
-			sourcePos = new Vector3(),
+		const targetParentPos = new Vector3$1(),
+			targetPos = new Vector3$1(),
+			sourceParentPos = new Vector3$1(),
+			sourcePos = new Vector3$1(),
 			targetDir = new Vector2(),
 			sourceDir = new Vector2();
 
@@ -64669,11 +64705,11 @@ CSS2DObject.prototype.isCSS2DObject = true;
 
 //
 
-const _vector = new Vector3();
+const _vector = new Vector3$1();
 const _viewMatrix = new Matrix4();
 const _viewProjectionMatrix = new Matrix4();
-const _a = new Vector3();
-const _b = new Vector3();
+const _a = new Vector3$1();
+const _b = new Vector3$1();
 
 class CSS2DRenderer {
 
@@ -66078,13 +66114,13 @@ class TerrainMeshVertex {
 
     getCoords () {
 
-        return new Vector3( this.x, this.y, this.getHeight() )
+        return new Vector3$1( this.x, this.y, this.getHeight() )
 
     }
 
     getCoordsFromArray ( vertexArray ) {
 
-        return new Vector3( 
+        return new Vector3$1( 
             this.x, this.y, 
             this.getHeightFromArray( vertexArray ) 
         )
@@ -66345,7 +66381,7 @@ class TerrainMeshComponent extends ECSComponent {
 
         this._resolveGroup();
         this._buildMeshes();
-
+ 
         return
 
     }
@@ -66445,13 +66481,27 @@ function removeValue ( array, value, instancesToRemove = 1 ) {
 
 }
 
+function sortHighestToLowest ( array ) {
+
+    return array.sort( ( a, b ) => b - a )
+
+}
+
+function sortLowestToHighest ( array ) {
+
+    return array.sort( ( a, b ) => a - b )
+
+}
+
 var array = /*#__PURE__*/Object.freeze({
     __proto__: null,
     getRandomValue: getRandomValue,
     getIndex: getIndex,
     getIndexValue: getIndexValue,
     removeIndex: removeIndex,
-    removeValue: removeValue
+    removeValue: removeValue,
+    sortHighestToLowest: sortHighestToLowest,
+    sortLowestToHighest: sortLowestToHighest
 });
 
 class AudioManager {
@@ -66747,6 +66797,252 @@ var math = /*#__PURE__*/Object.freeze({
     randomPercentBelow: randomPercentBelow
 });
 
+// class BufferFace {
+
+//     constructor ( geo, aTY, aTX, tY, tX, a, b, c, lA, lB, lC ) {
+
+//         this.array = [ a, b, c ]
+//         this.literals = [ lA, lB, lC ]
+
+//         this.a = a // 0
+//         this.b = b // 1
+//         this.c = c // 2
+//         this.lA = lA // 0
+//         this.lB = lB // 1
+//         this.lC = lC // 2
+//         this.aTX = aTX
+//         this.aTY = aTY
+//         this.tX = tX
+//         this.tY = tY
+
+//         this.Parent = geo
+
+//     }
+
+//     setA ( index ) {
+
+//         this.a = index
+
+//     }
+
+//     setB ( index ) {
+
+//         this.b = index
+
+//     }
+
+//     setC ( index ) {
+
+//         this.c = index
+
+//     }
+
+//     setLA ( index ) {
+
+//         this.lA = index
+
+//     }
+
+//     setLB ( index ) {
+
+//         this.lB = index
+
+//     }
+
+//     setLC ( index ) {
+
+//         this.lC = index
+
+//     }
+
+//     setColor ( color ) {
+
+//         this.Parent.attributes.color.array.setXYZ( this.lA, color.r, color.g, color.b )
+//         this.Parent.attributes.color.array.setXYZ( this.lB, color.r, color.g, color.b )
+//         this.Parent.attributes.color.array.setXYZ( this.lC, color.r, color.g, color.b )
+
+//     }
+
+//     getMinMaxDifference () {
+
+//         const values = [
+//             this.Parent.attributes.position.array[ ( this.lA * 3 ) + 2 ],
+//             this.Parent.attributes.position.array[ ( this.lB * 3 ) + 2 ],
+//             this.Parent.attributes.position.array[ ( this.lC * 3 ) + 2 ]
+//         ]
+
+//         const max = Math.max( ...values ), min = Math.min( ...values )
+            
+//         return max - min
+
+//     }
+
+//     getMax () {
+
+//         const values = [
+//             this.Parent.attributes.position.array[ ( this.lA * 3 ) + 2 ],
+//             this.Parent.attributes.position.array[ ( this.lB * 3 ) + 2 ],
+//             this.Parent.attributes.position.array[ ( this.lC * 3 ) + 2 ]
+//         ]
+
+//         return Math.max( ...values )
+
+//     }
+
+//     getMin () {
+
+//         const values = [
+//             this.Parent.attributes.position.array[ ( this.lA * 3 ) + 2 ],
+//             this.Parent.attributes.position.array[ ( this.lB * 3 ) + 2 ],
+//             this.Parent.attributes.position.array[ ( this.lC * 3 ) + 2 ]
+//         ]
+
+//         return Math.min( ...values )
+
+//     }
+
+// }
+
+class LinkedVertex {
+
+    constructor ( geo, x, y ) {
+
+        this.indexes = []; // [ 0, 1 ]
+        this.x = x;
+        this.y = y;
+
+        this.Parent = geo;
+
+    }
+
+    addIndex () {
+
+        this.indexes.push( ...arguments );
+
+    }
+
+    getCoords () {
+
+        return new Vector3( this.x, this.y, this.getHeight() )
+
+    }
+
+    getHeight () {
+
+        return this.Parent.attributes.position.array[ ( this.indexes[ 0 ] * 3 ) + 2 ]
+        
+    }
+
+    lower ( increment ) {
+
+        const height = this.getHeight();
+
+        this.setHeight( height - increment );
+
+    }
+
+    raise ( increment ) {
+
+        const height = this.getHeight();
+
+        this.setHeight( height + increment );
+
+    }
+
+    setHeight ( height ) {
+
+        for ( let i = 0; i < this.indexes.length; i++ ) {
+
+            this.Parent.attributes.position.array[ ( this.indexes[ i ] * 3 ) + 2 ] = height;
+
+        }
+
+    }
+
+}
+
+function createLinkedPlane ( w = 1, h = 1, divX = 1, divY = 1, mosaic = false ) {
+ 
+    let xList = [];
+    let yList = [];
+
+    const XY = {};
+    const Geometry = new PlaneGeometry( w, h, divX, divY, mosaic ).toNonIndexed();
+    Geometry.Vertices = { indexed: [], XY: {} };
+    
+    for ( let v = 0; v < Geometry.attributes.position.count; v++ ) {
+
+        const x = Geometry.attributes.position.array[ v * 3 ];
+        const y = Geometry.attributes.position.array[ ( v * 3 ) + 1 ];
+        const tx = Number( x.toFixed( 4 ) );
+        const ty = Number( y.toFixed( 4 ) );
+        const xyString = `${ tx },${ ty }`;
+
+        if ( !xList.includes( tx ) ) xList.push( tx );
+        if ( !yList.includes( ty ) ) yList.push( ty );
+
+        if ( !XY[ xyString ] ) XY[ xyString ] = [];
+
+        XY[ xyString ].push( v );
+
+    }
+
+    xList = sortLowestToHighest( xList );
+    yList = sortLowestToHighest( yList );
+
+    for ( let ly = 0; ly < yList.length; ly++ ) {
+
+        for ( let lx = 0; lx < xList.length; lx++ ) {
+
+            const lxyString = `${ xList[ lx ] },${ yList[ ly ] }`;
+            const n = ( ly * xList.length ) + lx;
+
+            const Vertex = new LinkedVertex( Geometry, xList[ lx ], yList[ ly ] );
+            Vertex.addIndex( ...XY[ lxyString ] );
+
+            Geometry.Vertices.indexed.push( Vertex );
+            Geometry.Vertices.XY[ lxyString ] = n;
+
+        }
+
+    }
+
+    Geometry.lowerVertex = function ( x, y, increment ) {
+
+        const index = this.Vertices.XY[ `${ x },${ y }` ];
+
+        this.Vertices.indexed[ index ].lower( increment );
+        this.attributes.position.needsUpdate = true;
+
+    };
+
+    Geometry.raiseVertex = function ( x, y, increment ) {
+
+        const index = this.Vertices.XY[ `${ x },${ y }` ];
+
+        this.Vertices.indexed[ index ].raise( increment );
+        this.attributes.position.needsUpdate = true;
+
+    };
+
+    Geometry.setVertexHeight = function ( x, y, height ) {
+
+        const index = this.Vertices.XY[ `${ x },${ y }` ];
+
+        this.Vertices.indexed[ index ].setHeight( height );
+        this.attributes.position.needsUpdate = true;
+
+    };
+
+    return Geometry
+
+}
+
+var geometry = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    createLinkedPlane: createLinkedPlane
+});
+
 function validateURL ( url ) {
 
     let request = new XMLHttpRequest();
@@ -66903,6 +67199,7 @@ var pack = /*#__PURE__*/Object.freeze({
     App: app,
     Array: array,
     Camera: camera,
+    Geometry: geometry,
     Math: math,
     Network: network,
     Renderer: renderer,

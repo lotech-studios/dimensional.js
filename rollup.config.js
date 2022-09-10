@@ -18,6 +18,10 @@ export default {
             format: 'es'
         },
         {
+            file: '../polyum/src/js/libs/dimensional.js',
+            format: 'es'
+        },
+        {
             file: '../victorum/src/js/libs/dimensional.js',
             format: 'es'
         }

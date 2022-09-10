@@ -3,7 +3,7 @@ import { Float32BufferAttribute } from '../core/BufferAttribute.js';
 
 class PlaneGeometry extends BufferGeometry {
 
-	constructor( width = 1, height = 1, widthSegments = 1, heightSegments = 1 ) {
+	constructor( width = 1, height = 1, widthSegments = 1, heightSegments = 1, mosaic = false ) {
 
 		super();
 		this.type = 'PlaneGeometry';
@@ -62,8 +62,44 @@ class PlaneGeometry extends BufferGeometry {
 				const c = ( ix + 1 ) + gridX1 * ( iy + 1 );
 				const d = ( ix + 1 ) + gridX1 * iy;
 
-				indices.push( a, b, d );
-				indices.push( b, c, d );
+				if ( mosaic ) {
+
+					if ( iy % 2 == 0 ) {
+
+						if ( ix % 2 == 0 ) {
+	
+							indices.push( a, b, d );
+							indices.push( b, c, d );
+	
+						} else {
+	
+							indices.push( a, b, c );
+							indices.push( a, c, d );
+	
+						}
+	
+					} else {
+	
+						if ( ix % 2 != 0 ) {
+	
+							indices.push( a, b, d );
+							indices.push( b, c, d );
+	
+						} else {
+	
+							indices.push( a, b, c );
+							indices.push( a, c, d );
+	
+						}
+	
+					}
+
+				} else {
+
+					indices.push( a, b, d );
+					indices.push( b, c, d );
+
+				}
 
 			}
 
