@@ -172,7 +172,7 @@ export function createLinkedPlane ( w = 1, h = 1, divX = 1, divY = 1, mosaic = f
     let yList = []
 
     const XY = {}
-    const Geometry = new PlaneGeometry( w, h, divX, divY, mosaic ).toNonIndexed()
+    const Geometry = new PlaneGeometry( w, h, divX, divY, mosaic )
     Geometry.Vertices = { indexed: [], XY: {} }
     
     for ( let v = 0; v < Geometry.attributes.position.count; v++ ) {
@@ -218,6 +218,8 @@ export function createLinkedPlane ( w = 1, h = 1, divX = 1, divY = 1, mosaic = f
 
         this.Vertices.indexed[ index ].lower( increment )
         this.attributes.position.needsUpdate = true
+        this.computeVertexNormals()
+        this.computeFaceNormals()
 
     }
 
@@ -227,6 +229,8 @@ export function createLinkedPlane ( w = 1, h = 1, divX = 1, divY = 1, mosaic = f
 
         this.Vertices.indexed[ index ].raise( increment )
         this.attributes.position.needsUpdate = true
+        this.computeVertexNormals()
+        this.computeFaceNormals()
 
     }
 
@@ -236,6 +240,17 @@ export function createLinkedPlane ( w = 1, h = 1, divX = 1, divY = 1, mosaic = f
 
         this.Vertices.indexed[ index ].setHeight( height )
         this.attributes.position.needsUpdate = true
+        this.computeVertexNormals()
+        this.computeFaceNormals()
+
+    }
+
+    Geometry.setVertexHeightIX = function ( index, height ) {
+
+        this.Vertices.indexed[ index ].setHeight( height )
+        this.attributes.position.needsUpdate = true
+        this.computeVertexNormals()
+        this.computeFaceNormals()
 
     }
 

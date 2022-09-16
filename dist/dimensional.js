@@ -6508,7 +6508,7 @@ const _removedEvent = { type: 'removed' };
 
 class Object3D extends EventDispatcher {
 
-	constructor() {
+	constructor () {
 
 		super();
 
@@ -6529,13 +6529,13 @@ class Object3D extends EventDispatcher {
 		const quaternion = new Quaternion();
 		const scale = new Vector3$1( 1, 1, 1 );
 
-		function onRotationChange() {
+		function onRotationChange () {
 
 			quaternion.setFromEuler( rotation, false );
 
 		}
 
-		function onQuaternionChange() {
+		function onQuaternionChange () {
 
 			rotation.setFromQuaternion( quaternion, undefined, false );
 
@@ -6594,10 +6594,10 @@ class Object3D extends EventDispatcher {
 
 	}
 
-	onBeforeRender() {}
-	onAfterRender() {}
+	onBeforeRender () {}
+	onAfterRender () {}
 
-	applyMatrix4( matrix ) {
+	applyMatrix4 ( matrix ) {
 
 		if ( this.matrixAutoUpdate ) this.updateMatrix();
 
@@ -6607,15 +6607,15 @@ class Object3D extends EventDispatcher {
 
 	}
 
-	applyQuaternion( q ) {
+	applyQuaternion ( q ) {
 
 		this.quaternion.premultiply( q );
 
-		return this;
+		return this
 
 	}
 
-	setRotationFromAxisAngle( axis, angle ) {
+	setRotationFromAxisAngle ( axis, angle ) {
 
 		// assumes axis is normalized
 
@@ -6623,13 +6623,13 @@ class Object3D extends EventDispatcher {
 
 	}
 
-	setRotationFromEuler( euler ) {
+	setRotationFromEuler ( euler ) {
 
 		this.quaternion.setFromEuler( euler, true );
 
 	}
 
-	setRotationFromMatrix( m ) {
+	setRotationFromMatrix ( m ) {
 
 		// assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
 
@@ -6637,7 +6637,7 @@ class Object3D extends EventDispatcher {
 
 	}
 
-	setRotationFromQuaternion( q ) {
+	setRotationFromQuaternion ( q ) {
 
 		// assumes q is normalized
 
@@ -6645,7 +6645,7 @@ class Object3D extends EventDispatcher {
 
 	}
 
-	rotateOnAxis( axis, angle ) {
+	rotateOnAxis ( axis, angle ) {
 
 		// rotate object on axis in object space
 		// axis is assumed to be normalized
@@ -6654,11 +6654,11 @@ class Object3D extends EventDispatcher {
 
 		this.quaternion.multiply( _q1 );
 
-		return this;
+		return this
 
 	}
 
-	rotateOnWorldAxis( axis, angle ) {
+	rotateOnWorldAxis ( axis, angle ) {
 
 		// rotate object on axis in world space
 		// axis is assumed to be normalized
@@ -6668,29 +6668,29 @@ class Object3D extends EventDispatcher {
 
 		this.quaternion.premultiply( _q1 );
 
-		return this;
+		return this
 
 	}
 
-	rotateX( angle ) {
+	rotateX ( angle ) {
 
-		return this.rotateOnAxis( _xAxis, angle );
-
-	}
-
-	rotateY( angle ) {
-
-		return this.rotateOnAxis( _yAxis, angle );
+		return this.rotateOnAxis( _xAxis, angle )
 
 	}
 
-	rotateZ( angle ) {
+	rotateY ( angle ) {
 
-		return this.rotateOnAxis( _zAxis, angle );
+		return this.rotateOnAxis( _yAxis, angle )
 
 	}
 
-	translateOnAxis( axis, distance ) {
+	rotateZ ( angle ) {
+
+		return this.rotateOnAxis( _zAxis, angle )
+
+	}
+
+	translateOnAxis ( axis, distance ) {
 
 		// translate object by distance along axis in object space
 		// axis is assumed to be normalized
@@ -6699,41 +6699,41 @@ class Object3D extends EventDispatcher {
 
 		this.position.add( _v1$4.multiplyScalar( distance ) );
 
-		return this;
+		return this
 
 	}
 
-	translateX( distance ) {
+	translateX ( distance ) {
 
-		return this.translateOnAxis( _xAxis, distance );
-
-	}
-
-	translateY( distance ) {
-
-		return this.translateOnAxis( _yAxis, distance );
+		return this.translateOnAxis( _xAxis, distance )
 
 	}
 
-	translateZ( distance ) {
+	translateY ( distance ) {
 
-		return this.translateOnAxis( _zAxis, distance );
-
-	}
-
-	localToWorld( vector ) {
-
-		return vector.applyMatrix4( this.matrixWorld );
+		return this.translateOnAxis( _yAxis, distance )
 
 	}
 
-	worldToLocal( vector ) {
+	translateZ ( distance ) {
 
-		return vector.applyMatrix4( _m1$1.copy( this.matrixWorld ).invert() );
+		return this.translateOnAxis( _zAxis, distance )
 
 	}
 
-	lookAt( x, y, z ) {
+	localToWorld ( vector ) {
+
+		return vector.applyMatrix4( this.matrixWorld )
+
+	}
+
+	worldToLocal ( vector ) {
+
+		return vector.applyMatrix4( _m1$1.copy( this.matrixWorld ).invert() )
+
+	}
+
+	lookAt ( x, y, z ) {
 
 		// This method does not support objects having non-uniformly-scaled parent(s)
 
@@ -6775,7 +6775,7 @@ class Object3D extends EventDispatcher {
 
 	}
 
-	add( object ) {
+	add ( object ) {
 
 		if ( arguments.length > 1 ) {
 
@@ -6785,14 +6785,14 @@ class Object3D extends EventDispatcher {
 
 			}
 
-			return this;
+			return this
 
 		}
 
 		if ( object === this ) {
 
 			console.error( 'THREE.Object3D.add: object can\'t be added as a child of itself.', object );
-			return this;
+			return this
 
 		}
 
@@ -6815,11 +6815,11 @@ class Object3D extends EventDispatcher {
 
 		}
 
-		return this;
+		return this
 
 	}
 
-	remove( object ) {
+	remove ( object ) {
 
 		if ( arguments.length > 1 ) {
 
@@ -6829,7 +6829,7 @@ class Object3D extends EventDispatcher {
 
 			}
 
-			return this;
+			return this
 
 		}
 
@@ -6844,11 +6844,11 @@ class Object3D extends EventDispatcher {
 
 		}
 
-		return this;
+		return this
 
 	}
 
-	clear() {
+	clear () {
 
 		for ( let i = 0; i < this.children.length; i ++ ) {
 
@@ -6862,12 +6862,12 @@ class Object3D extends EventDispatcher {
 
 		this.children.length = 0;
 
-		return this;
+		return this
 
 
 	}
 
-	attach( object ) {
+	attach ( object ) {
 
 		// adds object as a child of this, while maintaining the object's world transform
 
@@ -6889,25 +6889,25 @@ class Object3D extends EventDispatcher {
 
 		object.updateWorldMatrix( false, true );
 
-		return this;
+		return this
 
 	}
 
-	getObjectById( id ) {
+	getObjectById ( id ) {
 
-		return this.getObjectByProperty( 'id', id );
-
-	}
-
-	getObjectByName( name ) {
-
-		return this.getObjectByProperty( 'name', name );
+		return this.getObjectByProperty( 'id', id )
 
 	}
 
-	getObjectByProperty( name, value ) {
+	getObjectByName ( name ) {
 
-		if ( this[ name ] === value ) return this;
+		return this.getObjectByProperty( 'name', name )
+
+	}
+
+	getObjectByProperty ( name, value ) {
+
+		if ( this[ name ] === value ) return this
 
 		for ( let i = 0, l = this.children.length; i < l; i ++ ) {
 
@@ -6916,17 +6916,17 @@ class Object3D extends EventDispatcher {
 
 			if ( object !== undefined ) {
 
-				return object;
+				return object
 
 			}
 
 		}
 
-		return undefined;
+		return undefined
 
 	}
 
-	getWorldPosition( target ) {
+	getWorldPosition ( target ) {
 
 		if ( target === undefined ) {
 
@@ -6937,11 +6937,11 @@ class Object3D extends EventDispatcher {
 
 		this.updateWorldMatrix( true, false );
 
-		return target.setFromMatrixPosition( this.matrixWorld );
+		return target.setFromMatrixPosition( this.matrixWorld )
 
 	}
 
-	getWorldQuaternion( target ) {
+	getWorldQuaternion ( target ) {
 
 		if ( target === undefined ) {
 
@@ -6954,11 +6954,11 @@ class Object3D extends EventDispatcher {
 
 		this.matrixWorld.decompose( _position$3, target, _scale$2 );
 
-		return target;
+		return target
 
 	}
 
-	getWorldScale( target ) {
+	getWorldScale ( target ) {
 
 		if ( target === undefined ) {
 
@@ -6971,11 +6971,11 @@ class Object3D extends EventDispatcher {
 
 		this.matrixWorld.decompose( _position$3, _quaternion$2, target );
 
-		return target;
+		return target
 
 	}
 
-	getWorldDirection( target ) {
+	getWorldDirection ( target ) {
 
 		if ( target === undefined ) {
 
@@ -6988,13 +6988,13 @@ class Object3D extends EventDispatcher {
 
 		const e = this.matrixWorld.elements;
 
-		return target.set( e[ 8 ], e[ 9 ], e[ 10 ] ).normalize();
+		return target.set( e[ 8 ], e[ 9 ], e[ 10 ] ).normalize()
 
 	}
 
-	raycast() {}
+	raycast () {}
 
-	traverse( callback ) {
+	traverse ( callback ) {
 
 		callback( this );
 
@@ -7008,9 +7008,9 @@ class Object3D extends EventDispatcher {
 
 	}
 
-	traverseVisible( callback ) {
+	traverseVisible ( callback ) {
 
-		if ( this.visible === false ) return;
+		if ( this.visible === false ) return
 
 		callback( this );
 
@@ -7024,7 +7024,7 @@ class Object3D extends EventDispatcher {
 
 	}
 
-	traverseAncestors( callback ) {
+	traverseAncestors ( callback ) {
 
 		const parent = this.parent;
 
@@ -7038,7 +7038,7 @@ class Object3D extends EventDispatcher {
 
 	}
 
-	updateMatrix() {
+	updateMatrix () {
 
 		this.matrix.compose( this.position, this.quaternion, this.scale );
 
@@ -7046,7 +7046,7 @@ class Object3D extends EventDispatcher {
 
 	}
 
-	updateMatrixWorld( force ) {
+	updateMatrixWorld ( force ) {
 
 		if ( this.matrixAutoUpdate ) this.updateMatrix();
 
@@ -7080,7 +7080,7 @@ class Object3D extends EventDispatcher {
 
 	}
 
-	updateWorldMatrix( updateParents, updateChildren ) {
+	updateWorldMatrix ( updateParents, updateChildren ) {
 
 		const parent = this.parent;
 
@@ -7118,7 +7118,7 @@ class Object3D extends EventDispatcher {
 
 	}
 
-	toJSON( meta ) {
+	toJSON ( meta ) {
 
 		// meta is a string when called from JSON.stringify
 		const isRootObject = ( meta === undefined || typeof meta === 'string' );
@@ -7182,7 +7182,7 @@ class Object3D extends EventDispatcher {
 
 		//
 
-		function serialize( library, element ) {
+		function serialize ( library, element ) {
 
 			if ( library[ element.uuid ] === undefined ) {
 
@@ -7190,7 +7190,7 @@ class Object3D extends EventDispatcher {
 
 			}
 
-			return element.uuid;
+			return element.uuid
 
 		}
 
@@ -7313,12 +7313,12 @@ class Object3D extends EventDispatcher {
 
 		output.object = object;
 
-		return output;
+		return output
 
 		// extract data from the cache hash
 		// remove metadata on each item
 		// and return as array
-		function extractFromCache( cache ) {
+		function extractFromCache ( cache ) {
 
 			const values = [];
 			for ( const key in cache ) {
@@ -7329,19 +7329,19 @@ class Object3D extends EventDispatcher {
 
 			}
 
-			return values;
+			return values
 
 		}
 
 	}
 
-	clone( recursive ) {
+	clone ( recursive ) {
 
-		return new this.constructor().copy( this, recursive );
+		return new this.constructor().copy( this, recursive )
 
 	}
 
-	copy( source, recursive = true ) {
+	copy ( source, recursive = true ) {
 
 		this.name = source.name;
 
@@ -7380,7 +7380,7 @@ class Object3D extends EventDispatcher {
 
 		}
 
-		return this;
+		return this
 
 	}
 
@@ -21502,7 +21502,7 @@ function WebGLShader( gl, type, string ) {
 
 let programIdCount = 0;
 
-function addLineNumbers( string ) {
+function addLineNumbers ( string ) {
 
 	const lines = string.split( '\n' );
 
@@ -21512,69 +21512,69 @@ function addLineNumbers( string ) {
 
 	}
 
-	return lines.join( '\n' );
+	return lines.join( '\n' )
 
 }
 
-function getEncodingComponents( encoding ) {
+function getEncodingComponents ( encoding ) {
 
 	switch ( encoding ) {
 
 		case LinearEncoding:
-			return [ 'Linear', '( value )' ];
+			return [ 'Linear', '( value )' ]
 		case sRGBEncoding:
-			return [ 'sRGB', '( value )' ];
+			return [ 'sRGB', '( value )' ]
 		case RGBEEncoding:
-			return [ 'RGBE', '( value )' ];
+			return [ 'RGBE', '( value )' ]
 		case RGBM7Encoding:
-			return [ 'RGBM', '( value, 7.0 )' ];
+			return [ 'RGBM', '( value, 7.0 )' ]
 		case RGBM16Encoding:
-			return [ 'RGBM', '( value, 16.0 )' ];
+			return [ 'RGBM', '( value, 16.0 )' ]
 		case RGBDEncoding:
-			return [ 'RGBD', '( value, 256.0 )' ];
+			return [ 'RGBD', '( value, 256.0 )' ]
 		case GammaEncoding:
-			return [ 'Gamma', '( value, float( GAMMA_FACTOR ) )' ];
+			return [ 'Gamma', '( value, float( GAMMA_FACTOR ) )' ]
 		case LogLuvEncoding:
-			return [ 'LogLuv', '( value )' ];
+			return [ 'LogLuv', '( value )' ]
 		default:
 			console.warn( 'THREE.WebGLProgram: Unsupported encoding:', encoding );
-			return [ 'Linear', '( value )' ];
+			return [ 'Linear', '( value )' ]
 
 	}
 
 }
 
-function getShaderErrors( gl, shader, type ) {
+function getShaderErrors ( gl, shader, type ) {
 
 	const status = gl.getShaderParameter( shader, gl.COMPILE_STATUS );
 	const log = gl.getShaderInfoLog( shader ).trim();
 
-	if ( status && log === '' ) return '';
+	if ( status && log === '' ) return ''
 
 	// --enable-privileged-webgl-extension
 	// console.log( '**' + type + '**', gl.getExtension( 'WEBGL_debug_shaders' ).getTranslatedShaderSource( shader ) );
 
 	const source = gl.getShaderSource( shader );
 
-	return 'THREE.WebGLShader: gl.getShaderInfoLog() ' + type + '\n' + log + addLineNumbers( source );
+	return 'THREE.WebGLShader: gl.getShaderInfoLog() ' + type + '\n' + log + addLineNumbers( source )
 
 }
 
-function getTexelDecodingFunction( functionName, encoding ) {
+function getTexelDecodingFunction ( functionName, encoding ) {
 
 	const components = getEncodingComponents( encoding );
-	return 'vec4 ' + functionName + '( vec4 value ) { return ' + components[ 0 ] + 'ToLinear' + components[ 1 ] + '; }';
+	return 'vec4 ' + functionName + '( vec4 value ) { return ' + components[ 0 ] + 'ToLinear' + components[ 1 ] + '; }'
 
 }
 
-function getTexelEncodingFunction( functionName, encoding ) {
+function getTexelEncodingFunction ( functionName, encoding ) {
 
 	const components = getEncodingComponents( encoding );
-	return 'vec4 ' + functionName + '( vec4 value ) { return LinearTo' + components[ 0 ] + components[ 1 ] + '; }';
+	return 'vec4 ' + functionName + '( vec4 value ) { return LinearTo' + components[ 0 ] + components[ 1 ] + '; }'
 
 }
 
-function getToneMappingFunction( functionName, toneMapping ) {
+function getToneMappingFunction ( functionName, toneMapping ) {
 
 	let toneMappingName;
 
@@ -21582,23 +21582,23 @@ function getToneMappingFunction( functionName, toneMapping ) {
 
 		case LinearToneMapping:
 			toneMappingName = 'Linear';
-			break;
+			break
 
 		case ReinhardToneMapping:
 			toneMappingName = 'Reinhard';
-			break;
+			break
 
 		case CineonToneMapping:
 			toneMappingName = 'OptimizedCineon';
-			break;
+			break
 
 		case ACESFilmicToneMapping:
 			toneMappingName = 'ACESFilmic';
-			break;
+			break
 
 		case CustomToneMapping:
 			toneMappingName = 'Custom';
-			break;
+			break
 
 		default:
 			console.warn( 'THREE.WebGLProgram: Unsupported toneMapping:', toneMapping );
@@ -21606,11 +21606,11 @@ function getToneMappingFunction( functionName, toneMapping ) {
 
 	}
 
-	return 'vec3 ' + functionName + '( vec3 color ) { return ' + toneMappingName + 'ToneMapping( color ); }';
+	return 'vec3 ' + functionName + '( vec3 color ) { return ' + toneMappingName + 'ToneMapping( color ); }'
 
 }
 
-function generateExtensions( parameters ) {
+function generateExtensions ( parameters ) {
 
 	const chunks = [
 		( parameters.extensionDerivatives || parameters.envMapCubeUV || parameters.bumpMap || parameters.tangentSpaceNormalMap || parameters.clearcoatNormalMap || parameters.flatShading || parameters.shaderID === 'physical' ) ? '#extension GL_OES_standard_derivatives : enable' : '',
@@ -21619,11 +21619,11 @@ function generateExtensions( parameters ) {
 		( parameters.extensionShaderTextureLOD || parameters.envMap ) && parameters.rendererExtensionShaderTextureLod ? '#extension GL_EXT_shader_texture_lod : enable' : ''
 	];
 
-	return chunks.filter( filterEmptyLine ).join( '\n' );
+	return chunks.filter( filterEmptyLine ).join( '\n' )
 
 }
 
-function generateDefines( defines ) {
+function generateDefines ( defines ) {
 
 	const chunks = [];
 
@@ -21631,17 +21631,17 @@ function generateDefines( defines ) {
 
 		const value = defines[ name ];
 
-		if ( value === false ) continue;
+		if ( value === false ) continue
 
 		chunks.push( '#define ' + name + ' ' + value );
 
 	}
 
-	return chunks.join( '\n' );
+	return chunks.join( '\n' )
 
 }
 
-function fetchAttributeLocations( gl, program ) {
+function fetchAttributeLocations ( gl, program ) {
 
 	const attributes = {};
 
@@ -21658,17 +21658,17 @@ function fetchAttributeLocations( gl, program ) {
 
 	}
 
-	return attributes;
+	return attributes
 
 }
 
-function filterEmptyLine( string ) {
+function filterEmptyLine ( string ) {
 
-	return string !== '';
+	return string !== ''
 
 }
 
-function replaceLightNums( string, parameters ) {
+function replaceLightNums ( string, parameters ) {
 
 	return string
 		.replace( /NUM_DIR_LIGHTS/g, parameters.numDirLights )
@@ -21678,15 +21678,15 @@ function replaceLightNums( string, parameters ) {
 		.replace( /NUM_HEMI_LIGHTS/g, parameters.numHemiLights )
 		.replace( /NUM_DIR_LIGHT_SHADOWS/g, parameters.numDirLightShadows )
 		.replace( /NUM_SPOT_LIGHT_SHADOWS/g, parameters.numSpotLightShadows )
-		.replace( /NUM_POINT_LIGHT_SHADOWS/g, parameters.numPointLightShadows );
+		.replace( /NUM_POINT_LIGHT_SHADOWS/g, parameters.numPointLightShadows )
 
 }
 
-function replaceClippingPlaneNums( string, parameters ) {
+function replaceClippingPlaneNums ( string, parameters ) {
 
 	return string
 		.replace( /NUM_CLIPPING_PLANES/g, parameters.numClippingPlanes )
-		.replace( /UNION_CLIPPING_PLANES/g, ( parameters.numClippingPlanes - parameters.numClipIntersection ) );
+		.replace( /UNION_CLIPPING_PLANES/g, ( parameters.numClippingPlanes - parameters.numClipIntersection ) )
 
 }
 
@@ -21694,23 +21694,23 @@ function replaceClippingPlaneNums( string, parameters ) {
 
 const includePattern = /^[ \t]*#include +<([\w\d./]+)>/gm;
 
-function resolveIncludes( string ) {
+function resolveIncludes ( string ) {
 
-	return string.replace( includePattern, includeReplacer );
+	return string.replace( includePattern, includeReplacer )
 
 }
 
-function includeReplacer( match, include ) {
+function includeReplacer ( match, include ) {
 
 	const string = ShaderChunk[ include ];
 
 	if ( string === undefined ) {
 
-		throw new Error( 'Can not resolve #include <' + include + '>' );
+		throw new Error( 'Can not resolve #include <' + include + '>' )
 
 	}
 
-	return resolveIncludes( string );
+	return resolveIncludes( string )
 
 }
 
@@ -21719,22 +21719,22 @@ function includeReplacer( match, include ) {
 const deprecatedUnrollLoopPattern = /#pragma unroll_loop[\s]+?for \( int i \= (\d+)\; i < (\d+)\; i \+\+ \) \{([\s\S]+?)(?=\})\}/g;
 const unrollLoopPattern = /#pragma unroll_loop_start\s+for\s*\(\s*int\s+i\s*=\s*(\d+)\s*;\s*i\s*<\s*(\d+)\s*;\s*i\s*\+\+\s*\)\s*{([\s\S]+?)}\s+#pragma unroll_loop_end/g;
 
-function unrollLoops( string ) {
+function unrollLoops ( string ) {
 
 	return string
 		.replace( unrollLoopPattern, loopReplacer )
-		.replace( deprecatedUnrollLoopPattern, deprecatedLoopReplacer );
+		.replace( deprecatedUnrollLoopPattern, deprecatedLoopReplacer )
 
 }
 
-function deprecatedLoopReplacer( match, start, end, snippet ) {
+function deprecatedLoopReplacer ( match, start, end, snippet ) {
 
 	console.warn( 'WebGLProgram: #pragma unroll_loop shader syntax is deprecated. Please use #pragma unroll_loop_start syntax instead.' );
-	return loopReplacer( match, start, end, snippet );
+	return loopReplacer( match, start, end, snippet )
 
 }
 
-function loopReplacer( match, start, end, snippet ) {
+function loopReplacer ( match, start, end, snippet ) {
 
 	let string = '';
 
@@ -21746,13 +21746,13 @@ function loopReplacer( match, start, end, snippet ) {
 
 	}
 
-	return string;
+	return string
 
 }
 
 //
 
-function generatePrecision( parameters ) {
+function generatePrecision ( parameters ) {
 
 	let precisionstring = 'precision ' + parameters.precision + ' float;\nprecision ' + parameters.precision + ' int;';
 
@@ -21770,11 +21770,11 @@ function generatePrecision( parameters ) {
 
 	}
 
-	return precisionstring;
+	return precisionstring
 
 }
 
-function generateShadowMapTypeDefine( parameters ) {
+function generateShadowMapTypeDefine ( parameters ) {
 
 	let shadowMapTypeDefine = 'SHADOWMAP_TYPE_BASIC';
 
@@ -21792,11 +21792,11 @@ function generateShadowMapTypeDefine( parameters ) {
 
 	}
 
-	return shadowMapTypeDefine;
+	return shadowMapTypeDefine
 
 }
 
-function generateEnvMapTypeDefine( parameters ) {
+function generateEnvMapTypeDefine ( parameters ) {
 
 	let envMapTypeDefine = 'ENVMAP_TYPE_CUBE';
 
@@ -21807,22 +21807,22 @@ function generateEnvMapTypeDefine( parameters ) {
 			case CubeReflectionMapping:
 			case CubeRefractionMapping:
 				envMapTypeDefine = 'ENVMAP_TYPE_CUBE';
-				break;
+				break
 
 			case CubeUVReflectionMapping:
 			case CubeUVRefractionMapping:
 				envMapTypeDefine = 'ENVMAP_TYPE_CUBE_UV';
-				break;
+				break
 
 		}
 
 	}
 
-	return envMapTypeDefine;
+	return envMapTypeDefine
 
 }
 
-function generateEnvMapModeDefine( parameters ) {
+function generateEnvMapModeDefine ( parameters ) {
 
 	let envMapModeDefine = 'ENVMAP_MODE_REFLECTION';
 
@@ -21834,17 +21834,17 @@ function generateEnvMapModeDefine( parameters ) {
 			case CubeUVRefractionMapping:
 
 				envMapModeDefine = 'ENVMAP_MODE_REFRACTION';
-				break;
+				break
 
 		}
 
 	}
 
-	return envMapModeDefine;
+	return envMapModeDefine
 
 }
 
-function generateEnvMapBlendingDefine( parameters ) {
+function generateEnvMapBlendingDefine ( parameters ) {
 
 	let envMapBlendingDefine = 'ENVMAP_BLENDING_NONE';
 
@@ -21854,25 +21854,25 @@ function generateEnvMapBlendingDefine( parameters ) {
 
 			case MultiplyOperation:
 				envMapBlendingDefine = 'ENVMAP_BLENDING_MULTIPLY';
-				break;
+				break
 
 			case MixOperation:
 				envMapBlendingDefine = 'ENVMAP_BLENDING_MIX';
-				break;
+				break
 
 			case AddOperation:
 				envMapBlendingDefine = 'ENVMAP_BLENDING_ADD';
-				break;
+				break
 
 		}
 
 	}
 
-	return envMapBlendingDefine;
+	return envMapBlendingDefine
 
 }
 
-function WebGLProgram( renderer, cacheKey, parameters, bindingStates ) {
+function WebGLProgram ( renderer, cacheKey, parameters, bindingStates ) {
 
 	const gl = renderer.getContext();
 
@@ -22305,7 +22305,7 @@ function WebGLProgram( renderer, cacheKey, parameters, bindingStates ) {
 
 		}
 
-		return cachedUniforms;
+		return cachedUniforms
 
 	};
 
@@ -22321,7 +22321,7 @@ function WebGLProgram( renderer, cacheKey, parameters, bindingStates ) {
 
 		}
 
-		return cachedAttributes;
+		return cachedAttributes
 
 	};
 
@@ -22346,7 +22346,7 @@ function WebGLProgram( renderer, cacheKey, parameters, bindingStates ) {
 	this.vertexShader = glVertexShader;
 	this.fragmentShader = glFragmentShader;
 
-	return this;
+	return this
 
 }
 
@@ -66967,7 +66967,7 @@ function createLinkedPlane ( w = 1, h = 1, divX = 1, divY = 1, mosaic = false ) 
     let yList = [];
 
     const XY = {};
-    const Geometry = new PlaneGeometry( w, h, divX, divY, mosaic ).toNonIndexed();
+    const Geometry = new PlaneGeometry( w, h, divX, divY, mosaic );
     Geometry.Vertices = { indexed: [], XY: {} };
     
     for ( let v = 0; v < Geometry.attributes.position.count; v++ ) {
@@ -67013,6 +67013,8 @@ function createLinkedPlane ( w = 1, h = 1, divX = 1, divY = 1, mosaic = false ) 
 
         this.Vertices.indexed[ index ].lower( increment );
         this.attributes.position.needsUpdate = true;
+        this.computeVertexNormals();
+        this.computeFaceNormals();
 
     };
 
@@ -67022,6 +67024,8 @@ function createLinkedPlane ( w = 1, h = 1, divX = 1, divY = 1, mosaic = false ) 
 
         this.Vertices.indexed[ index ].raise( increment );
         this.attributes.position.needsUpdate = true;
+        this.computeVertexNormals();
+        this.computeFaceNormals();
 
     };
 
@@ -67031,6 +67035,17 @@ function createLinkedPlane ( w = 1, h = 1, divX = 1, divY = 1, mosaic = false ) 
 
         this.Vertices.indexed[ index ].setHeight( height );
         this.attributes.position.needsUpdate = true;
+        this.computeVertexNormals();
+        this.computeFaceNormals();
+
+    };
+
+    Geometry.setVertexHeightIX = function ( index, height ) {
+
+        this.Vertices.indexed[ index ].setHeight( height );
+        this.attributes.position.needsUpdate = true;
+        this.computeVertexNormals();
+        this.computeFaceNormals();
 
     };
 
@@ -67183,6 +67198,49 @@ var settings = /*#__PURE__*/Object.freeze({
     buildDropdown: buildDropdown
 });
 
+function map ( val, smin, smax, emin, emax ) {
+
+    const t =  ( val - smin ) / ( smax - smin );
+
+    return ( emax - emin ) * t + emin
+
+}
+
+function noise ( simplex, nx, ny ) {
+
+    // Re-map from -1.0:+1.0 to 0.0:1.0
+    return map( simplex.noise2D( nx, ny ), -1, 1, 0, 1 )
+
+}
+
+//stack some noisefields together
+function octave ( simplex, nx, ny, octaves ) {
+
+    let val = 0;
+    let freq = 1;
+    let max = 0;
+    let amp = 1;
+
+    for( let i = 0; i < octaves; i++ ) {
+
+        val += noise( simplex, nx * freq, ny * freq ) * amp;
+        max += amp;
+        amp /= 2;
+        freq *= 2;
+
+    }
+
+    return val / max
+
+}
+
+var simplex = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    map: map,
+    noise: noise,
+    octave: octave
+});
+
 function addCommasToNumber ( number ) {
 
     return number.toString().replace( /\B(?=(\d{3})+(?!\d))/g, ',' )
@@ -67204,6 +67262,7 @@ var pack = /*#__PURE__*/Object.freeze({
     Network: network,
     Renderer: renderer,
     Settings: settings,
+    Simplex: simplex,
     Strings: strings
 });
 

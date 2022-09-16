@@ -7,5 +7,8 @@
         "bundle": "rollup --config rollup.config.js"
     },
     "author": "Nikolas Karinja",
-    "license": "ISC"
+    "license": "ISC",
+    "dependencies": {
+        "eslint": "^8.23.1"
+    }
 }
