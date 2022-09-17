@@ -31,6 +31,9 @@ class OrbitControls extends EventDispatcher {
 
 		let zoomEnd = 0
 
+		this.wasDragging = false
+		this.DragStart = new Vector2()
+
 		this.object = object
 		this.domElement = domElement
 
@@ -111,6 +114,7 @@ class OrbitControls extends EventDispatcher {
 
 		this.onPanEnd = function () {}
 		this.onPanStart = function () {}
+		this.onPointerUp = function () {}
 		this.onRotateEnd = function () {}
 		this.onRotateStart = function () {}
 
@@ -897,6 +901,8 @@ class OrbitControls extends EventDispatcher {
 
 		function onMouseDown ( event ) {
 
+			scope.DragStart.set( event.clientX, event.clientY )
+
 			// Prevent the browser from scrolling.
 			event.preventDefault()
 
@@ -1040,6 +1046,17 @@ class OrbitControls extends EventDispatcher {
 		}
 
 		function onMouseUp ( event ) {
+
+			if ( scope.DragStart.x != event.clientX ||
+			scope.DragStart.y != event.clientY ) {
+
+				scope.wasDragging = true
+
+			} else scope.wasDragging = false
+
+			scope.onPointerUp( event )
+
+			scope.DragStart.set( event.clientX, event.clientY )
 
 			scope.domElement.ownerDocument.removeEventListener( 'pointermove', onPointerMove )
 			scope.domElement.ownerDocument.removeEventListener( 'pointerup', onPointerUp )
