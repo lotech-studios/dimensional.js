@@ -22,7 +22,7 @@ export function build ( rClass, params, props, parentEl ) {
 
     }
 
-    parentEl.appendChild( Renderer.domElement )
+    if ( parentEl != null ) parentEl.appendChild( Renderer.domElement )
 
     return Renderer
 

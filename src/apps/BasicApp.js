@@ -7,6 +7,10 @@ class BasicApp {
         this.Clock = new Clock()
         this.Time = { delta: 0, elapsed: 0 }
 
+        const UI = document.createElement( 'ui' )
+
+        document.body.appendChild( UI )
+
     }
 
     async build () {
