@@ -1,35 +1,31 @@
-import { Loader } from './Loader.js'
+import * as StringUtils from '../utils/strings.js'
 import * as Three from '../three/src/pack.js'
+import { Loader } from './Loader.js'
 
 class MaterialLoader extends Loader {
 
-    constructor ( path ) {
+    constructor ( textureBank ) {
 
-        super( path )
+        super()
 
-        this.bankType = 'Material'
+        this.TextureBank = textureBank ? textureBank : null
 
     }
 
-    async load ( url, cb = function () {} ) {
+    async loadFromJSON ( name, url ) {
 
-        const Response = await fetch( this.path + url )
-        const Data = await Response.json()
-        const type = Data.type.toLowerCase()
+        const File = await this.loadJSON( url )
+        const Data = File[ name ]
+        
+        if ( this.TextureBank && Data.options.map ) {
 
-        const Material = new Three.ShaderMaterial( {
-            uniforms: Three.ShaderLib[ type ].uniforms,
-            fragmentShader: Three.ShaderLib[ type ].fragmentShader,
-            vertexShader: Three.ShaderLib[ type ].vertexShader,
-        } )
+            Data.options.map = this.TextureBank.get( Data.options.map )
 
-        if ( this.isBank() ) {
-
-            await this.BankProxy.add( Data.name, Material )
+            console.log( Data.options.map )
 
         }
 
-        cb( Material )
+        return new Three[ `${ Data.type }Material` ]( Data.options )
 
     }
 

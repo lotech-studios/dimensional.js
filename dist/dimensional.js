@@ -28354,15 +28354,15 @@ function WebGLMaterials( properties ) {
 
 }
 
-function createCanvasElement() {
+function createCanvasElement () {
 
 	const canvas = document.createElementNS( 'http://www.w3.org/1999/xhtml', 'canvas' );
 	canvas.style.display = 'block';
-	return canvas;
+	return canvas
 
 }
 
-function WebGLRenderer( parameters ) {
+function WebGLRenderer ( parameters ) {
 
 	parameters = parameters || {};
 
@@ -28480,9 +28480,9 @@ function WebGLRenderer( parameters ) {
 
 	const _emptyScene = { background: null, fog: null, environment: null, overrideMaterial: null, isScene: true };
 
-	function getTargetPixelRatio() {
+	function getTargetPixelRatio () {
 
-		return _currentRenderTarget === null ? _pixelRatio : 1;
+		return _currentRenderTarget === null ? _pixelRatio : 1
 
 	}
 
@@ -28490,17 +28490,17 @@ function WebGLRenderer( parameters ) {
 
 	let _gl = _context;
 
-	function getContext( contextNames, contextAttributes ) {
+	function getContext ( contextNames, contextAttributes ) {
 
 		for ( let i = 0; i < contextNames.length; i ++ ) {
 
 			const contextName = contextNames[ i ];
 			const context = _canvas.getContext( contextName, contextAttributes );
-			if ( context !== null ) return context;
+			if ( context !== null ) return context
 
 		}
 
-		return null;
+		return null
 
 	}
 
@@ -28538,11 +28538,11 @@ function WebGLRenderer( parameters ) {
 
 				if ( getContext( contextNames ) ) {
 
-					throw new Error( 'Error creating WebGL context with your selected attributes.' );
+					throw new Error( 'Error creating WebGL context with your selected attributes.' )
 
 				} else {
 
-					throw new Error( 'Error creating WebGL context.' );
+					throw new Error( 'Error creating WebGL context.' )
 
 				}
 
@@ -28556,7 +28556,7 @@ function WebGLRenderer( parameters ) {
 
 			_gl.getShaderPrecisionFormat = function () {
 
-				return { 'rangeMin': 1, 'rangeMax': 1, 'precision': 1 };
+				return { 'rangeMin': 1, 'rangeMax': 1, 'precision': 1 }
 
 			};
 
@@ -28565,7 +28565,7 @@ function WebGLRenderer( parameters ) {
 	} catch ( error ) {
 
 		console.error( 'THREE.WebGLRenderer: ' + error.message );
-		throw error;
+		throw error
 
 	}
 
@@ -28577,7 +28577,7 @@ function WebGLRenderer( parameters ) {
 
 	let utils, bindingStates;
 
-	function initGLContext() {
+	function initGLContext () {
 
 		extensions = new WebGLExtensions( _gl );
 
@@ -28633,13 +28633,13 @@ function WebGLRenderer( parameters ) {
 
 	this.getContext = function () {
 
-		return _gl;
+		return _gl
 
 	};
 
 	this.getContextAttributes = function () {
 
-		return _gl.getContextAttributes();
+		return _gl.getContextAttributes()
 
 	};
 
@@ -28659,13 +28659,13 @@ function WebGLRenderer( parameters ) {
 
 	this.getPixelRatio = function () {
 
-		return _pixelRatio;
+		return _pixelRatio
 
 	};
 
 	this.setPixelRatio = function ( value ) {
 
-		if ( value === undefined ) return;
+		if ( value === undefined ) return
 
 		_pixelRatio = value;
 
@@ -28683,7 +28683,7 @@ function WebGLRenderer( parameters ) {
 
 		}
 
-		return target.set( _width, _height );
+		return target.set( _width, _height )
 
 	};
 
@@ -28692,7 +28692,7 @@ function WebGLRenderer( parameters ) {
 		if ( xr.isPresenting ) {
 
 			console.warn( 'THREE.WebGLRenderer: Can\'t change size while VR device is presenting.' );
-			return;
+			return
 
 		}
 
@@ -28723,7 +28723,7 @@ function WebGLRenderer( parameters ) {
 
 		}
 
-		return target.set( _width * _pixelRatio, _height * _pixelRatio ).floor();
+		return target.set( _width * _pixelRatio, _height * _pixelRatio ).floor()
 
 	};
 
@@ -28751,13 +28751,13 @@ function WebGLRenderer( parameters ) {
 
 		}
 
-		return target.copy( _currentViewport );
+		return target.copy( _currentViewport )
 
 	};
 
 	this.getViewport = function ( target ) {
 
-		return target.copy( _viewport );
+		return target.copy( _viewport )
 
 	};
 
@@ -28779,7 +28779,7 @@ function WebGLRenderer( parameters ) {
 
 	this.getScissor = function ( target ) {
 
-		return target.copy( _scissor );
+		return target.copy( _scissor )
 
 	};
 
@@ -28801,7 +28801,7 @@ function WebGLRenderer( parameters ) {
 
 	this.getScissorTest = function () {
 
-		return _scissorTest;
+		return _scissorTest
 
 	};
 
@@ -28835,7 +28835,7 @@ function WebGLRenderer( parameters ) {
 
 		}
 
-		return target.copy( background.getClearColor() );
+		return target.copy( background.getClearColor() )
 
 	};
 
@@ -28847,7 +28847,7 @@ function WebGLRenderer( parameters ) {
 
 	this.getClearAlpha = function () {
 
-		return background.getClearAlpha();
+		return background.getClearAlpha()
 
 	};
 
@@ -28912,7 +28912,7 @@ function WebGLRenderer( parameters ) {
 
 	// Events
 
-	function onContextLost( event ) {
+	function onContextLost ( event ) {
 
 		event.preventDefault();
 
@@ -28922,7 +28922,7 @@ function WebGLRenderer( parameters ) {
 
 	}
 
-	function onContextRestore( /* event */ ) {
+	function onContextRestore ( /* event */ ) {
 
 		console.log( 'THREE.WebGLRenderer: Context Restored.' );
 
@@ -28944,7 +28944,7 @@ function WebGLRenderer( parameters ) {
 
 	}
 
-	function onMaterialDispose( event ) {
+	function onMaterialDispose ( event ) {
 
 		const material = event.target;
 
@@ -28956,7 +28956,7 @@ function WebGLRenderer( parameters ) {
 
 	// Buffer deallocation
 
-	function deallocateMaterial( material ) {
+	function deallocateMaterial ( material ) {
 
 		releaseMaterialProgramReferences( material );
 
@@ -28965,7 +28965,7 @@ function WebGLRenderer( parameters ) {
 	}
 
 
-	function releaseMaterialProgramReferences( material ) {
+	function releaseMaterialProgramReferences ( material ) {
 
 		const programs = properties.get( material ).programs;
 
@@ -28983,7 +28983,7 @@ function WebGLRenderer( parameters ) {
 
 	// Buffer rendering
 
-	function renderObjectImmediate( object, program ) {
+	function renderObjectImmediate ( object, program ) {
 
 		object.render( function ( object ) {
 
@@ -29073,11 +29073,11 @@ function WebGLRenderer( parameters ) {
 
 		if ( index === null ) {
 
-			if ( position === undefined || position.count === 0 ) return;
+			if ( position === undefined || position.count === 0 ) return
 
 		} else if ( index.count === 0 ) {
 
-			return;
+			return
 
 		}
 
@@ -29127,7 +29127,7 @@ function WebGLRenderer( parameters ) {
 
 		const drawCount = Math.max( 0, drawEnd - drawStart + 1 );
 
-		if ( drawCount === 0 ) return;
+		if ( drawCount === 0 ) return
 
 		//
 
@@ -29251,19 +29251,19 @@ function WebGLRenderer( parameters ) {
 
 	let onAnimationFrameCallback = null;
 
-	function onAnimationFrame( time ) {
+	function onAnimationFrame ( time ) {
 
 		if ( onAnimationFrameCallback ) onAnimationFrameCallback( time );
 
 	}
 
-	function onXRSessionStart() {
+	function onXRSessionStart () {
 
 		animation.stop();
 
 	}
 
-	function onXRSessionEnd() {
+	function onXRSessionEnd () {
 
 		animation.start();
 
@@ -29309,11 +29309,11 @@ function WebGLRenderer( parameters ) {
 		if ( camera !== undefined && camera.isCamera !== true ) {
 
 			console.error( 'THREE.WebGLRenderer.render: camera is not an instance of THREE.Camera.' );
-			return;
+			return
 
 		}
 
-		if ( _isContextLost === true ) return;
+		if ( _isContextLost === true ) return
 
 		// update scene graph
 
@@ -29451,9 +29451,9 @@ function WebGLRenderer( parameters ) {
 
 	};
 
-	function projectObject( object, camera, groupOrder, sortObjects ) {
+	function projectObject ( object, camera, groupOrder, sortObjects ) {
 
-		if ( object.visible === false ) return;
+		if ( object.visible === false ) return
 
 		const visible = object.layers.test( camera.layers );
 
@@ -29576,7 +29576,7 @@ function WebGLRenderer( parameters ) {
 
 	}
 
-	function renderObjects( renderList, scene, camera ) {
+	function renderObjects ( renderList, scene, camera ) {
 
 		const overrideMaterial = scene.isScene === true ? scene.overrideMaterial : null;
 
@@ -29619,7 +29619,7 @@ function WebGLRenderer( parameters ) {
 
 	}
 
-	function renderObject( object, scene, camera, geometry, material, group ) {
+	function renderObject ( object, scene, camera, geometry, material, group ) {
 
 		object.onBeforeRender( _this, scene, camera, geometry, material, group );
 
@@ -29646,7 +29646,7 @@ function WebGLRenderer( parameters ) {
 
 	}
 
-	function getProgram( material, scene, object ) {
+	function getProgram ( material, scene, object ) {
 
 		if ( scene.isScene !== true ) scene = _emptyScene; // scene could be a Mesh, Line, Points, ...
 
@@ -29689,7 +29689,7 @@ function WebGLRenderer( parameters ) {
 
 				updateCommonMaterialProperties( material, parameters );
 
-				return program;
+				return program
 
 			}
 
@@ -29756,11 +29756,11 @@ function WebGLRenderer( parameters ) {
 		materialProperties.currentProgram = program;
 		materialProperties.uniformsList = uniformsList;
 
-		return program;
+		return program
 
 	}
 
-	function updateCommonMaterialProperties( material, parameters ) {
+	function updateCommonMaterialProperties ( material, parameters ) {
 
 		const materialProperties = properties.get( material );
 
@@ -29772,7 +29772,7 @@ function WebGLRenderer( parameters ) {
 
 	}
 
-	function setProgram( camera, scene, material, object ) {
+	function setProgram ( camera, scene, material, object ) {
 
 		if ( scene.isScene !== true ) scene = _emptyScene; // scene could be a Mesh, Line, Points, ...
 
@@ -30070,13 +30070,13 @@ function WebGLRenderer( parameters ) {
 		p_uniforms.setValue( _gl, 'normalMatrix', object.normalMatrix );
 		p_uniforms.setValue( _gl, 'modelMatrix', object.matrixWorld );
 
-		return program;
+		return program
 
 	}
 
 	// If uniforms are marked as clean, they don't need to be loaded to the GPU.
 
-	function markUniformsLightsNeedsUpdate( uniforms, value ) {
+	function markUniformsLightsNeedsUpdate ( uniforms, value ) {
 
 		uniforms.ambientLightColor.needsUpdate = value;
 		uniforms.lightProbe.needsUpdate = value;
@@ -30092,29 +30092,29 @@ function WebGLRenderer( parameters ) {
 
 	}
 
-	function materialNeedsLights( material ) {
+	function materialNeedsLights ( material ) {
 
 		return material.isMeshLambertMaterial || material.isMeshToonMaterial || material.isMeshPhongMaterial ||
 			material.isMeshStandardMaterial || material.isShadowMaterial ||
-			( material.isShaderMaterial && material.lights === true );
+			( material.isShaderMaterial && material.lights === true )
 
 	}
 
 	this.getActiveCubeFace = function () {
 
-		return _currentActiveCubeFace;
+		return _currentActiveCubeFace
 
 	};
 
 	this.getActiveMipmapLevel = function () {
 
-		return _currentActiveMipmapLevel;
+		return _currentActiveMipmapLevel
 
 	};
 
 	this.getRenderTarget = function () {
 
-		return _currentRenderTarget;
+		return _currentRenderTarget
 
 	};
 
@@ -30199,7 +30199,7 @@ function WebGLRenderer( parameters ) {
 		if ( ! ( renderTarget && renderTarget.isWebGLRenderTarget ) ) {
 
 			console.error( 'THREE.WebGLRenderer.readRenderTargetPixels: renderTarget is not THREE.WebGLRenderTarget.' );
-			return;
+			return
 
 		}
 
@@ -30224,7 +30224,7 @@ function WebGLRenderer( parameters ) {
 				if ( textureFormat !== RGBAFormat && utils.convert( textureFormat ) !== _gl.getParameter( _gl.IMPLEMENTATION_COLOR_READ_FORMAT ) ) {
 
 					console.error( 'THREE.WebGLRenderer.readRenderTargetPixels: renderTarget is not in RGBA or implementation defined format.' );
-					return;
+					return
 
 				}
 
@@ -30235,7 +30235,7 @@ function WebGLRenderer( parameters ) {
 					! halfFloatSupportedByExt ) {
 
 					console.error( 'THREE.WebGLRenderer.readRenderTargetPixels: renderTarget is not in UnsignedByteType or implementation defined type.' );
-					return;
+					return
 
 				}
 
@@ -30328,7 +30328,7 @@ function WebGLRenderer( parameters ) {
 		if ( _this.isWebGL1Renderer ) {
 
 			console.warn( 'THREE.WebGLRenderer.copyTextureToTexture3D: can only be used with WebGL2.' );
-			return;
+			return
 
 		}
 
@@ -30350,7 +30350,7 @@ function WebGLRenderer( parameters ) {
 		} else {
 
 			console.warn( 'THREE.WebGLRenderer.copyTextureToTexture3D: only supports THREE.DataTexture3D and THREE.DataTexture2DArray.' );
-			return;
+			return
 
 		}
 
@@ -31030,7 +31030,7 @@ class SpriteMaterial extends Material {
 
 SpriteMaterial.prototype.isSpriteMaterial = true;
 
-let _geometry;
+let _geometry$2;
 
 const _intersectPoint = /*@__PURE__*/ new Vector3$1();
 const _worldScale = /*@__PURE__*/ new Vector3$1();
@@ -31056,9 +31056,9 @@ class Sprite extends Object3D {
 
 		this.type = 'Sprite';
 
-		if ( _geometry === undefined ) {
+		if ( _geometry$2 === undefined ) {
 
-			_geometry = new BufferGeometry();
+			_geometry$2 = new BufferGeometry();
 
 			const float32Array = new Float32Array( [
 				- 0.5, - 0.5, 0, 0, 0,
@@ -31069,13 +31069,13 @@ class Sprite extends Object3D {
 
 			const interleavedBuffer = new InterleavedBuffer( float32Array, 5 );
 
-			_geometry.setIndex( [ 0, 1, 2,	0, 2, 3 ] );
-			_geometry.setAttribute( 'position', new InterleavedBufferAttribute( interleavedBuffer, 3, 0, false ) );
-			_geometry.setAttribute( 'uv', new InterleavedBufferAttribute( interleavedBuffer, 2, 3, false ) );
+			_geometry$2.setIndex( [ 0, 1, 2,	0, 2, 3 ] );
+			_geometry$2.setAttribute( 'position', new InterleavedBufferAttribute( interleavedBuffer, 3, 0, false ) );
+			_geometry$2.setAttribute( 'uv', new InterleavedBufferAttribute( interleavedBuffer, 2, 3, false ) );
 
 		}
 
-		this.geometry = _geometry;
+		this.geometry = _geometry$2;
 		this.material = ( material !== undefined ) ? material : new SpriteMaterial();
 
 		this.center = new Vector2( 0.5, 0.5 );
@@ -40324,7 +40324,7 @@ class DataTextureLoader extends Loader$1 {
 
 }
 
-class TextureLoader extends Loader$1 {
+class TextureLoader$1 extends Loader$1 {
 
 	constructor( manager ) {
 
@@ -50807,7 +50807,7 @@ class DirectionalLightHelper extends Object3D {
 }
 
 const _vector$2 = /*@__PURE__*/ new Vector3$1();
-const _camera = /*@__PURE__*/ new Camera();
+const _camera$1 = /*@__PURE__*/ new Camera();
 
 /**
  *	- shows frustum, line of sight and up of the camera
@@ -50934,44 +50934,44 @@ class CameraHelper extends LineSegments {
 		// we need just camera projection matrix inverse
 		// world matrix must be identity
 
-		_camera.projectionMatrixInverse.copy( this.camera.projectionMatrixInverse );
+		_camera$1.projectionMatrixInverse.copy( this.camera.projectionMatrixInverse );
 
 		// center / target
 
-		setPoint( 'c', pointMap, geometry, _camera, 0, 0, - 1 );
-		setPoint( 't', pointMap, geometry, _camera, 0, 0, 1 );
+		setPoint( 'c', pointMap, geometry, _camera$1, 0, 0, - 1 );
+		setPoint( 't', pointMap, geometry, _camera$1, 0, 0, 1 );
 
 		// near
 
-		setPoint( 'n1', pointMap, geometry, _camera, - w, - h, - 1 );
-		setPoint( 'n2', pointMap, geometry, _camera, w, - h, - 1 );
-		setPoint( 'n3', pointMap, geometry, _camera, - w, h, - 1 );
-		setPoint( 'n4', pointMap, geometry, _camera, w, h, - 1 );
+		setPoint( 'n1', pointMap, geometry, _camera$1, - w, - h, - 1 );
+		setPoint( 'n2', pointMap, geometry, _camera$1, w, - h, - 1 );
+		setPoint( 'n3', pointMap, geometry, _camera$1, - w, h, - 1 );
+		setPoint( 'n4', pointMap, geometry, _camera$1, w, h, - 1 );
 
 		// far
 
-		setPoint( 'f1', pointMap, geometry, _camera, - w, - h, 1 );
-		setPoint( 'f2', pointMap, geometry, _camera, w, - h, 1 );
-		setPoint( 'f3', pointMap, geometry, _camera, - w, h, 1 );
-		setPoint( 'f4', pointMap, geometry, _camera, w, h, 1 );
+		setPoint( 'f1', pointMap, geometry, _camera$1, - w, - h, 1 );
+		setPoint( 'f2', pointMap, geometry, _camera$1, w, - h, 1 );
+		setPoint( 'f3', pointMap, geometry, _camera$1, - w, h, 1 );
+		setPoint( 'f4', pointMap, geometry, _camera$1, w, h, 1 );
 
 		// up
 
-		setPoint( 'u1', pointMap, geometry, _camera, w * 0.7, h * 1.1, - 1 );
-		setPoint( 'u2', pointMap, geometry, _camera, - w * 0.7, h * 1.1, - 1 );
-		setPoint( 'u3', pointMap, geometry, _camera, 0, h * 2, - 1 );
+		setPoint( 'u1', pointMap, geometry, _camera$1, w * 0.7, h * 1.1, - 1 );
+		setPoint( 'u2', pointMap, geometry, _camera$1, - w * 0.7, h * 1.1, - 1 );
+		setPoint( 'u3', pointMap, geometry, _camera$1, 0, h * 2, - 1 );
 
 		// cross
 
-		setPoint( 'cf1', pointMap, geometry, _camera, - w, 0, 1 );
-		setPoint( 'cf2', pointMap, geometry, _camera, w, 0, 1 );
-		setPoint( 'cf3', pointMap, geometry, _camera, 0, - h, 1 );
-		setPoint( 'cf4', pointMap, geometry, _camera, 0, h, 1 );
+		setPoint( 'cf1', pointMap, geometry, _camera$1, - w, 0, 1 );
+		setPoint( 'cf2', pointMap, geometry, _camera$1, w, 0, 1 );
+		setPoint( 'cf3', pointMap, geometry, _camera$1, 0, - h, 1 );
+		setPoint( 'cf4', pointMap, geometry, _camera$1, 0, h, 1 );
 
-		setPoint( 'cn1', pointMap, geometry, _camera, - w, 0, - 1 );
-		setPoint( 'cn2', pointMap, geometry, _camera, w, 0, - 1 );
-		setPoint( 'cn3', pointMap, geometry, _camera, 0, - h, - 1 );
-		setPoint( 'cn4', pointMap, geometry, _camera, 0, h, - 1 );
+		setPoint( 'cn1', pointMap, geometry, _camera$1, - w, 0, - 1 );
+		setPoint( 'cn2', pointMap, geometry, _camera$1, w, 0, - 1 );
+		setPoint( 'cn3', pointMap, geometry, _camera$1, 0, - h, - 1 );
+		setPoint( 'cn4', pointMap, geometry, _camera$1, 0, h, - 1 );
 
 		geometry.getAttribute( 'position' ).needsUpdate = true;
 
@@ -52380,7 +52380,7 @@ if ( typeof window !== 'undefined' ) {
 
 }
 
-var pack$7 = /*#__PURE__*/Object.freeze({
+var Three = /*#__PURE__*/Object.freeze({
     __proto__: null,
     WebGLMultisampleRenderTarget: WebGLMultisampleRenderTarget,
     WebGLCubeRenderTarget: WebGLCubeRenderTarget,
@@ -52419,7 +52419,7 @@ var pack$7 = /*#__PURE__*/Object.freeze({
     CompressedTextureLoader: CompressedTextureLoader,
     CubeTextureLoader: CubeTextureLoader,
     DataTextureLoader: DataTextureLoader,
-    TextureLoader: TextureLoader,
+    TextureLoader: TextureLoader$1,
     ObjectLoader: ObjectLoader,
     MaterialLoader: MaterialLoader$1,
     BufferGeometryLoader: BufferGeometryLoader,
@@ -52891,13 +52891,13 @@ class Bank {
 
     constructor () {
 
-        this._Stored = {};
+        this.Stored = {};
 
     }
 
     async add ( name, content ) {
 
-        this._Stored[ name ] = content;
+        this.Stored[ name ] = content;
 
     }
 
@@ -52909,13 +52909,13 @@ class Bank {
 
     get ( name ) {
 
-        return this._Stored[ name ]
+        return this.Stored[ name ]
 
     }
 
     async remove ( name ) {
 
-        delete this._Stored[ name ];
+        delete this.Stored[ name ];
 
     }
 
@@ -52941,7 +52941,7 @@ class AudioBank extends Bank {
 
     async add ( name, url ) {
 
-        this._Stored[ name ] = this.path + url;
+        this.Stored[ name ] = this.path + url;
 
     }
 
@@ -52980,7 +52980,7 @@ class CursorBank extends Bank {
 
     add ( name, url, oX, oY, type ) {
 
-        this._Stored[ name ] = new StoredCursor( url, oX, oY, type );
+        this.Stored[ name ] = new StoredCursor( url, oX, oY, type );
 
         return
 
@@ -52988,7 +52988,7 @@ class CursorBank extends Bank {
 
     reset () {
 
-        this.set( Object.keys( this._Stored )[ 0 ] );
+        this.set( Object.keys( this.Stored )[ 0 ] );
 
         return
 
@@ -52996,7 +52996,7 @@ class CursorBank extends Bank {
 
     set ( name ) {
 
-        const Cur = this._Stored[ name ];
+        const Cur = this.Stored[ name ];
 
         document.body.style.cursor = `url( ${ this._path + Cur.url } ) ${ Cur.oX } ${ Cur.oY }, ${ Cur.type }`;
 
@@ -53008,38 +53008,41 @@ class CursorBank extends Bank {
 
 CursorBank.prototype.isCursorBank = true;
 
+function addCommasToNumber ( number ) {
+
+    return number.toString().replace( /\B(?=(\d{3})+(?!\d))/g, ',' )
+
+}
+
+function capitalizeFirstLetter ( string ) {
+    
+    return string.charAt( 0 ).toUpperCase() + string.slice( 1 )
+
+}
+
+var strings = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    addCommasToNumber: addCommasToNumber,
+    capitalizeFirstLetter: capitalizeFirstLetter
+});
+
 class Loader {
 
-    constructor ( path ) {
-
-        this.bankType = '';
-        this.path = path ? path : '';
-
-    }
+    constructor () {}
 
     async load ( url, cb = function () {} ) {
 
-        const response = await fetch( this.path + url );
+        const response = await fetch( url );
         const json = await response.json();
 
         cb( json );
 
     }
 
-    isBank () {
+    async loadJSON ( url ) {
 
-        if ( this.BankProxy ) return true
-        else return false
-
-    }
-
-    setBank ( proxy ) {
-
-        if ( proxy[ `is${ this.bankType }Bank` ] ) {
-
-            this.BankProxy = proxy;
-
-        }
+        const response = await fetch( url );
+        return await response.json()
 
     }
 
@@ -53047,33 +53050,28 @@ class Loader {
 
 class MaterialLoader extends Loader {
 
-    constructor ( path ) {
+    constructor ( textureBank ) {
 
-        super( path );
+        super();
 
-        this.bankType = 'Material';
+        this.TextureBank = textureBank ? textureBank : null;
 
     }
 
-    async load ( url, cb = function () {} ) {
+    async loadFromJSON ( name, url ) {
 
-        const Response = await fetch( this.path + url );
-        const Data = await Response.json();
-        const type = Data.type.toLowerCase();
+        const File = await this.loadJSON( url );
+        const Data = File[ name ];
+        
+        if ( this.TextureBank && Data.options.map ) {
 
-        const Material = new ShaderMaterial( {
-            uniforms: ShaderLib[ type ].uniforms,
-            fragmentShader: ShaderLib[ type ].fragmentShader,
-            vertexShader: ShaderLib[ type ].vertexShader,
-        } );
+            Data.options.map = this.TextureBank.get( Data.options.map );
 
-        if ( this.isBank() ) {
-
-            await this.BankProxy.add( Data.name, Material );
+            console.log( Data.options.map );
 
         }
 
-        cb( Material );
+        return new Three[ `${ Data.type }Material` ]( Data.options )
 
     }
 
@@ -53081,16 +53079,357 @@ class MaterialLoader extends Loader {
 
 class MaterialBank extends Bank {
 
-    constructor ( path ) {
+    constructor ( textureBank ) {
 
-        this.Loader = new MaterialLoader( path ? path : '' );
-        this.Loader.setBank( this );
+        super();
+
+        this.Loader = new MaterialLoader( textureBank );
+
+    }
+
+    async addFromJSON ( name, url ) {
+
+        const Material = await this.Loader.loadFromJSON( name, url );
+
+        await this.add( name, Material );
+
+    }
+
+    async addMultiFromJSON () {
+
+        for ( let i of arguments ) await this.addFromJSON( i[ 0 ], i[ 1 ] );
 
     }
 
 }
 
 MaterialBank.prototype.isMaterialBank = true;
+
+class Pass {
+
+	constructor () {
+
+		// if set to true, the pass is processed by the composer
+		this.enabled = true;
+
+		// if set to true, the pass indicates to swap read and write buffer after rendering
+		this.needsSwap = true;
+
+		// if set to true, the pass clears its buffer before rendering
+		this.clear = false;
+
+		// if set to true, the result of the pass is rendered to screen. This is set automatically by EffectComposer.
+		this.renderToScreen = false;
+
+	}
+
+	setSize ( /* width, height */ ) {}
+
+	render ( /* renderer, writeBuffer, readBuffer, deltaTime, maskActive */ ) {
+
+		console.error( 'THREE.Pass: .render() must be implemented in derived pass.' );
+
+	}
+
+}
+
+// Helper for passes that need to fill the viewport with a single quad.
+
+const _camera = new OrthographicCamera( - 1, 1, 1, - 1, 0, 1 );
+
+// https://github.com/mrdoob/three.js/pull/21358
+
+const _geometry$1 = new BufferGeometry();
+_geometry$1.setAttribute( 'position', new Float32BufferAttribute( [ - 1, 3, 0, - 1, - 1, 0, 3, - 1, 0 ], 3 ) );
+_geometry$1.setAttribute( 'uv', new Float32BufferAttribute( [ 0, 2, 0, 0, 2, 0 ], 2 ) );
+
+class FullScreenQuad {
+
+	constructor ( material ) {
+
+		this._mesh = new Mesh( _geometry$1, material );
+
+	}
+
+	dispose () {
+
+		this._mesh.geometry.dispose();
+
+	}
+
+	render ( renderer ) {
+
+		renderer.render( this._mesh, _camera );
+
+	}
+
+	get material () {
+
+		return this._mesh.material
+
+	}
+
+	set material ( value ) {
+
+		this._mesh.material = value;
+
+	}
+
+}
+
+/**
+ * Depth-of-field shader with bokeh
+ * ported from GLSL shader by Martins Upitis
+ * http://artmartinsh.blogspot.com/2010/02/glsl-lens-blur-filter-with-bokeh.html
+ */
+
+ const BokehShader$1 = {
+
+	defines: {
+		'DEPTH_PACKING': 1,
+		'PERSPECTIVE_CAMERA': 1,
+	},
+
+	uniforms: {
+
+		'tColor': { value: null },
+		'tDepth': { value: null },
+		'focus': { value: 1.0 },
+		'aspect': { value: 1.0 },
+		'aperture': { value: 0.025 },
+		'maxblur': { value: 0.01 },
+		'nearClip': { value: 1.0 },
+		'farClip': { value: 1000.0 },
+
+	},
+
+	vertexShader: /* glsl */`
+
+		varying vec2 vUv;
+
+		void main() {
+
+			vUv = uv;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+		}`,
+
+	fragmentShader: /* glsl */`
+
+		#include <common>
+
+		varying vec2 vUv;
+
+		uniform sampler2D tColor;
+		uniform sampler2D tDepth;
+
+		uniform float maxblur; // max blur amount
+		uniform float aperture; // aperture - bigger values for shallower depth of field
+
+		uniform float nearClip;
+		uniform float farClip;
+
+		uniform float focus;
+		uniform float aspect;
+
+		#include <packing>
+
+		float getDepth( const in vec2 screenPosition ) {
+			#if DEPTH_PACKING == 1
+			return unpackRGBAToDepth( texture2D( tDepth, screenPosition ) );
+			#else
+			return texture2D( tDepth, screenPosition ).x;
+			#endif
+		}
+
+		float getViewZ( const in float depth ) {
+			#if PERSPECTIVE_CAMERA == 1
+			return perspectiveDepthToViewZ( depth, nearClip, farClip );
+			#else
+			return orthographicDepthToViewZ( depth, nearClip, farClip );
+			#endif
+		}
+
+
+		void main() {
+
+			vec2 aspectcorrect = vec2( 1.0, aspect );
+
+			float viewZ = getViewZ( getDepth( vUv ) );
+
+			float factor = ( focus + viewZ ); // viewZ is <= 0, so this is a difference equation
+
+			vec2 dofblur = vec2 ( clamp( factor * aperture, -maxblur, maxblur ) );
+
+			vec2 dofblur9 = dofblur * 0.9;
+			vec2 dofblur7 = dofblur * 0.7;
+			vec2 dofblur4 = dofblur * 0.4;
+
+			vec4 col = vec4( 0.0 );
+
+			col += texture2D( tColor, vUv.xy );
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.0,   0.4  ) * aspectcorrect ) * dofblur );
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.15,  0.37 ) * aspectcorrect ) * dofblur );
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.29,  0.29 ) * aspectcorrect ) * dofblur );
+			col += texture2D( tColor, vUv.xy + ( vec2( -0.37,  0.15 ) * aspectcorrect ) * dofblur );
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.40,  0.0  ) * aspectcorrect ) * dofblur );
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.37, -0.15 ) * aspectcorrect ) * dofblur );
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.29, -0.29 ) * aspectcorrect ) * dofblur );
+			col += texture2D( tColor, vUv.xy + ( vec2( -0.15, -0.37 ) * aspectcorrect ) * dofblur );
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.0,  -0.4  ) * aspectcorrect ) * dofblur );
+			col += texture2D( tColor, vUv.xy + ( vec2( -0.15,  0.37 ) * aspectcorrect ) * dofblur );
+			col += texture2D( tColor, vUv.xy + ( vec2( -0.29,  0.29 ) * aspectcorrect ) * dofblur );
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.37,  0.15 ) * aspectcorrect ) * dofblur );
+			col += texture2D( tColor, vUv.xy + ( vec2( -0.4,   0.0  ) * aspectcorrect ) * dofblur );
+			col += texture2D( tColor, vUv.xy + ( vec2( -0.37, -0.15 ) * aspectcorrect ) * dofblur );
+			col += texture2D( tColor, vUv.xy + ( vec2( -0.29, -0.29 ) * aspectcorrect ) * dofblur );
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.15, -0.37 ) * aspectcorrect ) * dofblur );
+
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.15,  0.37 ) * aspectcorrect ) * dofblur9 );
+			col += texture2D( tColor, vUv.xy + ( vec2( -0.37,  0.15 ) * aspectcorrect ) * dofblur9 );
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.37, -0.15 ) * aspectcorrect ) * dofblur9 );
+			col += texture2D( tColor, vUv.xy + ( vec2( -0.15, -0.37 ) * aspectcorrect ) * dofblur9 );
+			col += texture2D( tColor, vUv.xy + ( vec2( -0.15,  0.37 ) * aspectcorrect ) * dofblur9 );
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.37,  0.15 ) * aspectcorrect ) * dofblur9 );
+			col += texture2D( tColor, vUv.xy + ( vec2( -0.37, -0.15 ) * aspectcorrect ) * dofblur9 );
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.15, -0.37 ) * aspectcorrect ) * dofblur9 );
+
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.29,  0.29 ) * aspectcorrect ) * dofblur7 );
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.40,  0.0  ) * aspectcorrect ) * dofblur7 );
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.29, -0.29 ) * aspectcorrect ) * dofblur7 );
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.0,  -0.4  ) * aspectcorrect ) * dofblur7 );
+			col += texture2D( tColor, vUv.xy + ( vec2( -0.29,  0.29 ) * aspectcorrect ) * dofblur7 );
+			col += texture2D( tColor, vUv.xy + ( vec2( -0.4,   0.0  ) * aspectcorrect ) * dofblur7 );
+			col += texture2D( tColor, vUv.xy + ( vec2( -0.29, -0.29 ) * aspectcorrect ) * dofblur7 );
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.0,   0.4  ) * aspectcorrect ) * dofblur7 );
+
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.29,  0.29 ) * aspectcorrect ) * dofblur4 );
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.4,   0.0  ) * aspectcorrect ) * dofblur4 );
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.29, -0.29 ) * aspectcorrect ) * dofblur4 );
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.0,  -0.4  ) * aspectcorrect ) * dofblur4 );
+			col += texture2D( tColor, vUv.xy + ( vec2( -0.29,  0.29 ) * aspectcorrect ) * dofblur4 );
+			col += texture2D( tColor, vUv.xy + ( vec2( -0.4,   0.0  ) * aspectcorrect ) * dofblur4 );
+			col += texture2D( tColor, vUv.xy + ( vec2( -0.29, -0.29 ) * aspectcorrect ) * dofblur4 );
+			col += texture2D( tColor, vUv.xy + ( vec2(  0.0,   0.4  ) * aspectcorrect ) * dofblur4 );
+
+			gl_FragColor = col / 41.0;
+			gl_FragColor.a = 1.0;
+
+		}`
+
+};
+
+/**
+ * Depth-of-field post-process with bokeh shader
+ */
+
+class BokehPass extends Pass {
+
+	constructor ( scene, camera, params, manager ) {
+
+		super();
+
+		this.scene = scene;
+		this.camera = camera;
+
+        this.Manager = manager;
+
+		const focus = ( params.focus !== undefined ) ? params.focus : 1.0;
+		const aspect = ( params.aspect !== undefined ) ? params.aspect : camera.aspect;
+		const aperture = ( params.aperture !== undefined ) ? params.aperture : 0.025;
+		const maxblur = ( params.maxblur !== undefined ) ? params.maxblur : 1.0;
+
+		// depth material
+
+		this.materialDepth = new MeshDepthMaterial();
+		this.materialDepth.depthPacking = RGBADepthPacking;
+		this.materialDepth.blending = NoBlending;
+
+		// bokeh material
+
+		if ( BokehShader$1 === undefined ) {
+
+			console.error( 'THREE.BokehPass relies on BokehShader' );
+
+		}
+
+		const bokehShader = BokehShader$1;
+		const bokehUniforms = UniformsUtils.clone( bokehShader.uniforms );
+
+		bokehUniforms[ 'tDepth' ].value = this.Manager.Targets.Depth.texture;
+
+		bokehUniforms[ 'focus' ].value = focus;
+		bokehUniforms[ 'aspect' ].value = aspect;
+		bokehUniforms[ 'aperture' ].value = aperture;
+		bokehUniforms[ 'maxblur' ].value = maxblur;
+		bokehUniforms[ 'nearClip' ].value = camera.near;
+		bokehUniforms[ 'farClip' ].value = camera.far;
+
+		this.materialBokeh = new ShaderMaterial( {
+			defines: Object.assign( {}, bokehShader.defines ),
+			uniforms: bokehUniforms,
+			vertexShader: bokehShader.vertexShader,
+			fragmentShader: bokehShader.fragmentShader
+		} );
+
+		this.uniforms = bokehUniforms;
+		this.needsSwap = false;
+
+		this.fsQuad = new FullScreenQuad( this.materialBokeh );
+
+		this._oldClearColor = new Color();
+
+	}
+
+	render ( renderer, writeBuffer, readBuffer/*, deltaTime, maskActive*/ ) {
+
+		// Render depth into texture
+
+        for ( let i of this.Manager.meshes ) i.visible = false;
+
+		this.scene.overrideMaterial = this.materialDepth;
+
+		renderer.getClearColor( this._oldClearColor );
+		const oldClearAlpha = renderer.getClearAlpha();
+		const oldAutoClear = renderer.autoClear;
+		renderer.autoClear = false;
+
+		renderer.setClearColor( 0xffffff );
+		renderer.setClearAlpha( 1.0 );
+		renderer.setRenderTarget( this.Manager.Targets.Depth );
+		renderer.clear();
+		renderer.render( this.scene, this.camera );
+
+		// Render bokeh composite
+
+		this.uniforms[ 'tColor' ].value = readBuffer.texture;
+		this.uniforms[ 'nearClip' ].value = this.camera.near;
+		this.uniforms[ 'farClip' ].value = this.camera.far;
+
+		if ( this.renderToScreen ) {
+
+			renderer.setRenderTarget( null );
+			this.fsQuad.render( renderer );
+
+		} else {
+
+			renderer.setRenderTarget( writeBuffer );
+			renderer.clear();
+			this.fsQuad.render( renderer );
+
+		}
+
+		this.scene.overrideMaterial = null;
+
+        for ( let i of this.Manager.meshes ) i.visible = true;
+
+		renderer.setClearColor( this._oldClearColor );
+		renderer.setClearAlpha( oldClearAlpha );
+		renderer.autoClear = oldAutoClear;
+
+	}
+
+}
 
 /**
  * Depth-of-field shader with bokeh
@@ -54398,6 +54737,484 @@ class BufferGeometryUtils {
 	}
 
 }
+
+/**
+ * Full-screen textured quad shader
+ */
+
+ var CopyShader = {
+
+	uniforms: {
+
+		'tDiffuse': { value: null },
+		'opacity': { value: 1.0 }
+
+	},
+
+	vertexShader: /* glsl */`
+
+		varying vec2 vUv;
+
+		void main() {
+
+			vUv = uv;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+		}`,
+
+	fragmentShader: /* glsl */`
+
+		uniform float opacity;
+
+		uniform sampler2D tDiffuse;
+
+		varying vec2 vUv;
+
+		void main() {
+
+			vec4 texel = texture2D( tDiffuse, vUv );
+			gl_FragColor = opacity * texel;
+
+		}`
+
+};
+
+class ShaderPass extends Pass {
+
+	constructor ( shader, textureID ) {
+
+		super();
+
+		this.textureID = ( textureID !== undefined ) ? textureID : 'tDiffuse';
+
+		if ( shader instanceof ShaderMaterial ) {
+
+			this.uniforms = shader.uniforms;
+
+			this.material = shader;
+
+		} else if ( shader ) {
+
+			this.uniforms = UniformsUtils.clone( shader.uniforms );
+
+			this.material = new ShaderMaterial( {
+
+				defines: Object.assign( {}, shader.defines ),
+				uniforms: this.uniforms,
+				vertexShader: shader.vertexShader,
+				fragmentShader: shader.fragmentShader
+
+			} );
+
+		}
+
+		this.fsQuad = new FullScreenQuad( this.material );
+
+	}
+
+	render ( renderer, writeBuffer, readBuffer /*, deltaTime, maskActive */ ) {
+
+		if ( this.uniforms[ this.textureID ] ) {
+
+			this.uniforms[ this.textureID ].value = readBuffer.texture;
+
+		}
+
+		this.fsQuad.material = this.material;
+
+		if ( this.renderToScreen ) {
+
+			renderer.setRenderTarget( null );
+			this.fsQuad.render( renderer );
+
+		} else {
+
+			renderer.setRenderTarget( writeBuffer );
+			// TODO: Avoid using autoClear properties, see https://github.com/mrdoob/three.js/pull/15571#issuecomment-465669600
+			if ( this.clear ) renderer.clear( renderer.autoClearColor, renderer.autoClearDepth, renderer.autoClearStencil );
+			this.fsQuad.render( renderer );
+
+		}
+
+	}
+
+}
+
+class MaskPass extends Pass {
+
+	constructor ( scene, camera ) {
+
+		super();
+
+		this.scene = scene;
+		this.camera = camera;
+
+		this.clear = true;
+		this.needsSwap = false;
+
+		this.inverse = false;
+
+	}
+
+	render ( renderer, writeBuffer, readBuffer /*, deltaTime, maskActive */ ) {
+
+		const context = renderer.getContext();
+		const state = renderer.state;
+
+		// don't update color or depth
+
+		state.buffers.color.setMask( false );
+		state.buffers.depth.setMask( false );
+
+		// lock buffers
+
+		state.buffers.color.setLocked( true );
+		state.buffers.depth.setLocked( true );
+
+		// set up stencil
+
+		let writeValue, clearValue;
+
+		if ( this.inverse ) {
+
+			writeValue = 0;
+			clearValue = 1;
+
+		} else {
+
+			writeValue = 1;
+			clearValue = 0;
+
+		}
+
+		state.buffers.stencil.setTest( true );
+		state.buffers.stencil.setOp( context.REPLACE, context.REPLACE, context.REPLACE );
+		state.buffers.stencil.setFunc( context.ALWAYS, writeValue, 0xffffffff );
+		state.buffers.stencil.setClear( clearValue );
+		state.buffers.stencil.setLocked( true );
+
+		// draw into the stencil buffer
+
+		renderer.setRenderTarget( readBuffer );
+		if ( this.clear ) renderer.clear();
+		renderer.render( this.scene, this.camera );
+
+		renderer.setRenderTarget( writeBuffer );
+		if ( this.clear ) renderer.clear();
+		renderer.render( this.scene, this.camera );
+
+		// unlock color and depth buffer for subsequent rendering
+
+		state.buffers.color.setLocked( false );
+		state.buffers.depth.setLocked( false );
+
+		// only render where stencil is set to 1
+
+		state.buffers.stencil.setLocked( false );
+		state.buffers.stencil.setFunc( context.EQUAL, 1, 0xffffffff ); // draw if == 1
+		state.buffers.stencil.setOp( context.KEEP, context.KEEP, context.KEEP );
+		state.buffers.stencil.setLocked( true );
+
+	}
+
+}
+
+class ClearMaskPass extends Pass {
+
+	constructor () {
+
+		super();
+
+		this.needsSwap = false;
+
+	}
+
+	render ( renderer /*, writeBuffer, readBuffer, deltaTime, maskActive */ ) {
+
+		renderer.state.buffers.stencil.setLocked( false );
+		renderer.state.buffers.stencil.setTest( false );
+
+	}
+
+}
+
+class EffectComposer {
+
+	constructor ( renderer, renderTarget ) {
+
+		this.renderer = renderer;
+
+		if ( renderTarget === undefined ) {
+
+			const parameters = {
+				minFilter: LinearFilter,
+				magFilter: LinearFilter,
+				format: RGBAFormat
+			};
+
+			const size = renderer.getSize( new Vector2() );
+			this._pixelRatio = renderer.getPixelRatio();
+			this._width = size.width;
+			this._height = size.height;
+
+			renderTarget = new WebGLRenderTarget( this._width * this._pixelRatio, this._height * this._pixelRatio, parameters );
+			renderTarget.texture.name = 'EffectComposer.rt1';
+
+		} else {
+
+			this._pixelRatio = 1;
+			this._width = renderTarget.width;
+			this._height = renderTarget.height;
+
+		}
+
+		this.renderTarget1 = renderTarget;
+		this.renderTarget2 = renderTarget.clone();
+		this.renderTarget2.texture.name = 'EffectComposer.rt2';
+
+		this.writeBuffer = this.renderTarget1;
+		this.readBuffer = this.renderTarget2;
+
+		this.renderToScreen = true;
+
+		this.passes = [];
+
+		// dependencies
+
+		if ( CopyShader === undefined ) {
+
+			console.error( 'THREE.EffectComposer relies on CopyShader' );
+
+		}
+
+		if ( ShaderPass === undefined ) {
+
+			console.error( 'THREE.EffectComposer relies on ShaderPass' );
+
+		}
+
+		this.copyPass = new ShaderPass( CopyShader );
+
+		this.clock = new Clock();
+
+	}
+
+	swapBuffers () {
+
+		const tmp = this.readBuffer;
+		this.readBuffer = this.writeBuffer;
+		this.writeBuffer = tmp;
+
+	}
+
+	addPass ( pass ) {
+
+		this.passes.push( pass );
+		pass.setSize( this._width * this._pixelRatio, this._height * this._pixelRatio );
+
+	}
+
+	insertPass ( pass, index ) {
+
+		this.passes.splice( index, 0, pass );
+		pass.setSize( this._width * this._pixelRatio, this._height * this._pixelRatio );
+
+	}
+
+	removePass ( pass ) {
+
+		const index = this.passes.indexOf( pass );
+
+		if ( index !== - 1 ) {
+
+			this.passes.splice( index, 1 );
+
+		}
+
+	}
+
+	isLastEnabledPass ( passIndex ) {
+
+		for ( let i = passIndex + 1; i < this.passes.length; i ++ ) {
+
+			if ( this.passes[ i ].enabled ) {
+
+				return false
+
+			}
+
+		}
+
+		return true
+
+	}
+
+	render ( deltaTime ) {
+
+		// deltaTime value is in seconds
+
+		if ( deltaTime === undefined ) {
+
+			deltaTime = this.clock.getDelta();
+
+		}
+
+		const currentRenderTarget = this.renderer.getRenderTarget();
+
+		let maskActive = false;
+
+		for ( let i = 0, il = this.passes.length; i < il; i ++ ) {
+
+			const pass = this.passes[ i ];
+
+			if ( pass.enabled === false ) continue
+
+			pass.renderToScreen = ( this.renderToScreen && this.isLastEnabledPass( i ) );
+			pass.render( this.renderer, this.writeBuffer, this.readBuffer, deltaTime, maskActive );
+
+			if ( pass.needsSwap ) {
+
+				if ( maskActive ) {
+
+					const context = this.renderer.getContext();
+					const stencil = this.renderer.state.buffers.stencil;
+
+					//context.stencilFunc( context.NOTEQUAL, 1, 0xffffffff );
+					stencil.setFunc( context.NOTEQUAL, 1, 0xffffffff );
+
+					this.copyPass.render( this.renderer, this.writeBuffer, this.readBuffer, deltaTime );
+
+					//context.stencilFunc( context.EQUAL, 1, 0xffffffff );
+					stencil.setFunc( context.EQUAL, 1, 0xffffffff );
+
+				}
+
+				this.swapBuffers();
+
+			}
+
+			if ( MaskPass !== undefined ) {
+
+				if ( pass instanceof MaskPass ) {
+
+					maskActive = true;
+
+				} else if ( pass instanceof ClearMaskPass ) {
+
+					maskActive = false;
+
+				}
+
+			}
+
+		}
+
+		this.renderer.setRenderTarget( currentRenderTarget );
+
+	}
+
+	reset ( renderTarget ) {
+
+		if ( renderTarget === undefined ) {
+
+			const size = this.renderer.getSize( new Vector2() );
+			this._pixelRatio = this.renderer.getPixelRatio();
+			this._width = size.width;
+			this._height = size.height;
+
+			renderTarget = this.renderTarget1.clone();
+			renderTarget.setSize( this._width * this._pixelRatio, this._height * this._pixelRatio );
+
+		}
+
+		this.renderTarget1.dispose();
+		this.renderTarget2.dispose();
+		this.renderTarget1 = renderTarget;
+		this.renderTarget2 = renderTarget.clone();
+
+		this.writeBuffer = this.renderTarget1;
+		this.readBuffer = this.renderTarget2;
+
+	}
+
+	setSize ( width, height ) {
+
+		this._width = width;
+		this._height = height;
+
+		const effectiveWidth = this._width * this._pixelRatio;
+		const effectiveHeight = this._height * this._pixelRatio;
+
+		this.renderTarget1.setSize( effectiveWidth, effectiveHeight );
+		this.renderTarget2.setSize( effectiveWidth, effectiveHeight );
+
+		for ( let i = 0; i < this.passes.length; i ++ ) {
+
+			this.passes[ i ].setSize( effectiveWidth, effectiveHeight );
+
+		}
+
+	}
+
+	setPixelRatio ( pixelRatio ) {
+
+		this._pixelRatio = pixelRatio;
+
+		this.setSize( this._width, this._height );
+
+	}
+
+}
+
+// Helper for passes that need to fill the viewport with a single quad.
+
+new OrthographicCamera( - 1, 1, 1, - 1, 0, 1 );
+
+// https://github.com/mrdoob/three.js/pull/21358
+
+const _geometry = new BufferGeometry();
+_geometry.setAttribute( 'position', new Float32BufferAttribute( [ - 1, 3, 0, - 1, - 1, 0, 3, - 1, 0 ], 3 ) );
+_geometry.setAttribute( 'uv', new Float32BufferAttribute( [ 0, 2, 0, 0, 2, 0 ], 2 ) );
+
+/**
+ * Gamma Correction Shader
+ * http://en.wikipedia.org/wiki/gamma_correction
+ */
+
+ const GammaCorrectionShader = {
+
+	uniforms: {
+
+		'tDiffuse': { value: null }
+
+	},
+
+	vertexShader: /* glsl */`
+
+		varying vec2 vUv;
+
+		void main() {
+
+			vUv = uv;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+		}`,
+
+	fragmentShader: /* glsl */`
+
+		uniform sampler2D tDiffuse;
+
+		varying vec2 vUv;
+
+		void main() {
+
+			vec4 tex = texture2D( tDiffuse, vUv );
+
+			gl_FragColor = LinearTosRGB( tex ); // optional: LinearToGamma( tex, float( GAMMA_FACTOR ) );
+
+		}`
+
+};
 
 class GLTFLoader extends Loader$1 {
 
@@ -56312,7 +57129,7 @@ class GLTFParser {
 
 		} else {
 
-			this.textureLoader = new TextureLoader( this.options.manager );
+			this.textureLoader = new TextureLoader$1( this.options.manager );
 
 		}
 
@@ -63655,6 +64472,81 @@ LowPolyWater.ReflectorShader = {
 		}`
 };
 
+class RenderPass extends Pass {
+
+	constructor ( scene, camera, overrideMaterial, clearColor, clearAlpha ) {
+
+		super();
+
+		this.scene = scene;
+		this.camera = camera;
+
+		this.overrideMaterial = overrideMaterial;
+
+		this.clearColor = clearColor;
+		this.clearAlpha = ( clearAlpha !== undefined ) ? clearAlpha : 0;
+
+		this.clear = true;
+		this.clearDepth = false;
+		this.needsSwap = false;
+		this._oldClearColor = new Color();
+
+	}
+
+	render ( renderer, writeBuffer, readBuffer /*, deltaTime, maskActive */ ) {
+
+		const oldAutoClear = renderer.autoClear;
+		renderer.autoClear = false;
+
+		let oldClearAlpha, oldOverrideMaterial;
+
+		if ( this.overrideMaterial !== undefined ) {
+
+			oldOverrideMaterial = this.scene.overrideMaterial;
+
+			this.scene.overrideMaterial = this.overrideMaterial;
+
+		}
+
+		if ( this.clearColor ) {
+
+			renderer.getClearColor( this._oldClearColor );
+			oldClearAlpha = renderer.getClearAlpha();
+
+			renderer.setClearColor( this.clearColor, this.clearAlpha );
+
+		}
+
+		if ( this.clearDepth ) {
+
+			renderer.clearDepth();
+
+		}
+
+		renderer.setRenderTarget( this.renderToScreen ? null : readBuffer );
+
+		// TODO: Avoid using autoClear properties, see https://github.com/mrdoob/three.js/pull/15571#issuecomment-465669600
+		if ( this.clear ) renderer.clear( renderer.autoClearColor, renderer.autoClearDepth, renderer.autoClearStencil );
+		renderer.render( this.scene, this.camera );
+
+		if ( this.clearColor ) {
+
+			renderer.setClearColor( this._oldClearColor, oldClearAlpha );
+
+		}
+
+		if ( this.overrideMaterial !== undefined ) {
+
+			this.scene.overrideMaterial = oldOverrideMaterial;
+
+		}
+
+		renderer.autoClear = oldAutoClear;
+
+	}
+
+}
+
 // https://github.com/mrdoob/three.js/issues/5552
 // http://en.wikipedia.org/wiki/RGBE_image_format
 
@@ -64883,9 +65775,12 @@ class CSS2DRenderer {
 
 var pack$4 = /*#__PURE__*/Object.freeze({
     __proto__: null,
+    BokehPass: BokehPass,
     BokehShader: BokehShader,
     BokehDepthShader: BokehDepthShader,
     BufferGeometryUtils: BufferGeometryUtils,
+    EffectComposer: EffectComposer,
+    GammaCorrectionShader: GammaCorrectionShader,
     GLTFLoader: GLTFLoader,
     Line2: Line2,
     LineGeometry: LineGeometry,
@@ -64894,7 +65789,10 @@ var pack$4 = /*#__PURE__*/Object.freeze({
     OrbitControls: OrbitControls$1,
     StandardControls: OrbitControls,
     LowPolyWater: LowPolyWater,
+    Pass: Pass,
+    RenderPass: RenderPass,
     RGBELoader: RGBELoader,
+    ShaderPass: ShaderPass,
     SkeletonUtils: SkeletonUtils,
     CSS2DObject: CSS2DObject,
     CSS2DRenderer: CSS2DRenderer
@@ -64906,7 +65804,7 @@ class ModelBank extends Bank {
 
         super();
 
-        this._Loader = new GLTFLoader().setPath( path );
+        this.Loader = new GLTFLoader().setPath( path );
 
     }
 
@@ -64914,11 +65812,11 @@ class ModelBank extends Bank {
 
         return new Promise( ( resolve ) => {
 
-            this._Loader.load( url, ( model ) => {
+            this.Loader.load( url, ( model ) => {
 
-                this._Stored[ name ] = model;
+                this.Stored[ name ] = model;
 
-                this._Stored[ name ].scene.traverse( ( child ) => {
+                this.Stored[ name ].scene.traverse( ( child ) => {
 
                     if ( child.isMesh ) {
 
@@ -64958,13 +65856,13 @@ class ModelBank extends Bank {
 
                 if ( isPack ) {
 
-                    this._Stored[ name ].items = {};
+                    this.Stored[ name ].items = {};
 
-                    this._Stored[ name ].scene.children.forEach( ( i ) => {
+                    this.Stored[ name ].scene.children.forEach( ( i ) => {
 
                         if ( i.isMesh ) {
 
-                            this._Stored[ name ].items[ i.name ] = i;
+                            this.Stored[ name ].items[ i.name ] = i;
 
                         }
 
@@ -64982,9 +65880,9 @@ class ModelBank extends Bank {
 
     remove ( name ) {
 
-        if ( this._Stored[ name ] ) {
+        if ( this.Stored[ name ] ) {
 
-            delete this._Stored[ name ];
+            delete this.Stored[ name ];
 
         } else {
 
@@ -65000,13 +65898,76 @@ class ModelBank extends Bank {
 
 ModelBank.prototype.isModelBank = true;
 
+class TextureLoader extends Loader {
+
+    constructor () {
+
+        super();
+
+    }
+
+    async loadFromJSON ( name, url ) {
+
+        const File = await this.loadJSON( url );
+        const Data = File[ name ];
+
+        console.log( File, name );
+
+        const Texture = new TextureLoader$1().load( Data.map );
+        
+        if ( Data.magFilter ) Texture.magFilter = Three[ Data.magFilter ];
+        if ( Data.minFilter ) Texture.minFilter = Three[ Data.minFilter ];
+
+        if ( Data.repeat && Data.repeat.length == 2 ) {
+
+            Texture.wrapS = RepeatWrapping;
+            Texture.wrapT = RepeatWrapping;
+            Texture.repeat.set( ...Data.repeat );
+
+        }
+
+        return Texture
+
+    }
+
+}
+
+class TextureBank extends Bank {
+
+    constructor () {
+
+        super();
+
+        this.Loader = new TextureLoader();
+
+    }
+
+    async addFromJSON ( name, url ) {
+
+        const Texture = await this.Loader.loadFromJSON( name, url );
+
+        await this.add( name, Texture );
+
+    }
+
+    async addMultiFromJSON () {
+
+        for ( let i of arguments ) await this.addFromJSON( i[ 0 ], i[ 1 ] );
+
+    }
+
+}
+
+TextureBank.prototype.isTextureBank = true;
+
 var pack$3 = /*#__PURE__*/Object.freeze({
     __proto__: null,
     Audio: AudioBank,
     Bank: Bank,
     Cursor: CursorBank,
     Material: MaterialBank,
-    Model: ModelBank
+    Model: ModelBank,
+    Texture: TextureBank
 });
 
 const Chars = {
@@ -66763,10 +67724,12 @@ class InterfaceManager {
 
 class PostProcessingManager {
 
-    constructor () {
+    constructor ( renderer ) {
 
         this.enabled = true;
+        this.meshes = [];
         
+        this.Composer = new EffectComposer( renderer );
         this.Scene = new Scene();
 
         // build materials
@@ -66778,11 +67741,25 @@ class PostProcessingManager {
         this.Materials.Depth.depthPacking = RGBADepthPacking;
         this.Materials.Depth.blending = NoBlending; 
 
+        this.Supports = {
+            depthTextureExtension: !renderer.extensions.get( 'WEBGL_depth_texture' )
+        };
+
         // build targets
 
         this.Targets = {
-            Color: new WebGLRenderTarget( window.innerWidth, window.innerHeight ),
-            Depth: new WebGLRenderTarget( window.innerWidth, window.innerHeight ),
+            Color: new WebGLRenderTarget( 
+                window.innerWidth * renderer.getPixelRatio(), 
+                window.innerHeight * renderer.getPixelRatio() 
+            ),
+            Depth: new WebGLRenderTarget( 
+                window.innerWidth * renderer.getPixelRatio(), 
+                window.innerHeight * renderer.getPixelRatio(),
+                {
+                    minFilter: NearestFilter,
+                    magFilter: NearestFilter
+                }
+            ),
         };
 
     }
@@ -66813,9 +67790,16 @@ class PostProcessingManager {
 
     // public
 
-    render ( renderer, mainScene, mainCamera ) {
+    async addMesh ( mesh ) {
 
-        renderer.setRenderTarget( this.Targets.Color );
+        this.meshes.push( mesh );
+
+    }
+
+    render1 ( renderer, mainScene, mainCamera ) {
+
+        for ( let i of this.meshes ) i.visible = false;
+
         renderer.render( mainScene, mainCamera );
 
         // render buffer scene for water depth texture
@@ -66823,23 +67807,35 @@ class PostProcessingManager {
         mainScene.overrideMaterial = this.Materials.Depth;
 
         renderer.setRenderTarget( this.Targets.Depth );
-        renderer.clear();
         renderer.render( mainScene, mainCamera );
+        renderer.setRenderTarget( null );
 
         mainScene.overrideMaterial = null;
 
-        renderer.setRenderTarget( null );
+        for ( let i of this.meshes ) i.visible = true;
+
         renderer.render( mainScene, mainCamera );
-        renderer.render( this.Scene, mainCamera );
 
     }
 
-    resizeShaders () {
+    render ( dT ) {
 
-        this.Targets.Color.setSize( window.innerWidth, window.innerHeight );
-        this.Targets.Depth.setSize( window.innerWidth, window.innerHeight );
+        this.Composer.render( dT );
 
-        return
+    }
+
+    resizeShaders ( renderer ) {
+
+        const pixelRatio = renderer.getPixelRatio();
+
+        this.Targets.Color.setSize( 
+            window.innerWidth * pixelRatio, 
+            window.innerHeight * pixelRatio 
+        );
+        this.Targets.Depth.setSize( 
+            window.innerWidth * pixelRatio, 
+            window.innerHeight * pixelRatio 
+        );
 
     }
 
@@ -67386,17 +68382,6 @@ var simplex = /*#__PURE__*/Object.freeze({
     octave: octave
 });
 
-function addCommasToNumber ( number ) {
-
-    return number.toString().replace( /\B(?=(\d{3})+(?!\d))/g, ',' )
-
-}
-
-var strings = /*#__PURE__*/Object.freeze({
-    __proto__: null,
-    addCommasToNumber: addCommasToNumber
-});
-
 var pack = /*#__PURE__*/Object.freeze({
     __proto__: null,
     App: app,
@@ -67437,6 +68422,6 @@ exports.FSMState = FSMState;
 exports.Libs = pack$5;
 exports.Managers = pack$1;
 exports.PointCaster = PointCaster;
-exports.Three = pack$7;
+exports.Three = Three;
 exports.ThreeX = pack$4;
 exports.Utils = pack;

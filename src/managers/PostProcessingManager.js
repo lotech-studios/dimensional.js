@@ -2,10 +2,12 @@ import * as Engine from '../pack.js'
 
 class PostProcessingManager {
 
-    constructor () {
+    constructor ( renderer ) {
 
         this.enabled = true
+        this.meshes = []
         
+        this.Composer = new Engine.ThreeX.EffectComposer( renderer )
         this.Scene = new Engine.Three.Scene()
 
         // build materials
@@ -17,11 +19,25 @@ class PostProcessingManager {
         this.Materials.Depth.depthPacking = Engine.Three.RGBADepthPacking
         this.Materials.Depth.blending = Engine.Three.NoBlending 
 
+        this.Supports = {
+            depthTextureExtension: !renderer.extensions.get( 'WEBGL_depth_texture' )
+        }
+
         // build targets
 
         this.Targets = {
-            Color: new Engine.Three.WebGLRenderTarget( window.innerWidth, window.innerHeight ),
-            Depth: new Engine.Three.WebGLRenderTarget( window.innerWidth, window.innerHeight ),
+            Color: new Engine.Three.WebGLRenderTarget( 
+                window.innerWidth * renderer.getPixelRatio(), 
+                window.innerHeight * renderer.getPixelRatio() 
+            ),
+            Depth: new Engine.Three.WebGLRenderTarget( 
+                window.innerWidth * renderer.getPixelRatio(), 
+                window.innerHeight * renderer.getPixelRatio(),
+                {
+                    minFilter: Engine.Three.NearestFilter,
+                    magFilter: Engine.Three.NearestFilter
+                }
+            ),
         }
 
     }
@@ -52,9 +68,16 @@ class PostProcessingManager {
 
     // public
 
-    render ( renderer, mainScene, mainCamera ) {
+    async addMesh ( mesh ) {
 
-        renderer.setRenderTarget( this.Targets.Color )
+        this.meshes.push( mesh )
+
+    }
+
+    render1 ( renderer, mainScene, mainCamera ) {
+
+        for ( let i of this.meshes ) i.visible = false
+
         renderer.render( mainScene, mainCamera )
 
         // render buffer scene for water depth texture
@@ -62,23 +85,35 @@ class PostProcessingManager {
         mainScene.overrideMaterial = this.Materials.Depth
 
         renderer.setRenderTarget( this.Targets.Depth )
-        renderer.clear()
         renderer.render( mainScene, mainCamera )
+        renderer.setRenderTarget( null )
 
         mainScene.overrideMaterial = null
 
-        renderer.setRenderTarget( null )
+        for ( let i of this.meshes ) i.visible = true
+
         renderer.render( mainScene, mainCamera )
-        renderer.render( this.Scene, mainCamera )
 
     }
 
-    resizeShaders () {
+    render ( dT ) {
 
-        this.Targets.Color.setSize( window.innerWidth, window.innerHeight )
-        this.Targets.Depth.setSize( window.innerWidth, window.innerHeight )
+        this.Composer.render( dT )
 
-        return
+    }
+
+    resizeShaders ( renderer ) {
+
+        const pixelRatio = renderer.getPixelRatio()
+
+        this.Targets.Color.setSize( 
+            window.innerWidth * pixelRatio, 
+            window.innerHeight * pixelRatio 
+        )
+        this.Targets.Depth.setSize( 
+            window.innerWidth * pixelRatio, 
+            window.innerHeight * pixelRatio 
+        )
 
     }
 

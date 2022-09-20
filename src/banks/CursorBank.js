@@ -25,7 +25,7 @@ class CursorBank extends Bank {
 
     add ( name, url, oX, oY, type ) {
 
-        this._Stored[ name ] = new StoredCursor( url, oX, oY, type )
+        this.Stored[ name ] = new StoredCursor( url, oX, oY, type )
 
         return
 
@@ -33,7 +33,7 @@ class CursorBank extends Bank {
 
     reset () {
 
-        this.set( Object.keys( this._Stored )[ 0 ] )
+        this.set( Object.keys( this.Stored )[ 0 ] )
 
         return
 
@@ -41,7 +41,7 @@ class CursorBank extends Bank {
 
     set ( name ) {
 
-        const Cur = this._Stored[ name ]
+        const Cur = this.Stored[ name ]
 
         document.body.style.cursor = `url( ${ this._path + Cur.url } ) ${ Cur.oX } ${ Cur.oY }, ${ Cur.type }`
 

@@ -8,7 +8,7 @@ class ModelBank extends Bank {
 
         super()
 
-        this._Loader = new GLTFLoader().setPath( path )
+        this.Loader = new GLTFLoader().setPath( path )
 
     }
 
@@ -16,11 +16,11 @@ class ModelBank extends Bank {
 
         return new Promise( ( resolve ) => {
 
-            this._Loader.load( url, ( model ) => {
+            this.Loader.load( url, ( model ) => {
 
-                this._Stored[ name ] = model
+                this.Stored[ name ] = model
 
-                this._Stored[ name ].scene.traverse( ( child ) => {
+                this.Stored[ name ].scene.traverse( ( child ) => {
 
                     if ( child.isMesh ) {
 
@@ -60,13 +60,13 @@ class ModelBank extends Bank {
 
                 if ( isPack ) {
 
-                    this._Stored[ name ].items = {}
+                    this.Stored[ name ].items = {}
 
-                    this._Stored[ name ].scene.children.forEach( ( i ) => {
+                    this.Stored[ name ].scene.children.forEach( ( i ) => {
 
                         if ( i.isMesh ) {
 
-                            this._Stored[ name ].items[ i.name ] = i
+                            this.Stored[ name ].items[ i.name ] = i
 
                         }
 
@@ -84,9 +84,9 @@ class ModelBank extends Bank {
 
     remove ( name ) {
 
-        if ( this._Stored[ name ] ) {
+        if ( this.Stored[ name ] ) {
 
-            delete this._Stored[ name ]
+            delete this.Stored[ name ]
 
         } else {
 

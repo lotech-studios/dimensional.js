@@ -2,13 +2,13 @@ class Bank {
 
     constructor () {
 
-        this._Stored = {}
+        this.Stored = {}
 
     }
 
     async add ( name, content ) {
 
-        this._Stored[ name ] = content
+        this.Stored[ name ] = content
 
     }
 
@@ -20,13 +20,13 @@ class Bank {
 
     get ( name ) {
 
-        return this._Stored[ name ]
+        return this.Stored[ name ]
 
     }
 
     async remove ( name ) {
 
-        delete this._Stored[ name ]
+        delete this.Stored[ name ]
 
     }
 
