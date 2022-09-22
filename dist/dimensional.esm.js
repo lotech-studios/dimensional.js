@@ -67630,7 +67630,8 @@ class InterfaceState {
 
     async build () {
 
-        this.Element.id = this.id;
+        this.Element.id = this.name;
+        this.Element.setAttribute( 'uuid', this.id );
         this.Element.setAttribute( 'name', this.name );
        
         await this.setStyle( {
