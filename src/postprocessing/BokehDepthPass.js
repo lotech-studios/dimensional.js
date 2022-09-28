@@ -7,27 +7,24 @@ import {
 	ShaderMaterial,
 	UniformsUtils,
 	WebGLRenderTarget
-} from '../../src/pack.js'
-import { Pass, FullScreenQuad } from './Pass.js'
-import { BokehShader } from '../shaders/BokehShader.js'
+} from '../three/src/pack.js'
+import { Pass, FullScreenQuad } from '../three/examples/postprocessing/Pass.js'
+import { BokehShader } from '../three/examples/shaders/BokehShader.js'
 
 /**
  * Depth-of-field post-process with bokeh shader
  */
 
-class BokehPass extends Pass {
+class BokehDepthPass extends Pass {
 
-	constructor ( scene, camera, params, manager ) {
+	constructor ( manager, params ) {
 
 		super()
-
-		this.scene = scene
-		this.camera = camera
 
         this.Manager = manager
 
 		const focus = ( params.focus !== undefined ) ? params.focus : 1.0
-		const aspect = ( params.aspect !== undefined ) ? params.aspect : camera.aspect
+		const aspect = ( params.aspect !== undefined ) ? params.aspect : this.Manager.Camera.aspect
 		const aperture = ( params.aperture !== undefined ) ? params.aperture : 0.025
 		const maxblur = ( params.maxblur !== undefined ) ? params.maxblur : 1.0
 
@@ -54,8 +51,8 @@ class BokehPass extends Pass {
 		bokehUniforms[ 'aspect' ].value = aspect
 		bokehUniforms[ 'aperture' ].value = aperture
 		bokehUniforms[ 'maxblur' ].value = maxblur
-		bokehUniforms[ 'nearClip' ].value = camera.near
-		bokehUniforms[ 'farClip' ].value = camera.far
+		bokehUniforms[ 'nearClip' ].value = this.Manager.Camera.near
+		bokehUniforms[ 'farClip' ].value = this.Manager.Camera.far
 
 		this.materialBokeh = new ShaderMaterial( {
 			defines: Object.assign( {}, bokehShader.defines ),
@@ -73,50 +70,16 @@ class BokehPass extends Pass {
 
 	}
 
-	render ( renderer, writeBuffer, readBuffer/*, deltaTime, maskActive*/ ) {
-
-		// Render depth into texture
-
-		this.scene.overrideMaterial = this.materialDepth
-
-		renderer.getClearColor( this._oldClearColor )
-		const oldClearAlpha = renderer.getClearAlpha()
-		const oldAutoClear = renderer.autoClear
-		renderer.autoClear = false
-
-		renderer.setClearColor( 0xffffff )
-		renderer.setClearAlpha( 1.0 )
-		renderer.setRenderTarget( this.Manager.Targets.Depth )
-		renderer.clear()
-		renderer.render( this.scene, this.camera )
+	render ( renderer, readBuffer/*, deltaTime, maskActive*/ ) {
 
 		// Render bokeh composite
 
 		this.uniforms[ 'tColor' ].value = readBuffer.texture
-		this.uniforms[ 'nearClip' ].value = this.camera.near
-		this.uniforms[ 'farClip' ].value = this.camera.far
-
-		if ( this.renderToScreen ) {
-
-			renderer.setRenderTarget( null )
-			this.fsQuad.render( renderer )
-
-		} else {
-
-			renderer.setRenderTarget( writeBuffer )
-			renderer.clear()
-			this.fsQuad.render( renderer )
-
-		}
-
-		this.scene.overrideMaterial = null
-
-		renderer.setClearColor( this._oldClearColor )
-		renderer.setClearAlpha( oldClearAlpha )
-		renderer.autoClear = oldAutoClear
+		
+		this.fsQuad.render( renderer )
 
 	}
 
 }
 
-export { BokehPass }
+export { BokehDepthPass }

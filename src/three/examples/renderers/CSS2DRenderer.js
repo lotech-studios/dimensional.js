@@ -10,7 +10,7 @@ class CSS2DObject extends Object3D {
 
 		super()
 
-		this.element = element || document.createElement( 'div' )
+		this.element = element || document.createElement( 'three-el' )
 
 		this.element.style.position = 'absolute'
 
@@ -29,6 +29,16 @@ class CSS2DObject extends Object3D {
 		} )
 
 	}
+
+	addElements ( xmlString ) {
+
+        const Elements = new DOMParser().parseFromString( xmlString, 'text/xml' )
+
+		console.log( Elements.children )
+
+        for ( let i of Elements.children ) this.element.appendChild( i )
+
+    }
 
 	copy ( source, recursive ) {
 

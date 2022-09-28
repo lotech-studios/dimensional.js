@@ -52882,7 +52882,7 @@ class BasicApp {
 
 }
 
-var pack$6 = /*#__PURE__*/Object.freeze({
+var pack$7 = /*#__PURE__*/Object.freeze({
     __proto__: null,
     Basic: BasicApp
 });
@@ -53385,8 +53385,6 @@ class BokehPass extends Pass {
 
 		// Render depth into texture
 
-        for ( let i of this.Manager.meshes ) i.visible = false;
-
 		this.scene.overrideMaterial = this.materialDepth;
 
 		renderer.getClearColor( this._oldClearColor );
@@ -53420,8 +53418,6 @@ class BokehPass extends Pass {
 		}
 
 		this.scene.overrideMaterial = null;
-
-        for ( let i of this.Manager.meshes ) i.visible = true;
 
 		renderer.setClearColor( this._oldClearColor );
 		renderer.setClearAlpha( oldClearAlpha );
@@ -61668,7 +61664,7 @@ var tween = /*#__PURE__*/Object.freeze({
     update: update
 });
 
-var pack$5 = /*#__PURE__*/Object.freeze({
+var pack$6 = /*#__PURE__*/Object.freeze({
     __proto__: null,
     SimplexNoise: SimplexNoise,
     Tween: tween
@@ -64472,9 +64468,9 @@ LowPolyWater.ReflectorShader = {
 		}`
 };
 
-class RenderPass extends Pass {
+class RenderPass$1 extends Pass {
 
-	constructor ( scene, camera, overrideMaterial, clearColor, clearAlpha ) {
+	constructor ( scene, camera, overrideMaterial, clearColor, clearAlpha, manager ) {
 
 		super();
 
@@ -65582,7 +65578,7 @@ class CSS2DObject extends Object3D {
 
 		super();
 
-		this.element = element || document.createElement( 'div' );
+		this.element = element || document.createElement( 'three-el' );
 
 		this.element.style.position = 'absolute';
 
@@ -65601,6 +65597,16 @@ class CSS2DObject extends Object3D {
 		} );
 
 	}
+
+	addElements ( xmlString ) {
+
+        const Elements = new DOMParser().parseFromString( xmlString, 'text/xml' );
+
+		console.log( Elements.children );
+
+        for ( let i of Elements.children ) this.element.appendChild( i );
+
+    }
 
 	copy ( source, recursive ) {
 
@@ -65773,7 +65779,7 @@ class CSS2DRenderer {
 
 }
 
-var pack$4 = /*#__PURE__*/Object.freeze({
+var pack$5 = /*#__PURE__*/Object.freeze({
     __proto__: null,
     BokehPass: BokehPass,
     BokehShader: BokehShader,
@@ -65790,7 +65796,7 @@ var pack$4 = /*#__PURE__*/Object.freeze({
     StandardControls: OrbitControls,
     LowPolyWater: LowPolyWater,
     Pass: Pass,
-    RenderPass: RenderPass,
+    RenderPass: RenderPass$1,
     RGBELoader: RGBELoader,
     ShaderPass: ShaderPass,
     SkeletonUtils: SkeletonUtils,
@@ -65960,7 +65966,7 @@ class TextureBank extends Bank {
 
 TextureBank.prototype.isTextureBank = true;
 
-var pack$3 = /*#__PURE__*/Object.freeze({
+var pack$4 = /*#__PURE__*/Object.freeze({
     __proto__: null,
     Audio: AudioBank,
     Bank: Bank,
@@ -67423,7 +67429,7 @@ const Components = {
     TerrainMesh: TerrainMeshComponent,
 };
 
-var pack$2 = /*#__PURE__*/Object.freeze({
+var pack$3 = /*#__PURE__*/Object.freeze({
     __proto__: null,
     Components: Components,
     Component: ECSComponent,
@@ -67728,8 +67734,8 @@ class PostProcessingManager {
     constructor ( renderer ) {
 
         this.enabled = true;
-        this.meshes = [];
         
+        this.Camera = new Camera();
         this.Composer = new EffectComposer( renderer );
         this.Scene = new Scene();
 
@@ -67791,34 +67797,6 @@ class PostProcessingManager {
 
     // public
 
-    async addMesh ( mesh ) {
-
-        this.meshes.push( mesh );
-
-    }
-
-    render1 ( renderer, mainScene, mainCamera ) {
-
-        for ( let i of this.meshes ) i.visible = false;
-
-        renderer.render( mainScene, mainCamera );
-
-        // render buffer scene for water depth texture
-
-        mainScene.overrideMaterial = this.Materials.Depth;
-
-        renderer.setRenderTarget( this.Targets.Depth );
-        renderer.render( mainScene, mainCamera );
-        renderer.setRenderTarget( null );
-
-        mainScene.overrideMaterial = null;
-
-        for ( let i of this.meshes ) i.visible = true;
-
-        renderer.render( mainScene, mainCamera );
-
-    }
-
     render ( dT ) {
 
         this.Composer.render( dT );
@@ -67840,17 +67818,202 @@ class PostProcessingManager {
 
     }
 
-    update () {
+    setCamera ( camera ) {
+
+        this.Camera = camera;
+
+    }
+
+    setScene ( scene ) {
+
+        this.Scene = scene;
 
     }
 
 }
 
-var pack$1 = /*#__PURE__*/Object.freeze({
+var pack$2 = /*#__PURE__*/Object.freeze({
     __proto__: null,
     Audio: AudioManager,
     Interface: InterfaceManager,
     PostProcessing: PostProcessingManager
+});
+
+/**
+ * Depth-of-field post-process with bokeh shader
+ */
+
+class BokehDepthPass extends Pass {
+
+	constructor ( manager, params ) {
+
+		super();
+
+        this.Manager = manager;
+
+		const focus = ( params.focus !== undefined ) ? params.focus : 1.0;
+		const aspect = ( params.aspect !== undefined ) ? params.aspect : this.Manager.Camera.aspect;
+		const aperture = ( params.aperture !== undefined ) ? params.aperture : 0.025;
+		const maxblur = ( params.maxblur !== undefined ) ? params.maxblur : 1.0;
+
+		// depth material
+
+		this.materialDepth = new MeshDepthMaterial();
+		this.materialDepth.depthPacking = RGBADepthPacking;
+		this.materialDepth.blending = NoBlending;
+
+		// bokeh material
+
+		if ( BokehShader$1 === undefined ) {
+
+			console.error( 'THREE.BokehPass relies on BokehShader' );
+
+		}
+
+		const bokehShader = BokehShader$1;
+		const bokehUniforms = UniformsUtils.clone( bokehShader.uniforms );
+
+		bokehUniforms[ 'tDepth' ].value = this.Manager.Targets.Depth.texture;
+
+		bokehUniforms[ 'focus' ].value = focus;
+		bokehUniforms[ 'aspect' ].value = aspect;
+		bokehUniforms[ 'aperture' ].value = aperture;
+		bokehUniforms[ 'maxblur' ].value = maxblur;
+		bokehUniforms[ 'nearClip' ].value = this.Manager.Camera.near;
+		bokehUniforms[ 'farClip' ].value = this.Manager.Camera.far;
+
+		this.materialBokeh = new ShaderMaterial( {
+			defines: Object.assign( {}, bokehShader.defines ),
+			uniforms: bokehUniforms,
+			vertexShader: bokehShader.vertexShader,
+			fragmentShader: bokehShader.fragmentShader
+		} );
+
+		this.uniforms = bokehUniforms;
+		this.needsSwap = false;
+
+		this.fsQuad = new FullScreenQuad( this.materialBokeh );
+
+		this._oldClearColor = new Color();
+
+	}
+
+	render ( renderer, readBuffer/*, deltaTime, maskActive*/ ) {
+
+		// Render bokeh composite
+
+		this.uniforms[ 'tColor' ].value = readBuffer.texture;
+		
+		this.fsQuad.render( renderer );
+
+	}
+
+}
+
+/**
+ * Depth-of-field post-process with bokeh shader
+ */
+
+class SceneDepthPass extends Pass {
+
+	constructor ( manager ) {
+
+		super();
+
+		this.meshes = [];
+        this.passes = [];
+
+        this.Manager = manager;
+
+		// depth material
+
+		this.DepthMaterial = new MeshDepthMaterial();
+		this.DepthMaterial.depthPacking = RGBADepthPacking;
+		this.DepthMaterial.blending = NoBlending;
+
+	}
+
+	/**
+	 * Add mesh to be hidden in depth calculation
+	 * 
+	 * @param { THREE.Object3D } mesh mesh to add
+	 */
+
+	async addDBM ( mesh ) {
+
+        this.meshes.push( mesh );
+
+    }
+
+	/**
+	 * Add pass that requires depth to be set first
+	 * 
+	 * @param { THREE.Pass } pass pass to add
+	 */
+
+    async addDepthPass ( pass ) {
+
+        this.passes.push( pass );
+
+    }
+
+	render ( renderer, writeBuffer, readBuffer/*, deltaTime, maskActive*/ ) {
+
+        for ( let i of this.meshes ) i.visible = false;
+
+		// Render depth into texture
+
+		this.Manager.Scene.overrideMaterial = this.DepthMaterial;
+
+		renderer.setClearColor( 0xffffff );
+		renderer.setClearAlpha( 1.0 );
+		renderer.setRenderTarget( this.Manager.Targets.Depth );
+		renderer.clear();
+		renderer.render( this.Manager.Scene, this.Manager.Camera );
+
+		renderer.setRenderTarget( null );
+
+        for ( let i of this.passes ) i.render( renderer, readBuffer );
+		for ( let i of this.meshes ) i.visible = true;
+
+		this.Manager.Scene.overrideMaterial = null;
+
+	}
+
+}
+
+class RenderPass extends Pass {
+
+	constructor ( manager ) {
+
+		super();
+
+		this.Manager = manager;
+
+		this.clear = true;
+		this.clearDepth = false;
+		this.needsSwap = false;
+		this._oldClearColor = new Color();
+
+	}
+
+	render ( renderer, writeBuffer, readBuffer /*, deltaTime, maskActive */ ) {
+
+		renderer.setRenderTarget( this.renderToScreen ? null : readBuffer );
+
+		// TODO: Avoid using autoClear properties, see https://github.com/mrdoob/three.js/pull/15571#issuecomment-465669600
+		renderer.clear( renderer.autoClearColor, renderer.autoClearDepth, renderer.autoClearStencil );
+		renderer.render( this.Manager.Scene, this.Manager.Camera );
+
+	}
+
+}
+
+var pack$1 = /*#__PURE__*/Object.freeze({
+    __proto__: null,
+    BokehDepthPass: BokehDepthPass,
+    SceneDepthPass: SceneDepthPass,
+    RenderPass: RenderPass
 });
 
 async function create ( appClass ) {
@@ -68415,14 +68578,15 @@ const C = {
     Renderers: {},
 };
 
-exports.Apps = pack$6;
-exports.Banks = pack$3;
+exports.Apps = pack$7;
+exports.Banks = pack$4;
 exports.C = C;
-exports.ECS = pack$2;
+exports.ECS = pack$3;
 exports.FSMState = FSMState;
-exports.Libs = pack$5;
-exports.Managers = pack$1;
+exports.Libs = pack$6;
+exports.Managers = pack$2;
 exports.PointCaster = PointCaster;
+exports.PostProcessing = pack$1;
 exports.Three = Three;
-exports.ThreeX = pack$4;
+exports.ThreeX = pack$5;
 exports.Utils = pack;

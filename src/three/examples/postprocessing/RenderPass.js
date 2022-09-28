@@ -5,7 +5,7 @@ import { Pass } from './Pass.js'
 
 class RenderPass extends Pass {
 
-	constructor ( scene, camera, overrideMaterial, clearColor, clearAlpha ) {
+	constructor ( scene, camera, overrideMaterial, clearColor, clearAlpha, manager ) {
 
 		super()
 

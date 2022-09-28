@@ -5,8 +5,8 @@ class PostProcessingManager {
     constructor ( renderer ) {
 
         this.enabled = true
-        this.meshes = []
         
+        this.Camera = new Engine.Three.Camera()
         this.Composer = new Engine.ThreeX.EffectComposer( renderer )
         this.Scene = new Engine.Three.Scene()
 
@@ -68,34 +68,6 @@ class PostProcessingManager {
 
     // public
 
-    async addMesh ( mesh ) {
-
-        this.meshes.push( mesh )
-
-    }
-
-    render1 ( renderer, mainScene, mainCamera ) {
-
-        for ( let i of this.meshes ) i.visible = false
-
-        renderer.render( mainScene, mainCamera )
-
-        // render buffer scene for water depth texture
-
-        mainScene.overrideMaterial = this.Materials.Depth
-
-        renderer.setRenderTarget( this.Targets.Depth )
-        renderer.render( mainScene, mainCamera )
-        renderer.setRenderTarget( null )
-
-        mainScene.overrideMaterial = null
-
-        for ( let i of this.meshes ) i.visible = true
-
-        renderer.render( mainScene, mainCamera )
-
-    }
-
     render ( dT ) {
 
         this.Composer.render( dT )
@@ -117,7 +89,15 @@ class PostProcessingManager {
 
     }
 
-    update () {
+    setCamera ( camera ) {
+
+        this.Camera = camera
+
+    }
+
+    setScene ( scene ) {
+
+        this.Scene = scene
 
     }
 
