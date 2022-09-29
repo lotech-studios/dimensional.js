@@ -58,6 +58,12 @@ class InterfaceState {
 
     }
 
+    getElement () {
+
+        return this.Element
+
+    }
+
     getId () {
 
         return this.id

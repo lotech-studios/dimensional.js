@@ -1,13 +1,14 @@
 import * as Engine from '../pack.js'
 
-class PostProcessingManager {
+class RenderManager {
 
     constructor ( renderer ) {
 
         this.enabled = true
         
+        this.Renderer = renderer
         this.Camera = new Engine.Three.Camera()
-        this.Composer = new Engine.ThreeX.EffectComposer( renderer )
+        this.Composer = new Engine.ThreeX.EffectComposer( this.Renderer )
         this.Scene = new Engine.Three.Scene()
 
         // build materials
@@ -27,12 +28,12 @@ class PostProcessingManager {
 
         this.Targets = {
             Color: new Engine.Three.WebGLRenderTarget( 
-                window.innerWidth * renderer.getPixelRatio(), 
-                window.innerHeight * renderer.getPixelRatio() 
+                window.innerWidth * this.Renderer.getPixelRatio(), 
+                window.innerHeight * this.Renderer.getPixelRatio() 
             ),
             Depth: new Engine.Three.WebGLRenderTarget( 
-                window.innerWidth * renderer.getPixelRatio(), 
-                window.innerHeight * renderer.getPixelRatio(),
+                window.innerWidth * this.Renderer.getPixelRatio(), 
+                window.innerHeight * this.Renderer.getPixelRatio(),
                 {
                     minFilter: Engine.Three.NearestFilter,
                     magFilter: Engine.Three.NearestFilter
@@ -103,4 +104,4 @@ class PostProcessingManager {
 
 }
 
-export { PostProcessingManager }
+export { RenderManager }

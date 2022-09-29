@@ -34,8 +34,6 @@ class CSS2DObject extends Object3D {
 
         const Elements = new DOMParser().parseFromString( xmlString, 'text/xml' )
 
-		console.log( Elements.children )
-
         for ( let i of Elements.children ) this.element.appendChild( i )
 
     }

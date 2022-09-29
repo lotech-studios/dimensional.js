@@ -15,8 +15,6 @@ class TextureLoader extends Loader {
         const File = await this.loadJSON( url )
         const Data = File[ name ]
 
-        console.log( File, name )
-
         const Texture = new Three.TextureLoader().load( Data.map )
         
         if ( Data.magFilter ) Texture.magFilter = Three[ Data.magFilter ]

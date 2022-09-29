@@ -1,60 +1,61 @@
-import { Object3D } from '../core/Object3D.js';
+import { Object3D } from '../core/Object3D.js'
 
 class Scene extends Object3D {
 
-	constructor() {
+	constructor ( name = '' ) {
 
-		super();
+		super()
 
-		this.type = 'Scene';
+		this.name = name
+		this.type = 'Scene'
 
-		this.background = null;
-		this.environment = null;
-		this.fog = null;
+		this.background = null
+		this.environment = null
+		this.fog = null
 
-		this.overrideMaterial = null;
+		this.overrideMaterial = null
 
-		this.autoUpdate = true; // checked by the renderer
+		this.autoUpdate = true // checked by the renderer
 
 		if ( typeof __THREE_DEVTOOLS__ !== 'undefined' ) {
 
-			__THREE_DEVTOOLS__.dispatchEvent( new CustomEvent( 'observe', { detail: this } ) ); // eslint-disable-line no-undef
+			__THREE_DEVTOOLS__.dispatchEvent( new CustomEvent( 'observe', { detail: this } ) ) // eslint-disable-line no-undef
 
 		}
 
 	}
 
-	copy( source, recursive ) {
+	copy ( source, recursive ) {
 
-		super.copy( source, recursive );
+		super.copy( source, recursive )
 
-		if ( source.background !== null ) this.background = source.background.clone();
-		if ( source.environment !== null ) this.environment = source.environment.clone();
-		if ( source.fog !== null ) this.fog = source.fog.clone();
+		if ( source.background !== null ) this.background = source.background.clone()
+		if ( source.environment !== null ) this.environment = source.environment.clone()
+		if ( source.fog !== null ) this.fog = source.fog.clone()
 
-		if ( source.overrideMaterial !== null ) this.overrideMaterial = source.overrideMaterial.clone();
+		if ( source.overrideMaterial !== null ) this.overrideMaterial = source.overrideMaterial.clone()
 
-		this.autoUpdate = source.autoUpdate;
-		this.matrixAutoUpdate = source.matrixAutoUpdate;
+		this.autoUpdate = source.autoUpdate
+		this.matrixAutoUpdate = source.matrixAutoUpdate
 
-		return this;
+		return this
 
 	}
 
-	toJSON( meta ) {
+	toJSON ( meta ) {
 
-		const data = super.toJSON( meta );
+		const data = super.toJSON( meta )
 
-		if ( this.background !== null ) data.object.background = this.background.toJSON( meta );
-		if ( this.environment !== null ) data.object.environment = this.environment.toJSON( meta );
-		if ( this.fog !== null ) data.object.fog = this.fog.toJSON();
+		if ( this.background !== null ) data.object.background = this.background.toJSON( meta )
+		if ( this.environment !== null ) data.object.environment = this.environment.toJSON( meta )
+		if ( this.fog !== null ) data.object.fog = this.fog.toJSON()
 
-		return data;
+		return data
 
 	}
 
 }
 
-Scene.prototype.isScene = true;
+Scene.prototype.isScene = true
 
-export { Scene };
+export { Scene }

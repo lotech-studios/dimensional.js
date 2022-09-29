@@ -1,10 +1,12 @@
+import { ECSEntity } from './entity.js'
+
 class ECSManager {
     
     constructor () {
 
-        this._Assemblies = {}
+        this.Assemblies = {}
 
-        this._Entities = {
+        this.Entities = {
             array: [],
             namesToIndex: [],
         }
@@ -21,54 +23,35 @@ class ECSManager {
     onCompile () { /** stuff goes here */ }
     onRemoval () { /** stuff goes here */ }
 
-    addEntity ( entity ) {
+    async addEntity ( entity ) {
 
         if ( entity.isECSEntity ) {
 
-            this._Entities.array.push( entity )
-            this._Entities.namesToIndex.push( 
-                this._Entities.array[ this._Entities.array.length - 1 ]._id )
+            this.Entities.array.push( entity )
+            this.Entities.namesToIndex.push( this.Entities.array[ this.Entities.array.length - 1 ]._id )
 
         } else {
 
-            console.error( `<Atlantis.ECS.Manager.addEntity()>: The entity is not compatible with this version of the engine's ECS Manager.` )
+            console.error( `<Dimensional.ECS.Manager.addEntity()>: The entity is not compatible with this version of the engine's ECS Manager.` )
 
         }
 
-        return
-
     }
 
-    assemble ( name, ...args ) {
+    async assemble ( name, ...args ) {
 
-        const A = this._Assemblies[ name ]( ...args )
+        const Entity = new ECSEntity()
 
-        return A
+        await this.Assemblies[ name ]( Entity, ...args )
+        await this.addEntity( Entity )
 
-    }
-
-    async assembleAsync ( name, ...args ) {
-
-        const A = await this._Assemblies[ name ]( ...args )
-
-        return A
-
-    }
-
-    assemblePromise ( name, ...args ) {
-
-        return new Promise( ( resolve ) => {
-
-            this._Assemblies[ name ]( ...args )
-                .then( () => resolve() )
-
-        } )
+        return Entity
 
     }
 
     createAssembly ( name, method ) {
 
-        this._Assemblies[ name ] = method
+        this.Assemblies[ name ] = method
 
         return
 
@@ -76,15 +59,15 @@ class ECSManager {
 
     getEntity ( id ) {
 
-        if ( this._Entities.namesToIndex.includes( id ) ) {
+        if ( this.Entities.namesToIndex.includes( id ) ) {
 
-            const index = this._Entities.namesToIndex.indexOf( id )
+            const index = this.Entities.namesToIndex.indexOf( id )
 
-            return this._Entities.array[ index ]
+            return this.Entities.array[ index ]
 
         } else {
 
-            console.error( `<Atlantis.ECS.Manager.getEntity()>: Couldnt find the entity (id:${ id }) in this manager.` )
+            console.error( `<Dimensional.ECS.Manager.getEntity()>: Couldnt find the entity (id:${ id }) in this manager.` )
 
             return
 
@@ -94,21 +77,19 @@ class ECSManager {
 
     removeEntity ( id ) {
 
-        if ( this._Entities.namesToIndex.includes( id ) ) {
+        if ( this.Entities.namesToIndex.includes( id ) ) {
 
-            const index = this._Entities.namesToIndex.indexOf( id )
+            const index = this.Entities.namesToIndex.indexOf( id )
 
-            this._Entities.array[ index ].onRemoval()
-            this._Entities.array.splice( index, 1 )
-            this._Entities.namesToIndex.splice( index, 1 )
+            this.Entities.array[ index ].onRemoval()
+            this.Entities.array.splice( index, 1 )
+            this.Entities.namesToIndex.splice( index, 1 )
 
         } else {
 
-            console.error( `<Atlantis.ECS.Manager.removeEntity()>: Couldnt find the entity (id:${ id }) in this manager.` )
+            console.error( `<Dimensional.ECS.Manager.removeEntity()>: Couldnt find the entity (id:${ id }) in this manager.` )
 
         }
-
-        return
 
     }
 
@@ -119,9 +100,9 @@ class ECSManager {
         this._Time.delta = deltaTime
         this._Time.elapsed = elapsedTime
 
-        for ( let i = 0; i < this._Entities.array.length; i++ ) {
+        for ( let i = 0; i < this.Entities.array.length; i++ ) {
 
-            this._Entities.array[ i ].update( this._Time.delta, this._Time.elapsed )
+            this.Entities.array[ i ].update( this._Time.delta, this._Time.elapsed )
 
         }
 

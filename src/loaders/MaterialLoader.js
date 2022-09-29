@@ -21,8 +21,6 @@ class MaterialLoader extends Loader {
 
             Data.options.map = this.TextureBank.get( Data.options.map )
 
-            console.log( Data.options.map )
-
         }
 
         return new Three[ `${ Data.type }Material` ]( Data.options )
